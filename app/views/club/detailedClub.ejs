@@ -84,7 +84,7 @@
 
 							<% club.players.GK.forEach(function(player) { %>
 								<tr>
-									<td class="vert-align"><img data-src="holder.js/50x50" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
 									<td class="vert-align"><%= player.squadNumber %></td>
 									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
 									<td class="vert-align"><%= player.played %></td>
@@ -125,7 +125,7 @@
 						<tbody>
 							<% club.players.DF.forEach(function(player) { %>
 								<tr>
-									<td class="vert-align"><img data-src="holder.js/50x50" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
 									<td class="vert-align"><%= player.squadNumber %></td>
 									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
 									<td class="vert-align"><%= player.played %></td>
@@ -166,7 +166,7 @@
 						<tbody>
 							<% club.players.MF.forEach(function(player) { %>
 								<tr>
-									<td class="vert-align"><img data-src="holder.js/50x50" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
 									<td class="vert-align"><%= player.squadNumber %></td>
 									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
 									<td class="vert-align"><%= player.played %></td>
@@ -207,7 +207,7 @@
 						<tbody>
 							<% club.players.FW.forEach(function(player) { %>
 								<tr>
-									<td class="vert-align"><img data-src="holder.js/50x50" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
 									<td class="vert-align"><%= player.squadNumber %></td>
 									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
 									<td class="vert-align"><%= player.played %></td>
@@ -536,7 +536,19 @@
 			});
 
 
+			$(window).load(function () {
+				$(".img-circle").error(function () {
+					$(this).attr("src", "/images/default/defaultUser.png");
+				});
+			});
 
+				$(".img-circle").each(function () {
+					if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+						// image was broken, replace with your new image
+						console.log('gogo');
+						this.src = '/images/default/defaultUser.png';
+					}
+				})
 
 
 			//구지 첨부터 특정포지션 설정해놓는게 낫지 않을까???
@@ -569,5 +581,6 @@
 
 
 		</script>
+
 	</body>
 </html>
