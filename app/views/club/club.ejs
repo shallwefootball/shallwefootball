@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../layout/head %>
+
+  </head>
+  <body>
+    <% include ../layout/navbar %>
+    <div class="container">
+      <% var i = 0; %>
+      <% clubs.forEach(function(club) {  %>
+
+      <% if (i % 2 == 0) { %>
+        <div class="row">
+      <% } %>
+          <div class="col-xs-6">
+            <a href="" data-toggle="modal" data-target="#clubId<%= club.clubId %>">
+              <img class="center-block" src="/images/club/<%=club.clubId%>/image.jpg">
+              <h5 class="text-center"><%= club.clubName %></h5>
+            </a>
+          </div>
+
+          <% include clubModal %>
+      <% if (i % 2 == 1) { %>
+        </div>
+      <% } %>
+      <% i++ %>
+      <% }) %>
+
+
+      <% include ../layout/footer %>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <% include ../layout/defaultPlugins %>
+
+  </body>
+</html>

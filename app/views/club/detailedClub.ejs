@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<% include ../layout/head %>
+		<style>
+			.table tbody>tr>td.vert-align {
+					vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body>
+		<% include ../layout/navbar %>
+		<div class="container">
+
+			<div class="row ">
+				<img class="center-block" src="/images/default/defaultClub.jpg">
+				<h3 class="text-center"><%= club.teamName %></h3>
+				<input id="clubNumber" type="hidden" value="<%= club.clubId %>">
+				<input id="playerId" type="hidden" value="<%= user.playerId %>">
+				<p class="text-muted text-center">리더 : <%= club.leaderName%> </p>
+				<!-- <p class="text-muted text-center">승률 : 30%(총 20경기 4승 3무 3패) !!더미</p> -->
+			</div>
+
+			<div class="row">
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>시즌</th>
+							<th>경기</th>
+							<th>승</th>
+							<th>무</th>
+							<th>패</th>
+							<th>득</th>
+							<th>실</th>
+							<th>차</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<% club.stats.forEach(function (stat) { %>
+
+							<tr>
+								<td><%= stat.season %></td>
+								<td><%= stat.played %></td>
+								<td><%= stat.won %></td>
+								<td><%= stat.drawn %></td>
+								<td><%= stat.lost %></td>
+								<td><%= stat.for %></td>
+								<td><%= stat.against %></td>
+								<td><%= stat.different %></td>
+							</tr>
+
+						<% }); %>
+
+					</tbody>
+				</table>
+
+			</div>
+
+			<div class="row">
+				<% /* include ../layout/playerLim */ %>
+				<div class="col-md-12">
+					<h3><span class="label label-warning">GK</span> 골키퍼</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>경기</th>
+								<th>out</th>
+								<th>in</th>
+								<th>득점</th>
+								<th>pk득점</th>
+								<th>자책골</th>
+								<th>pk실축</th>
+								<th>y카드</th>
+								<th>r카드</th>
+								<th>y2카드</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<% club.players.GK.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img data-src="holder.js/50x50" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"><%= player.played %></td>
+									<td class="vert-align"><%= player.out %></td>
+									<td class="vert-align"><%= player.in %></td>
+									<td class="vert-align"><%= player.goalScored %></td>
+									<td class="vert-align"><%= player.penaltyScored %></td>
+									<td class="vert-align"><%= player.ownGoal %></td>
+									<td class="vert-align"><%= player.penaltyMissed %></td>
+									<td class="vert-align"><%= player.yellowCard %></td>
+									<td class="vert-align"><%= player.redCard %></td>
+									<td class="vert-align"><%= player.secondYellowCard %></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h3><span class="label label-success">DF</span> 수비수</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>경기</th>
+								<th>out</th>
+								<th>in</th>
+								<th>득점</th>
+								<th>pk득점</th>
+								<th>자책골</th>
+								<th>pk실축</th>
+								<th>y카드</th>
+								<th>r카드</th>
+								<th>y2카드</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% club.players.DF.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img data-src="holder.js/50x50" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"><%= player.played %></td>
+									<td class="vert-align"><%= player.out %></td>
+									<td class="vert-align"><%= player.in %></td>
+									<td class="vert-align"><%= player.goalScored %></td>
+									<td class="vert-align"><%= player.penaltyScored %></td>
+									<td class="vert-align"><%= player.ownGoal %></td>
+									<td class="vert-align"><%= player.penaltyMissed %></td>
+									<td class="vert-align"><%= player.yellowCard %></td>
+									<td class="vert-align"><%= player.redCard %></td>
+									<td class="vert-align"><%= player.secondYellowCard %></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h3><span class="label label-primary">MF</span> 미드필더</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>경기</th>
+								<th>out</th>
+								<th>in</th>
+								<th>득점</th>
+								<th>pk득점</th>
+								<th>자책골</th>
+								<th>pk실축</th>
+								<th>y카드</th>
+								<th>r카드</th>
+								<th>y2카드</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% club.players.MF.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img data-src="holder.js/50x50" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"><%= player.played %></td>
+									<td class="vert-align"><%= player.out %></td>
+									<td class="vert-align"><%= player.in %></td>
+									<td class="vert-align"><%= player.goalScored %></td>
+									<td class="vert-align"><%= player.penaltyScored %></td>
+									<td class="vert-align"><%= player.ownGoal %></td>
+									<td class="vert-align"><%= player.penaltyMissed %></td>
+									<td class="vert-align"><%= player.yellowCard %></td>
+									<td class="vert-align"><%= player.redCard %></td>
+									<td class="vert-align"><%= player.secondYellowCard %></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h3><span class="label label-danger">FW</span> 공격수</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>경기</th>
+								<th>out</th>
+								<th>in</th>
+								<th>득점</th>
+								<th>pk득점</th>
+								<th>자책골</th>
+								<th>pk실축</th>
+								<th>y카드</th>
+								<th>r카드</th>
+								<th>y2카드</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% club.players.FW.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img data-src="holder.js/50x50" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"><%= player.played %></td>
+									<td class="vert-align"><%= player.out %></td>
+									<td class="vert-align"><%= player.in %></td>
+									<td class="vert-align"><%= player.goalScored %></td>
+									<td class="vert-align"><%= player.penaltyScored %></td>
+									<td class="vert-align"><%= player.ownGoal %></td>
+									<td class="vert-align"><%= player.penaltyMissed %></td>
+									<td class="vert-align"><%= player.yellowCard %></td>
+									<td class="vert-align"><%= player.redCard %></td>
+									<td class="vert-align"><%= player.secondYellowCard %></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+			<!-- <a href="/signupClub/<%= club.clubId %>" type="button" class="btn btn-success btn-lg btn-block">이 클럽에 가입</a> -->
+
+			<!-- <button type="button" class="btn btn-danger btn-lg btn-block">이 클럽에 탈퇴</button> -->
+			<% console.log("client user     :   " , user); %>
+			<% if(user.userId === club.leaderId) { %>
+				<button id="deleteClub" type="button" class="btn btn-danger btn-lg btn-block">이 클럽 삭제</button>
+			<% }else if(user.clubId === club.clubId) { %>
+				<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updatePosition">포지션 수정 </button>
+				<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updateSquadNumber" >스쿼드넘버 수정 </button>
+				<button id="signoutClub" type="button" class="btn btn-danger btn-lg btn-block">이 클럽 탈퇴 </button>
+
+				<div class="bs-callout">
+					<h5>리그가 시작되면 탈퇴할 수 없습니다.</h5>
+				</div>
+
+			<% }else { %>
+				<a type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#clubId<%= club.clubId %>">
+					이 클럽에 가입
+				</a>
+			<% } %>
+
+			<% include signupClub %>
+
+
+
+
+
+<!----------------------------- squadNumber ---------------------------->
+<div class="modal fade updateSquadNumber" tabindex="-1" role="dialog" aria-labelledby="h4#changeSquadNumberH4" aria-hidden="true">
+
+	<form id="updateSquadNumber" class="form" action="/updateSquadNumber" method="post" role="form">
+
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="updateSquadNumberH4"><strong>새로운 스쿼드넘버</strong></h4>
+				</div>
+
+				<div class="modal-body">
+
+					<center>
+						<p>현재 스쿼드넘버</p>
+						<span class="badge" style="font-size:26px;"><%= user.squadNumber %></span></a>
+					</center>
+
+					<br>
+
+					<center>
+						<div class="form-group">
+							<input type="hidden" name="playerId" value="<%= user.playerId %>">
+						</div>
+						<div class="form-group">
+							<select class="form-control" name="squadNumber">
+								<!-- <option selected>번호를 선택하세요.</option> -->
+								<%
+											var restNumbers = [];
+
+											// Remove item from array by value
+									function removeA(arr) {
+											var what, a = arguments, L = a.length, ax;
+											while (L > 1 && arr.length) {
+													what = a[--L];
+													while ((ax= arr.indexOf(what)) !== -1) {
+															arr.splice(ax, 1);
+													}
+											}
+											return arr;
+									}
+
+											for (var i = 1; i < 100; i++) {
+												restNumbers.push(i);
+											};
+
+											for (var i = 0; i < club.squadNumbers.length; i++) {
+												removeA(restNumbers, club.squadNumbers[i]);
+											};
+
+											for (var i = 0; i < restNumbers.length; i++) {
+
+								%>
+								<option><%= restNumbers[i] %></option>
+								<% } %>
+							</select>
+						</div>
+
+						<br>
+					</center>
+
+
+				</div>
+
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+					<button type="submit" class="btn btn-primary">변경</button>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</div>
+
+
+<!----------------------------- position ---------------------------->
+<div class="modal fade updatePosition" tabindex="-1" role="dialog" aria-labelledby="h4#updatePositionH4" aria-hidden="true">
+
+	<form id="updatePosition" class="form" action="/updatePosition" method="post" role="form">
+
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="updatePositionH4"><strong>새로운 포지션</strong></h4>
+				</div>
+
+				<div class="modal-body">
+
+					<center>
+						<p>현재 포지션</p>
+						<span class="badge" style="font-size:26px;"><%= user.position %></span></a>
+					</center>
+
+					<br>
+
+					<center>
+						<div class="form-group">
+							<input type="hidden" name="playerId" value="<%= user.playerId %>">
+						</div>
+						<div class="form-group">
+							<select class="form-control" name="position">
+								<!-- <option >포지션을 선택하세요.</option> -->
+								<option>GK</option>
+								<option>DF</option>
+								<option>MF</option>
+								<option>FW</option>
+							</select>
+						</div>
+					</center>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+					<button type="submit" class="btn btn-primary">변경</button>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</div>
+
+
+
+
+
+			<% include ../layout/footer %>
+
+		</div> <!-- /container -->
+
+
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<% include ../layout/defaultPlugins %>
+		<script>
+			$("#deleteClub").click(function(e) {
+
+				$.ajax({
+					type        : 'delete',
+					async       : true,
+					url         : '/deleteClub',
+					data        : {clubId: $("#clubNumber").val()},
+					beforeSend  : function() {
+							 $('#ajax_load_indicator').show().fadeIn('fast');
+					},
+					success     : function(data) {
+						console.log('success data : ' + data);
+						console.log(data.redirect);
+						alert( "success" );
+						window.location.href = data.redirect;
+					},
+					error       : function(data, status, err) {
+						console.log("error forward : "+data);
+							alert('서버와의 통신이 실패했습니다.');
+					},
+					complete    : function() {
+						$('#ajax_load_indicator').fadeOut();
+					}
+				});
+
+			});
+
+
+			$("#signoutClub").click(function(e) {
+				$.ajax({
+					type        : 'delete',
+					async       : true,
+					crossDomain : true,
+					url         : '/signoutClub',
+					data        : {playerId: $("#playerId").val()},
+					beforeSend  : function() {
+							 $('#ajax_load_indicator').show().fadeIn('fast');
+					},
+					success     : function(data) {
+						console.log('success data : ' + data);
+						console.log(data);
+						console.log(data.redirect);
+						alert( "success" );
+						window.location.href = data.redirect;
+					},
+					error       : function(data, status, err) {
+						console.log("error forward : "+data);
+							alert('서버와의 통신이 실패했습니다.');
+					},
+					complete    : function() {
+						$('#ajax_load_indicator').fadeOut();
+					}
+				});
+
+			});
+
+
+
+			$('#updatePosition').submit(function (e){
+
+					console.log('success submit');
+					// Prevent form submission
+					e.preventDefault();
+
+					var playerId = $('#updatePosition').find('[name="playerId"]').val();
+					var position = $('#updatePosition').find('[name="position"]').val();
+
+
+					$.ajax({
+						type        : 'PUT',
+						async       : true,
+						url         : "/updatePosition",
+						data        : {
+							playerId : playerId,
+							position : position
+						},
+						success     : function(data) {
+							switch (data.message) {
+
+								case "success" :
+									alert("포지션이 변경되었습니다.");
+									location.reload(); break;
+
+								case "fail" :
+
+									alert('실패했습니다.'); break;
+							}
+
+						},
+						error       : function(data, status, err) {
+							console.log("error forward : "+data);
+								alert('서버와의 통신이 실패했습니다.');
+						}
+					});
+
+
+			});
+
+
+
+			$('#updateSquadNumber').submit(function (e){
+
+					console.log('success submit');
+					// Prevent form submission
+					e.preventDefault();
+
+					var playerId = $('#updateSquadNumber').find('[name="playerId"]').val();
+					var squadNumber = $('#updateSquadNumber').find('[name="squadNumber"]').val();
+
+
+					$.ajax({
+						type        : 'PUT',
+						async       : true,
+						url         : "/updateSquadNumber",
+						data        : {
+							playerId : playerId,
+							squadNumber : squadNumber
+						},
+						success     : function(data) {
+							switch (data.message) {
+
+								case "success" :
+									alert("스쿼드넘버가 변경되었습니다.");
+									location.reload(); break;
+
+								case "fail" :
+
+									alert('실패했습니다.'); break;
+							}
+
+						},
+						error       : function(data, status, err) {
+							console.log("error forward : "+data);
+								alert('서버와의 통신이 실패했습니다.');
+						}
+					});
+
+
+			});
+
+
+
+
+
+			//구지 첨부터 특정포지션 설정해놓는게 낫지 않을까???
+			// $('#updatePosition')
+				// .find('[name="position"]')
+				//     .selectpicker()
+				//     .change(function(e) {
+				//         // revalidate the language when it is changed
+				//         $('#updatePosition').bootstrapValidator('revalidateField', 'position');
+				//     })
+				//     .end()
+				// .bootstrapValidator({
+				//     excluded: ':disabled',
+				//     feedbackIcons: {
+				//         valid: 'glyphicon glyphicon-ok',
+				//         invalid: 'glyphicon glyphicon-remove',
+				//         validating: 'glyphicon glyphicon-refresh'
+				//     },
+				//     fields: {
+				//         language: {
+				//             validators: {
+				//                 notEmpty: {
+				//                     message: 'Please select your native language.'
+				//                 }
+				//             }
+				//         }
+				//     }
+				// });
+
+
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<% include ../layout/head %>
+	<style>
+		.schedule {
+			padding-right: 25px;
+			padding-left: 25px;
+			max-width: 750px;
+			margin-right: auto;
+			margin-left: auto;
+		}
+
+		.table tr {
+			cursor: pointer;
+		}
+	</style>
+
+	</head>
+	<body>
+
+	    <% include ../layout/navbar %>
+
+		<div class="container">
+			<div class="row schedule">
+
+				<ul class="nav nav-pills" role="tablist">
+					<li class="active"><a href="#firstMatches" role="tab" data-toggle="tab">1차전</a></li>
+					<li><a href="#secondMatches" role="tab" data-toggle="tab">2차전</a></li>
+					<li><a href="#tournament" role="tab" data-toggle="tab">토너먼트</a></li>
+				</ul>
+
+				<div class="tab-content">
+
+				<% var partName = [ "firstMatches", "secondMatches", "tournament" ]; %>
+				<% var match = 0; %>
+				<% var partCount = 0; %>
+				<% var accordionCount = 0; %>
+				<% matches.forEach(function (item) { %>
+					<% if(!(match%(groupMatchCount/2))) { %>
+						<% if(partCount == 0) { %>
+							<div class="tab-pane in active" id="<%= partName[partCount] %>">
+						<% }else { %>
+							<div class="tab-pane" id="<%= partName[partCount] %>">
+						<% } %>
+						<div class="panel-group" id="accordion<%= partCount %>">
+
+					<% } %>
+				        <div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion<%= partCount %>" href="#<%= item.matchId %>">
+
+										<small>
+											<strong>
+												<% if (match < groupMatchCount) { %>
+													<%= item.rownum %>
+												<% }else { %>
+													<%= item.matchName %>
+												<% } %>
+											</strong> <%= item.month %>.<%= item.day %>&nbsp;
+										</small>
+
+											<%= item.homeClubName %>
+											<% if (item.homeScore == null) { %>
+												<%= item.hour %>:00
+											<% }else {%>
+												<% if(item.note) { %>
+													<abbr title="<%= item.note %>"><%= item.homeScore %> : <%= item.awayScore %></abbr>
+												<% }else { %>
+												      <%= item.homeScore %> : <%= item.awayScore %>
+											    <% } %>
+											<% } %>
+											<%= item.awayClubName %>
+
+									</a>
+								  <span class="badge pull-right getRecordViewBtn" value="<%= item.matchId %>" data-awayClubId="<%= item.awayClubId %>" data-homeClubId="<%= item.homeClubId %>">기록</span>
+								</h4>
+							</div>
+
+							<div id="<%= item.matchId %>" class="panel-collapse collapse">
+
+					            <div class="panel-body">
+									<h4><%= item.matchName %> <%= item.month %>월 <%= item.day %>일 / <%= item.hour %>:00</h4>
+									<h4><small><%= item.stadium %></small></h4>
+
+									<% if (item.note) { %>
+										<p class="text-center"><mark><%= item.note %></mark></p>
+									<% } %>
+									<div class="row">
+										<div class="col-xs-4">
+											<img class="home center-block" src="/images/club/<%= item.homeClubId%>/image.jpg" alt="64x64">
+
+										</div>
+										<div class="col-xs-4">
+											<% if (item.homeScore == null) { %>
+												<h3 class="score"><strong> <%= item.hour %>:00 </strong></h3>
+											<% }else {%>
+												<h3 class="score"><%= item.homeScore %><strong class="vs"> : </strong><%= item.awayScore %></h3>
+											<% } %>
+
+										</div>
+										<div class="col-xs-4">
+											<img class="away center-block" src="/images/club/<%= item.awayClubId%>/image.jpg" alt="64x64">
+
+						                </div>
+									</div>
+					            </div> <!-- end panel -->
+
+							</div>
+				        </div>
+
+					<% if (partCount == 2) { %>
+
+						<% if (match%(groupMatchCount/2) == (tournamentMatchCount-1)) { %>
+								</div>
+							</div>    <!-- end tab-pane -->
+						<% } %>
+					<% }else { %>
+						<% if (match%(groupMatchCount/2) == (groupMatchCount/2)-1) { %>
+								</div>
+							</div>    <!-- end tab-pane -->
+							<% partCount++; %>
+						<% } %>
+					<% }%>
+
+
+					<% match++; %>
+				<% }); %>
+
+			</div>
+
+			<div class="row">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">참가팀</h3>
+					</div>
+					<div class="panel-body">
+						<% clubs.forEach(function (item, index) { %>
+							<% if (index % 3 == 0) { %>
+								<div class="col-xs-12">
+							<% } %>
+									<div class="col-xs-4">
+										<a href="javascript:void(0)" data-clubId="<%= item.clubId %>">
+											<img class="away center-block" src="/images/club/<%= item.clubId %>/image.jpg" alt="64x64">
+											<p class="text-center"><%= item.teamName %></p>
+										</a>
+									</div>
+							<% if (index % 3 == 2 || clubs.length == index) { %>
+								</div> <!-- end col-xs-12 -->
+							<% } %>
+						<% }); %>
+					</div>
+				</div>
+			</div>
+
+			<% include ../layout/footer %>
+		</div>
+
+
+	    <!-- Bootstrap core JavaScript
+	    ================================================== -->
+	    <!-- Placed at the end of the document so the pages load faster -->
+	    <% include ../layout/defaultPlugins %>
+
+	    <script>
+	    	//기록지로 이동
+			$(".getRecordViewBtn").click( function (e) {
+				location.href = location.origin +
+								"/league/" +
+								location.pathname.split("/")[2] +
+								"/records/" +
+								$(this).attr("value") +
+								"/home/" +
+								$(this).attr("data-homeClubId") +
+								"/away/" +
+								$(this).attr("data-awayClubId");
+
+			})
+
+			$("[data-clubId]").click( function (e) {
+				location.href = location.origin +
+							"/league/" +
+							location.pathname.split("/")[2] +
+							"/club/" +
+							$(this).attr("data-clubId");
+			})
+
+			$('.table tr').click(function () {
+				$('#myModal').modal('show')
+				console.log($(this).attr("data-target"));
+			});
+
+
+	    </script>
+
+	</body>
+</html>
