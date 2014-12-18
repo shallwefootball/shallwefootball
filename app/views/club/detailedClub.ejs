@@ -536,11 +536,12 @@
 			});
 
 
-			$(window).load(function () {
-				$(".img-circle").error(function () {
-					$(this).attr("src", "/images/default/defaultUser.png");
-				});
-			});
+			$(".img-circle").each(function () {
+				if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+					// image was broken, replace with your new image
+					this.src = '/images/default/defaultUser.png';
+				}
+			})
 
 
 			//구지 첨부터 특정포지션 설정해놓는게 낫지 않을까???
