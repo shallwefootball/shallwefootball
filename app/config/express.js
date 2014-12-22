@@ -1,7 +1,6 @@
 var logger          = require('morgan');
 var path            = require('path');
 var methodOverride  = require('method-override');
-var favicon         = require('static-favicon');
 var cookieParser    = require('cookie-parser');
 var bodyParser      = require('body-parser');
 var session         = require('express-session');
@@ -16,7 +15,6 @@ module.exports = function(app, express, passport) {
     app.set('views', path.join(__dirname, '..', 'views'));
     app.set('view engine', 'ejs');
 
-    app.use(favicon());
     app.use(logger('dev'));
     app.use(multiparty());
     app.use(methodOverride());
