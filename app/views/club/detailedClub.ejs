@@ -4,7 +4,7 @@
 		<% include ../layout/head %>
 		<style>
 			.table tbody>tr>td.vert-align {
-					vertical-align: middle;
+				vertical-align: middle;
 			}
 		</style>
 	</head>
@@ -19,7 +19,11 @@
 				<input id="playerId" type="hidden" value="<%= user.playerId %>">
 				<p class="text-muted text-center">리더 : <%= club.leaderName%> </p>
 				<!-- <p class="text-muted text-center">승률 : 30%(총 20경기 4승 3무 3패) !!더미</p> -->
+				<p class="text-center">
+					<button id="getFormation" class="btn btn-info btn-lg">Formation</button>
+				</p>
 			</div>
+
 
 			<div class="row">
 
@@ -232,6 +236,32 @@
 
 			<!-- <button type="button" class="btn btn-danger btn-lg btn-block">이 클럽에 탈퇴</button> -->
 			<% console.log("client user     :   " , user); %>
+			<% console.log("club     :   " , club); %>
+			<% console.log("league     :   " , league); %>
+			<%
+				var now = new Date();
+				var year = now.getFullYear();
+				var day = now.getDate();
+				var month = now.getMonth() + 1;
+				var startDate = new Date(league.start);
+				var endDate = new Date(league.end);
+			%>
+			<% if (now < startDate) { %>
+				< 시작전 >
+			<% } %>
+			<% if (startDate < now && now < endDate ) { %>
+				< 진행중 >
+			<% } %>
+			<% if (now > endDate) { %>
+				< 종료된리그 >
+			<% } %>
+			<%  %>
+			<%  %>
+			<% console.log('year     :   ', startDate.getFullYear()); %>
+			<% console.log('Month     :   ', startDate.getMonth() + 1); %>
+			<% console.log('Date     :   ', startDate.getDate()); %>
+
+			리그가 시작되기 전과 진행중과 이적기간이라던가 끝난거라든가 를 구분하고 시작하자
 			<% if(user.userId === club.leaderId) { %>
 				<button id="deleteClub" type="button" class="btn btn-danger btn-lg btn-block">이 클럽 삭제</button>
 			<% }else if(user.clubId === club.clubId) { %>
@@ -395,6 +425,15 @@
 		<!-- Placed at the end of the document so the pages load faster -->
 		<% include ../layout/defaultPlugins %>
 		<script>
+			//포메이션으로 이동
+			$("#getFormation").click( function (e) {
+				location.href = location.origin +
+								"/league/" +
+								location.pathname.split("/")[2] +
+								"/formation/" +
+								location.pathname.split("/")[4];
+			})
+
 			$("#deleteClub").click(function(e) {
 
 				$.ajax({
@@ -532,10 +571,9 @@
 						}
 					});
 
-
 			});
 
-
+			//insert default image
 			$(".img-circle").each(function () {
 				if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
 					// image was broken, replace with your new image
