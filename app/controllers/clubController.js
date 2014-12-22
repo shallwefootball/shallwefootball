@@ -5,6 +5,7 @@ var eachAsync     = require('each-async');
 var config        = require('../config/config');
 var clubModel     = require('../models/clubModel');
 var userModel     = require('../models/userModel');
+var leagueModel   = require('../models/leagueModel');
 var setForeignKey = require('../models/setForeignKey');
 var folderAPI     = require('../controllers/API/folderAPI');
 
@@ -120,7 +121,15 @@ exports.renderClubDetailView = function (req, res) {
 
 					club.stats = clubStat;
 
-					res.render('../views/club/detailedClub', { club : club, user : req.user });
+					leagueModel.selectLeague(leagueId, function (err, league) {
+
+						res.render('../views/club/detailedClub', {
+							club   : club,
+							user   : req.user,
+							league : league
+						});
+					});
+
 				});
 
 			});
