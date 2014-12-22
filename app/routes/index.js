@@ -42,7 +42,6 @@ Route
 	.delete('/signout', authenticateController.signout)
 
 	.get   ('/', Auth.requiresLogin, leagueController.renderLeagueView)
-	.get   ('/league', leagueController.renderLeagueView)
 
 	.post  ('/league/:leagueId/team', teamController.createTeam)
 	.post  ('/league/:leagueId/joinLeague', teamController.joinLeague)
