@@ -1,4 +1,4 @@
-# 공찰래리그 admin
+# 공찰래리그 player
 
 ## 공찰래리그란?
 
@@ -11,19 +11,19 @@
 [facebook group yeoju](https://www.facebook.com/groups/shallwefootball.yeoju/)
 
 
-## 공찰래리그 admin 이란?
+## 공찰래리그 player 이란?
 공찰래리그의 경기기록을 효율적으로 관리하기위해 개발이 되었다.
 
 경기운영과 기록에 관한 개발은 마무리된 상태이며 사용자 권한 등 여러가지의 이슈가 남아있는 상태이다.
 
 ## 설치
 
-누구든 공찰래리그 admin을 설치, 사용할 수 있으며 공찰래리그와 같은 시스템의 리그를 개최하고 관리할 수 있다.
+누구든 공찰래리그 player을 설치, 사용할 수 있으며 공찰래리그와 같은 시스템의 리그를 개최하고 관리할 수 있다.
 
 이를통해 공찰래리그의 문화가 확산되길 기대한다.
 
 1. nodejs & mysql이 설치되어있어야 합니다.
-2. 저장소 가져오기 : `$ git clone https://github.com/shallwefootball/web_admin.git`
+2. 저장소 가져오기 : `$ git clone https://github.com/shallwefootball/web_player.git`
 3. db 생성 : `db.sql`을 import한다.
 4. module 설치 : `$ cd web_admin && npm install`
 5. 사용자 설정 : `$ mv ./app/config/config222.js ./app/config/config333.js`
