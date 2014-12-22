@@ -3,9 +3,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel"><strong><%= user.createTeamName %></strong> 팀은 <strong><%= community %> <%= season %></strong>에 등록됩니다.</h4>
+        <h4 class="modal-title" id="myModalLabel"><strong><%= user.createTeamName %></strong> 팀은 <strong><%= league.community %> <%= league.season %></strong>에 등록됩니다.</h4>
       </div>
-        <form method="post" action="/league/<%= leagueId %>/joinLeague" role="form" enctype="multipart/form-data">
+        <form method="post" action="/league/<%= league.leagueId %>/joinLeague" role="form" enctype="multipart/form-data">
           <div class="modal-body">
             <input type="hidden" name="teamId" value="<%= user.createTeamId %>">
             <input type="hidden" name="leaderId" value="<%= user.createId %>">
