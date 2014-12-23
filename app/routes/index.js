@@ -43,7 +43,6 @@ Route
 	.get    ('/myClub/:clubId', 			   club.myClubView)
 	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
 	.delete ('/club',  						   club.deleteClub)
-	.post   ('/league/:leagueId/club', club.createClub)  // 지워질 예정
 
 	//player
 	.post   ('/signupClub',  player.signupClub)

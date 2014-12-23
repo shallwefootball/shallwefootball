@@ -90,7 +90,7 @@ exports.clubDetailView = function (req, res) {
 };
 
 
-
+//안쓰고있음.
 exports.createClub = function (req, res) {
 	// var leagueId    = req.body.leagueId;
 	// var clubName    = req.body.clubName;
