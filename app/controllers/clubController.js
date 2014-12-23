@@ -21,60 +21,11 @@ exports.renderJoinedClubsView = function (req, res) {
 	});
 };
 
-exports.renderClubsView = function (req, res) {
+exports.renderMyClubView = function (req, res) {
+	console.log('myClubControllerView       : ', req.params.clubId);
 
-	clubModel.selectClubForLeague(req.params.leagueId, function (err, clubs) {
-		console.log('1');
+	res.render('../views/club/myClub');
 
-		async.waterfall([
-			function (callback) {
-
-				clubModel.selectClubForLeague(req.params.leagueId, function (err, clubs) {
-					console.log('2');
-
-					callback(null, clubs);
-				});
-			},
-			function (clubs, callback) {
-
-				eachAsync(clubs, function (item, index, done) {
-
-					clubModel.selectClubStat(item.clubId, function (err, clubStat){
-						clubs[index].stats = clubStat;
-
-						if(clubs.length == (index + 1)) {
-
-							callback(null, clubs);
-						}
-					});
-				  done();
-				}, function (error) {
-				});
-
-			},
-			function (clubs, callback) {
-
-				eachAsync(clubs, function (item, index, done) {
-
-					clubModel.selectClubRate(item.clubId, function (err, clubRate){
-						clubs[index].rate = clubRate;
-
-						if(clubs.length == (index + 1)) {
-
-						  callback(null, clubs);
-						}
-					});
-					done();
-				}, function (error) {
-				});
-
-			}
-		], function (err, clubs) {
-			console.log('4');
-			res.render('../views/club/club', { clubs : clubs, user : req.user });
-		});
-
-	});
 };
 
 exports.renderClubDetailView = function (req, res) {
