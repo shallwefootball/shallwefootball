@@ -1,15 +1,22 @@
-var fs            = require('fs');
-var path          = require('path');
-var async         = require('async');
-var eachAsync     = require('each-async');
-var config        = require('../config/config');
-var clubModel     = require('../models/clubModel');
-var userModel     = require('../models/userModel');
-var leagueModel   = require('../models/leagueModel');
-var setForeignKey = require('../models/setForeignKey');
-var folderAPI     = require('../controllers/API/folderAPI');
+var fs            = require('fs'),
+	path          = require('path'),
+	async         = require('async'),
+	eachAsync     = require('each-async'),
+	config        = require('../config/config'),
+	clubModel     = require('../models/clubModel'),
+	userModel     = require('../models/userModel'),
+	leagueModel   = require('../models/leagueModel'),
+	setForeignKey = require('../models/setForeignKey'),
+	folderAPI     = require('../controllers/API/folderAPI');
 
-exports.renderJoinedClubsView = function (req, res) {
+exports.myClubView = function (req, res) {
+	console.log('myClubControllerView       : ', req.params.clubId);
+
+	res.render('../views/club/myClub');
+
+};
+
+exports.joinedClubsView = function (req, res) {
 
 	clubModel.selectJoinedClubs(req.params.leagueId, function (err, clubs) {
 		console.log("clubs   : ", clubs);
@@ -21,14 +28,7 @@ exports.renderJoinedClubsView = function (req, res) {
 	});
 };
 
-exports.renderMyClubView = function (req, res) {
-	console.log('myClubControllerView       : ', req.params.clubId);
-
-	res.render('../views/club/myClub');
-
-};
-
-exports.renderClubDetailView = function (req, res) {
+exports.clubDetailView = function (req, res) {
 
 	var clubId = req.params.clubId;
 	var leagueId = req.params.leagueId;

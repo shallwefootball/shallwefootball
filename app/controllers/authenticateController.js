@@ -1,18 +1,18 @@
-var fs 			= require('fs');
-var path        = require('path');
-var async       = require('async');
-var passport    = require('passport');
-var userModel   = require('../models/userModel');
-var folderAPI   = require('./API/folderAPI');
+var fs 			= require('fs'),
+	path        = require('path'),
+	async       = require('async'),
+	passport    = require('passport'),
+	userModel   = require('../models/userModel'),
+	folderAPI   = require('./API/folderAPI');
 
 
-exports.renderLoginView = function (req, res) {
+exports.loginView = function (req, res) {
 
 	res.render('../views/player/login', { message: req.flash('loginMessage') });
 };
 
 
-exports.renderSignupView = function (req, res) {
+exports.signupView = function (req, res) {
 
 	res.render('../views/player/signup', { message: req.flash('signupMessage') });
 };

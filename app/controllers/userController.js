@@ -1,18 +1,17 @@
-var fs          = require('fs');
-var path        = require('path');
-var async       = require('async');
-var passport    = require('passport');
-var userModel   = require('../models/userModel');
-var playerModel = require('../models/playerModel');
-var config      = require('../config/config');
-var easyimage   = require('easyimage');
-var rimraf      = require('rimraf');
-// var bcrypt      = require('bcrypt');
-var bcrypt      = require('bcryptjs');
+var fs          = require('fs'),
+    path        = require('path'),
+    async       = require('async'),
+    passport    = require('passport'),
+    userModel   = require('../models/userModel'),
+    playerModel = require('../models/playerModel'),
+    config      = require('../config/config'),
+    easyimage   = require('easyimage'),
+    rimraf      = require('rimraf'),
+    bcrypt      = require('bcryptjs');
 
 
 // resize and remove EXIF profile data
-exports.renderMyInfoView = function(req, res) {
+exports.myInfoView = function(req, res) {
     playerModel.selectPlayer(req.user.email, function (err, player) {
         res.render('../views/player/myInfo', {
             user : req.user
@@ -21,7 +20,7 @@ exports.renderMyInfoView = function(req, res) {
 };
 
 
-exports.updateProfileImg = function(req, res) {
+exports.profileImg = function(req, res) {
     var userId = req.user.userId;
     console.log('userId    : ', userId);
     var userfolder = path.resolve(__dirname, '..', 'images/user/', userId.toString());
@@ -99,7 +98,7 @@ exports.updateProfileImg = function(req, res) {
 // };
 
 
-exports.updatePassword = function (req, res){
+exports.password = function (req, res){
 
     var userId = req.user.userId;
 

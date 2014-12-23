@@ -1,26 +1,30 @@
-var formationModel = require('../models/formationModel');
-var async		   = require('async');
+var formationModel = require('../models/formationModel'),
+	async		   = require('async');
 
-exports.renderFormationView = function (req, res) {
+exports.formationView = function (req, res) {
 
-	var clubId = req.params.clubId;
-	var leagueId = req.params.leagueId;
+	var clubId 	 = req.params.clubId,
+		leagueId = req.params.leagueId;
+
 	formationModel.selectPlayersForFormation (clubId, function (err, allPlayers) {
 
-		var starting = [];
-		var sub      = [];
-		var excepted = [];
+		var starting = [],
+			sub      = [],
+			excepted = [];
+
 		for (var i = 0; i < allPlayers.length; i++) {
+
 			switch (allPlayers[i].status) {
 				case "starting" : starting.push(allPlayers[i]); break;
-				case "sub" : sub.push(allPlayers[i]); break;
+				case "sub"      : sub.push(allPlayers[i]); break;
 				case "excepted" : excepted.push(allPlayers[i]); break;
 			}
 		}
 
-		var players = {};
+		var players 	 = {};
+
 		players.starting = starting;
-		players.sub = sub;
+		players.sub      = sub;
 		players.excepted = excepted;
 
 		formationModel.selectFormation (clubId, function (err, formation) {
@@ -37,14 +41,14 @@ exports.renderFormationView = function (req, res) {
 				"5-3-2",
 				"5-4-1"
 			];
+
 			var anotherFormation = [];
 
 			for (var i = 0; i < defaultFormation.length; i++) {
-				if(defaultFormation[i] === formation){
 
+				if(defaultFormation[i] === formation){
 					players.formation = formation;
 				}else{
-
 					anotherFormation.push(defaultFormation[i]);
 				}
 			}
@@ -52,9 +56,11 @@ exports.renderFormationView = function (req, res) {
 			players.anotherFormation = anotherFormation;
 
 			formationModel.selectMatchesForAClub (clubId, leagueId, function (err, matches) {
+
 				players.matchesForAClub = matches;
 
 				formationModel.selectSubmittedMatchesForAClub (clubId, leagueId, function (err, submittedMatches) {
+
 					players.submittedMatches = submittedMatches;
 
 					if (players.starting.length >= 12 || players.sub.length >= 6) {
@@ -62,20 +68,18 @@ exports.renderFormationView = function (req, res) {
 					}
 
 					res.render( '../views/formation/formation', {players : players} );
+
 				});
 			});
-
-
 		});
-
 	});
 };
 
 exports.saveFormation = function (req, res) {
 
-	var savePlayers 	  = req.body.savePlayers;
-	var selectedFormation = req.body.selectedFormation;
-	var clubId 			  = req.params.clubId;
+	var savePlayers 	  = req.body.savePlayers,
+		selectedFormation = req.body.selectedFormation,
+		clubId 			  = req.params.clubId;
 
 	var count = 0;
 
@@ -84,11 +88,11 @@ exports.saveFormation = function (req, res) {
 
 			for (var i = 0; i < savePlayers.length; i++) {
 
-				var squadNumber 	= savePlayers[i][0];
-				var matchPosition   = savePlayers[i][1];
-				var status		    = savePlayers[i][2];
-				var orderNumber 	= i;
-				var data 			= [matchPosition, orderNumber, status, squadNumber, clubId];
+				var squadNumber 	= savePlayers[i][0],
+					matchPosition   = savePlayers[i][1],
+					status		    = savePlayers[i][2],
+					orderNumber 	= i,
+					data 			= [matchPosition, orderNumber, status, squadNumber, clubId];
 
 				formationModel.updatePlayerStatusMatchFormation(data, function(err, result){
 					if (result.affectedRows === 1) {
@@ -102,10 +106,10 @@ exports.saveFormation = function (req, res) {
 						callback(null);
 					}
 				});
-
 			}
 		},
 		function (callback) {
+
 			var data = [ selectedFormation, clubId ]
 
 			formationModel.updateClubFormation (data, function (err, result) {
@@ -125,13 +129,15 @@ exports.saveFormation = function (req, res) {
 exports.sendLineups = function (req, res) {
 
 	formationModel.selectLineups (req.body.clubId, function (err, players) {
+
 		for (var i = 0; i < players.length; i++){
-			var playerId      = players[i].playerId;
-			var matchId       = req.body.matchId;
-			var matchPosition = players[i].matchPosition;
-			var status 		  = players[i].status;
-			var orderNumber   = players[i].orderNumber;
-			var data 		  = [ playerId, matchId, matchPosition, status, orderNumber ];
+
+			var playerId      = players[i].playerId,
+				matchId       = req.body.matchId,
+				matchPosition = players[i].matchPosition,
+				status 		  = players[i].status,
+				orderNumber   = players[i].orderNumber,
+				data 		  = [ playerId, matchId, matchPosition, status, orderNumber ];
 
 			formationModel.insertLineup (data, function (err, result){
 				if(players.length == i){
@@ -139,7 +145,6 @@ exports.sendLineups = function (req, res) {
 				}
 			});
 		}
-
 	});
 }
 

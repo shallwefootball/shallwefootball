@@ -23,25 +23,25 @@ Route
 
 
 	//auth
-	.get    ('/login',   authenticate.renderLoginView)
+	.get    ('/login',   authenticate.loginView)
 	.post   ('/login',   authenticate.login)
 	.get    ('/logout',  authenticate.logout) 			// logout은 post로 써야함. because pre-fetch
-	.get    ('/signup',  authenticate.renderSignupView)
+	.get    ('/signup',  authenticate.signupView)
 	.post   ('/signup',  authenticate.signup)
 	.delete ('/signout', authenticate.signout)
 
 	//user
-	.get    ('/myInfo',     user.renderMyInfoView)
-	.put    ('/password',   user.updatePassword)
-	.put    ('/profileImg', user.updateProfileImg)
+	.get    ('/myInfo',     user.myInfoView)
+	.put    ('/password',   user.password)
+	.put    ('/profileImg', user.profileImg)
 
 	//team
-	.post   ('/league/:leagueId/team', 		 team.createTeam)
+	.post   ('/league/:leagueId/team', 		 team.team)
 	.post   ('/league/:leagueId/joinLeague', team.joinLeague)		//createClub
 
 	//club
-	.get    ('/myClub/:clubId', 			   club.renderMyClubView)
-	.get    ('/league/:leagueId/club/:clubId', club.renderClubDetailView)
+	.get    ('/myClub/:clubId', 			   club.myClubView)
+	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
 	.delete ('/club',  						   club.deleteClub)
 	.post   ('/league/:leagueId/club', club.createClub)  // 지워질 예정
 
@@ -52,17 +52,17 @@ Route
 	.put    ('/position',    player.updatePosition)
 
 	//match
-	.get    ('/league/:leagueId/match', match.renderMatchTimeLineView)
+	.get    ('/league/:leagueId/match', match.matchTimeLineView)
 
 	//formation
-	.get    ('/league/:leagueId/formation/:clubId', formation.renderFormationView)
+	.get    ('/league/:leagueId/formation/:clubId', formation.formationView)
 	.put    ('/league/:leagueId/formation/:clubId', formation.saveFormation)
 	.post   ('/sendLineups', 						formation.sendLineups)
 
 	//record
-	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', record.renderRecordView)
-	.post   ('/records/:matchId', 	 record.insertRecord)
-	.post   ('/recordSubs/:matchId', record.insertRecordSubs)
+	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', record.recordView)
+	.post   ('/records/:matchId', 	 record.postRecord)
+	.post   ('/recordSubs/:matchId', record.recordSubs)
 	.delete ('/records/:matchId', 	 record.deleteRecord)
 
 

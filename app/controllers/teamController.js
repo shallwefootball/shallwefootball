@@ -1,11 +1,12 @@
-var teamModel = require('../models/teamModel');
-var playerModel = require('../models/playerModel');
+var teamModel   = require('../models/teamModel'),
+	playerModel = require('../models/playerModel');
 
-exports.createTeam = function (req, res, next) {
-	var teamName    = req.body.teamName;
-	var information = req.body.information;
-	var createId = req.user.userId;
-	var data = [ teamName, information, createId ];
+exports.team = function (req, res, next) {
+
+	var teamName    = req.body.teamName,
+		information = req.body.information,
+		createId = req.user.userId,
+		data = [ teamName, information, createId ];
 
 	var locals = res.locals;
 
@@ -29,10 +30,11 @@ exports.createTeam = function (req, res, next) {
 };
 
 exports.joinLeague = function (req, res, next){
-	var leaderId = req.body.leaderId;
-	var formation = "4-3-3";
-	var leagueId = req.params.leagueId;
-	var teamId = req.body.teamId;
+
+	var leaderId = req.body.leaderId,
+		formation = "4-3-3",
+		leagueId = req.params.leagueId,
+		teamId = req.body.teamId;
 
 	var clubData = [ leaderId, formation, leagueId, teamId ];
 
@@ -41,18 +43,19 @@ exports.joinLeague = function (req, res, next){
 
 	teamModel.insertClub(clubData, function (err, clubResult){
 		if (err) return console.error('err : ', err);
+
 		if (clubResult.affectedRows > 0) {
 
 			console.log('clubResult      : ', clubResult.insertId);
 
-			var userId = req.user.userId
 			//insert결과로 클럽아이디를 받습니다.
-			var clubId = clubResult.insertId;
-			var squadNumber = req.body.squadNumber
-			var position = req.body.position;
-			var matchPosition = req.body.position;
-			var orderNumber = 0;
-			var status = 'starting';
+			var userId = req.user.userId,
+				clubId = clubResult.insertId,
+				squadNumber = req.body.squadNumbe,
+				position = req.body.position,
+				matchPosition = req.body.position,
+				orderNumber = 0,
+				status = 'starting';
 
 			var playerData = [userId, clubId, squadNumber, position, matchPosition, orderNumber, status];
 			console.log('player data    : ', playerData);

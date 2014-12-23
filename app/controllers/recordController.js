@@ -1,10 +1,10 @@
-var recordModel = require('../models/recordModel');
-var async 		= require('async');
+var recordModel = require('../models/recordModel'),
+	async 		= require('async');
 
-exports.renderRecordView = function(req, res) {
-	var matchId    = req.params.matchId;
-	var homeClubId = req.params.homeClubId;
-	var awayClubId = req.params.awayClubId;
+exports.recordView = function(req, res) {
+	var matchId    = req.params.matchId,
+		homeClubId = req.params.homeClubId,
+		awayClubId = req.params.awayClubId;
 
 	var match = {};
 
@@ -14,17 +14,17 @@ exports.renderRecordView = function(req, res) {
 			recordModel.selectPlayersAClubForRecord(matchId, homeClubId, function (err, players) {
 
 	            var playersObj 		= {};
+
 				playersObj.starting = [];
 				playersObj.sub      = [];
+
 				for (var i = 0; i < players.length; i++) {
 					switch (players[i].status) {
-
 						case "starting" : playersObj.starting.push(players[i]); break;
-						case "sub" : playersObj.sub.push(players[i]); break;
-						default : break;
+						case "sub" 		: playersObj.sub.push(players[i]); break;
+						default 		: break;
 					}
 				}
-
 	            callback(null, playersObj);
 			})
 	    },
@@ -33,12 +33,12 @@ exports.renderRecordView = function(req, res) {
 			recordModel.selectPlayersAClubForRecord (matchId, awayClubId, function (err, players) {
 
 	            var playersObj	    = {};
+
 				playersObj.starting = [];
 				playersObj.sub      = [];
 
 				for (var i = 0; i < players.length; i++) {
 					switch (players[i].status) {
-
 						case "starting" : playersObj.starting.push(players[i]); break;
 						case "sub" : playersObj.sub.push(players[i]); break;
 						default : break;
@@ -83,9 +83,12 @@ exports.renderRecordView = function(req, res) {
 	    function(callback){
 	    	//match scorers
 			recordModel.selectScorers (matchId, function (err, dbScorers){
+
 				var scorers = {};
-				var home = [];
-				var away = [];
+
+				var home    = [],
+					away    = [];
+
 				for (var i = 0; i < dbScorers.length; i++) {
 
 					if (dbScorers[i].recordName == "goalScored" || dbScorers[i].recordName == "penaltyScored") {
@@ -118,6 +121,7 @@ exports.renderRecordView = function(req, res) {
 			console.error(err);
 			res.json(400, {error : "message"});
 		}
+
 		match.homePlayers 	  = results[0];
 		match.awayPlayers 	  = results[1];
 		match.info 		  	  = results[2];
@@ -133,15 +137,16 @@ exports.renderRecordView = function(req, res) {
 
 
 
-exports.insertRecord = function (req, res) {
-	var minutes = req.body.recordMinutes;
-	var lineupId = req.body.selectedLineupId;
-	var recordName = req.body.selectedRecordName;
-	var recordTime = req.body.selectedRecordTime;
-	var recordData = [recordName, recordTime, minutes, lineupId];
+exports.postRecord = function (req, res) {
 
-	var matchId = req.params.matchId;
-	var score = req.body.score;
+	var minutes    = req.body.recordMinutes,
+		lineupId   = req.body.selectedLineupId,
+		recordName = req.body.selectedRecordName,
+		recordTime = req.body.selectedRecordTime,
+		recordData = [recordName, recordTime, minutes, lineupId];
+
+	var matchId = req.params.matchId,
+		score   = req.body.score;
 
 	async.waterfall([
 		function (callback) {
@@ -178,14 +183,15 @@ exports.insertRecord = function (req, res) {
 
 }
 
-exports.insertRecordSubs = function (req, res) {
-	var minutes = req.body.recordMinutes;
-	var recordTime = req.body.subRecordTime;
-	var selectedLineupId = req.body.selectedLineupId;
-	var subLineupId = req.body.subLineupId;
+exports.recordSubs = function (req, res) {
 
-	var selectedData = ["out", recordTime, minutes, selectedLineupId];
-	var subData = ["in", recordTime, minutes, subLineupId];
+	var minutes 		 = req.body.recordMinutes,
+		recordTime 		 = req.body.subRecordTime,
+		selectedLineupId = req.body.selectedLineupId,
+		subLineupId 	 = req.body.subLineupId;
+
+	var selectedData = ["out", recordTime, minutes, selectedLineupId],
+		subData      = ["in", recordTime, minutes, subLineupId];
 
 	async.waterfall([
 	    function(callback){
@@ -219,16 +225,13 @@ exports.insertRecordSubs = function (req, res) {
 		});
 
 	});
-
-
-
 }
 
 exports.deleteRecord = function (req, res) {
-	var recordIds = req.body.recordIds;
 
-	var matchId = req.params.matchId;
-	var score = req.body.score;
+	var recordIds = req.body.recordIds,
+		matchId   = req.params.matchId,
+		score     = req.body.score;
 
 	switch (recordIds.length) {
 		case 1 :
@@ -294,9 +297,7 @@ exports.deleteRecord = function (req, res) {
 				res.json(200, {message : "message"});
 			});
 			break;
-
 	}
-
 }
 
 

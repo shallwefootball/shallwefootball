@@ -1,14 +1,16 @@
-var matchModel 	= require('../models/matchModel');
-var leagueModel = require('../models/leagueModel');
-var clubModel 	= require('../models/clubModel');
+var matchModel 	= require('../models/matchModel'),
+	leagueModel = require('../models/leagueModel'),
+	clubModel 	= require('../models/clubModel');
 
-exports.renderMatchTimeLineView = function(req, res) {
+exports.matchTimeLineView = function(req, res) {
 
 	matchModel.selectMatches(req.params.leagueId, function(err, matches){
-		var groupMatchCount = 0;
-		var tournamentMatchCount = 0;
+
+		var groupMatchCount = 0,
+			tournamentMatchCount = 0;
 
 		for (var i = 0; i < matches.length; i++) {
+
 			if(matches[i].matchName.substring(0, 1) == "제") {
 				groupMatchCount++;
 			}else {
@@ -18,12 +20,12 @@ exports.renderMatchTimeLineView = function(req, res) {
 
 		leagueModel.selectLeague(req.params.leagueId, function (err, league) {
 
-			var now = new Date();
-			var year = now.getFullYear();
-			var day = now.getDate();
-			var month = now.getMonth() + 1;
-			var startDate = new Date(league.start);
-			var endDate = new Date(league.end);
+			var now 	  = new Date(),
+				year 	  = now.getFullYear(),
+				day 	  = now.getDate(),
+				month 	  = now.getMonth() + 1,
+				startDate = new Date(league.start),
+				endDate   = new Date(league.end);
 
 			if (now < startDate) {
 				league.status = 'before';
@@ -44,7 +46,7 @@ exports.renderMatchTimeLineView = function(req, res) {
 					league 				 : league,
 					groupMatchCount 	 : groupMatchCount,
 					tournamentMatchCount : tournamentMatchCount,
-					user				 : req.user,
+					user				 : req.user,		//locals.user에 있습니다.
 					clubs				 : clubs
 				});
 			})
