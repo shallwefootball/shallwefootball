@@ -31,8 +31,8 @@ module.exports = function(passport) {
 
 	passport.use('local-login', new LocalStrategy({
 		//input name
-		usernameField : 'email',
-		passwordField : 'password',
+		usernameField 	  : 'email',
+		passwordField 	  : 'password',
 		passReqToCallback : true
 	},
 	function (req, email, password, done) {
@@ -52,6 +52,7 @@ module.exports = function(passport) {
 
 					return done(null, player);
 				}
+
 			}else {
 				console.log('선수 못찾음...');
 				return done(null, false, req.flash('loginMessage', '선수를 찾지못했어. 등록안했지?'));
@@ -61,8 +62,8 @@ module.exports = function(passport) {
 	}));
 
 	passport.use('local-signup', new LocalStrategy({
-		usernameField   : 'email',
-		passwordField   : 'password',
+		usernameField     : 'email',
+		passwordField 	  : 'password',
 		passReqToCallback : true
 	},
 	function(req, email, password, done) {
@@ -78,11 +79,11 @@ module.exports = function(passport) {
 			player.birthday     = req.body.birthday;
 
 			var data = [
-							player.email,
-							player.hash,
-							player.lastName,
-							player.firstName,
-							player.birthday
+				player.email,
+				player.hash,
+				player.lastName,
+				player.firstName,
+				player.birthday
 			];
 
 			var playerFolderPath = path.resolve(__dirname, '..', 'images/users/', email);
