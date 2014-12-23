@@ -53,6 +53,9 @@ Route
 	//match
 	.get    ('/league/:leagueId/match', match.matchTimeLineView)
 
+	//league
+	.get    ('/league/:leagueId', league.leagueJson)
+
 	//formation
 	.get    ('/league/:leagueId/formation/:clubId', formation.formationView)
 	.put    ('/league/:leagueId/formation/:clubId', formation.saveFormation)
