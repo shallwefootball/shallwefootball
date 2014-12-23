@@ -1,9 +1,7 @@
 var path            = require('path');
 var async           = require('async');
 var LocalStrategy   = require('passport-local').Strategy;
-// var bcrypt          = require('bcrypt');
 var bcrypt          = require('bcryptjs');
-var folderAPI       = require('../controllers/API/folderAPI');
 var userModel       = require('../models/userModel');
 var playerModel     = require('../models/playerModel');
 

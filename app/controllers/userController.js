@@ -11,7 +11,6 @@ var rimraf      = require('rimraf');
 var bcrypt      = require('bcryptjs');
 
 
-
 // resize and remove EXIF profile data
 exports.renderMyInfoView = function(req, res) {
     playerModel.selectPlayer(req.user.email, function (err, player) {
