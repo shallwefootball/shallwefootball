@@ -18,6 +18,25 @@ exports.renderMatchTimeLineView = function(req, res) {
 
 		leagueModel.selectLeague(req.params.leagueId, function (err, league) {
 
+			var now = new Date();
+			var year = now.getFullYear();
+			var day = now.getDate();
+			var month = now.getMonth() + 1;
+			var startDate = new Date(league.start);
+			var endDate = new Date(league.end);
+
+			if (now < startDate) {
+				league.status = 'before';
+			}
+
+			if (startDate < now && now < endDate ) {
+				league.status = 'playing';
+			}
+
+			if (now > endDate) {
+				league.status = 'end';
+			}
+
 			clubModel.selectClubForLeagueInMatchController(req.params.leagueId, function (err, clubs) {
 
 				res.render('../views/match/match', {
@@ -25,6 +44,7 @@ exports.renderMatchTimeLineView = function(req, res) {
 					league 				 : league,
 					groupMatchCount 	 : groupMatchCount,
 					tournamentMatchCount : tournamentMatchCount,
+					user				 : req.user,
 					clubs				 : clubs
 				});
 			})
