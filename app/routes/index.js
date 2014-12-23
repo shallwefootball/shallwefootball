@@ -16,20 +16,15 @@ var matchController         = require('../controllers/matchController');
 var adminController         = require('../controllers/adminController');
 var leagueController        = require('../controllers/leagueController');
 
-var API = {};
-API.league = require('../controllers/API/leagueAPI');
-
-
 //front-end route
 Route
-	.get ('/league/:leagueId/*', API.league.selectLeague)
+	.get   ('/*', Auth.requiresLogin)
 
-	.get  ('/myInfo', Auth.requiresLogin, userController.renderMyInfoView)
-	.post ('/updateProfileImg', userController.updateProfileImg)
-	.put  ('/updatePassword', userController.updatePassword)
+	.get   ('/myInfo', userController.renderMyInfoView)
+	.post  ('/updateProfileImg', userController.updateProfileImg)
+	.put   ('/updatePassword', userController.updatePassword)
 
-
-
+	.get   ('/myClub/:clubId', clubController.renderMyClubView)
 
 	//user route
 	//로그인, 회원가입
@@ -41,15 +36,15 @@ Route
 	.post  ('/signup',  authenticateController.signup)
 	.delete('/signout', authenticateController.signout)
 
-	.get   ('/', Auth.requiresLogin, leagueController.renderLeagueView)
+
+	.get   ('/', leagueController.renderLeagueView)
 
 	.post  ('/league/:leagueId/team', teamController.createTeam)
 	.post  ('/league/:leagueId/joinLeague', teamController.joinLeague)
 
 	//club route
-	.get   ('/league/:leagueId/joinedClub', Auth.requiresLogin, clubController.renderJoinedClubsView)  //리그시작되기 전에
-	.get   ('/league/:leagueId/club', clubController.renderClubsView)
-	.get   ('/league/:leagueId/club/:clubId', Auth.requiresLogin, clubController.renderClubDetailView)
+	.get   ('/league/:leagueId/joinedClub', clubController.renderJoinedClubsView)  //리그시작되기 전에
+	.get   ('/league/:leagueId/club/:clubId', clubController.renderClubDetailView)
 	.post  ('/league/:leagueId/club', clubController.createClub)
 	.delete('/deleteClub', clubController.deleteClub)
 
@@ -64,16 +59,16 @@ Route
 	.get  ('/league/:leagueId', leagueController.selectLeague)//why?
 
 	//formation
-	.get  ('/league/:leagueId/formation/:clubId', Auth.requiresLogin, formationController.renderFormationView)
+	.get  ('/league/:leagueId/formation/:clubId', formationController.renderFormationView)
 	.put  ('/league/:leagueId/formation/:clubId', formationController.saveFormation)
 
 	.post ('/sendLineups', formationController.sendLineups)
 
 
-	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', Auth.requiresLogin, recordController.renderRecordView)
+	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', recordController.renderRecordView)
 	.post   ('/records/:matchId', recordController.insertRecord)
 	.post   ('/recordSubs/:matchId', recordController.insertRecordSubs)
-	.delete ('/records/:matchId', Auth.requiresLogin, recordController.deleteRecord)
+	.delete ('/records/:matchId', recordController.deleteRecord)
 
 
 	//매치생성
