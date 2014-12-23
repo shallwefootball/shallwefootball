@@ -7,46 +7,33 @@
 
 <script>
 
-	//navbar active
-	function stripTrailingSlash(str) {
-	    if(str.substr(-1) == '/') {
-	      return str.substr(0, str.length - 1);
-	    }
-	    return str;
-	}
-
 	var url = window.location.pathname;
-	var activePage = stripTrailingSlash(url);
-
-	$('.nav li a').each(function(){
-		var currentPage = stripTrailingSlash($(this).attr('href'));
-
-		if (activePage == currentPage) {
-	  		$(this).parent().addClass('active');
-		}
-	});
 
 	var leaguePath = "/league/" + url.split('/')[2];
 
 	if (url.split('/')[2]) {
-	    $.ajax({
-	      type        : 'get',
-	      async       : true,
-	      url         : leaguePath,
-	      beforeSend  : function() {
-	          // $('#ajax_load_indicator').show().fadeIn('fast');
-	      },
-	      success     : function(data) {
+		$.ajax({
+			type        : 'get',
+			async       : true,
+			url         : leaguePath,
+			beforeSend  : function() {
+				// $('#ajax_load_indicator').show().fadeIn('fast');
+			},
+			success     : function(data) {
 
-	          $(".navbar-header").append('<a class="navbar-brand" href="/league/' + data.league.leagueId + '/match"><small>' + data.league.community + ' ' + data.league.season + '</small></a>');
-	          // console.log('통신성공');
-	      },
-	      error       : function(data, status, err) {
-	        console.log("error forward : "+data);
-	          alert('서버와의 통신이 실패했습니다.');
-	      }
+				$(".navbar-header").append(
+					'<a class="navbar-brand" href="/league/' + data.league.leagueId +
+					'/match"><small>' + data.league.community +
+					' ' + data.league.season +
+					'</small></a>'
+				);
+				// console.log('통신성공');
+			},
+			error       : function(data, status, err) {
+				console.log("error forward : "+data);
+				alert('서버와의 통신이 실패했습니다.');
+			}
 	    });
-
 	}
 
 </script>
