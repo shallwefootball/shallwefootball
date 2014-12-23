@@ -1,74 +1,74 @@
-var express        = require('express');
-var Route          = express.Router();
-var db             = require('../config/database');
-var bcrypt         = require('bcryptjs');
+var express      = require('express'),
+	Route        = express.Router(),
+	db           = require('../config/database'),
+	bcrypt       = require('bcryptjs');
 
-var Auth                    = require('../middleware/authorization');
-var authenticateController  = require('../controllers/authenticateController');
-var userController          = require('../controllers/userController');
-var playerController        = require('../controllers/playerController');
-var teamController          = require('../controllers/teamController');
-var clubController          = require('../controllers/clubController');
-var formationController     = require('../controllers/formationController');
-var recordController        = require('../controllers/recordController');
-var matchController         = require('../controllers/matchController');
-var adminController         = require('../controllers/adminController');
-var leagueController        = require('../controllers/leagueController');
+var Auth 		 = require('../middleware/authorization'),
+	authenticate = require('../controllers/authenticateController'),
+	user         = require('../controllers/userController'),
+	player       = require('../controllers/playerController'),
+	team         = require('../controllers/teamController'),
+	club         = require('../controllers/clubController'),
+	formation    = require('../controllers/formationController'),
+	record       = require('../controllers/recordController'),
+	match        = require('../controllers/matchController'),
+	admin        = require('../controllers/adminController'),
+	league       = require('../controllers/leagueController');
 
 //front-end route
 Route
 	.get    ('/*', Auth.requiresLogin)
 
-	.get    ('/', leagueController.renderLeagueView)
+	.get    ('/', league.renderLeagueView)
 
 
 	//auth
-	.get    ('/login',   authenticateController.renderLoginView)
-	.post   ('/login',   authenticateController.login)
-	.get    ('/logout',  authenticateController.logout) 			// logout은 post로 써야함. because pre-fetch
-	.get    ('/signup',  authenticateController.renderSignupView)
-	.post   ('/signup',  authenticateController.signup)
-	.delete ('/signout', authenticateController.signout)
+	.get    ('/login',   authenticate.renderLoginView)
+	.post   ('/login',   authenticate.login)
+	.get    ('/logout',  authenticate.logout) 			// logout은 post로 써야함. because pre-fetch
+	.get    ('/signup',  authenticate.renderSignupView)
+	.post   ('/signup',  authenticate.signup)
+	.delete ('/signout', authenticate.signout)
 
 	//user
-	.get    ('/myInfo',     userController.renderMyInfoView)
-	.put    ('/password',   userController.updatePassword)
-	.put    ('/profileImg', userController.updateProfileImg)
+	.get    ('/myInfo',     user.renderMyInfoView)
+	.put    ('/password',   user.updatePassword)
+	.put    ('/profileImg', user.updateProfileImg)
 
 	//team
-	.post   ('/league/:leagueId/team', 		 teamController.createTeam)
-	.post   ('/league/:leagueId/joinLeague', teamController.joinLeague)		//createClub
+	.post   ('/league/:leagueId/team', 		 team.createTeam)
+	.post   ('/league/:leagueId/joinLeague', team.joinLeague)		//createClub
 
 	//club
-	.get    ('/myClub/:clubId', 			   clubController.renderMyClubView)
-	.get    ('/league/:leagueId/club/:clubId', clubController.renderClubDetailView)
-	.delete ('/club',  						   clubController.deleteClub)
-	.post   ('/league/:leagueId/club', clubController.createClub)  // 지워질 예정
+	.get    ('/myClub/:clubId', 			   club.renderMyClubView)
+	.get    ('/league/:leagueId/club/:clubId', club.renderClubDetailView)
+	.delete ('/club',  						   club.deleteClub)
+	.post   ('/league/:leagueId/club', club.createClub)  // 지워질 예정
 
 	//player
-	.post   ('/signupClub',  playerController.signupClub)
-	.delete ('/signoutClub', playerController.signoutClub)
-	.put    ('/squadNumber', playerController.updateSquadNumber)
-	.put    ('/position',    playerController.updatePosition)
+	.post   ('/signupClub',  player.signupClub)
+	.delete ('/signoutClub', player.signoutClub)
+	.put    ('/squadNumber', player.updateSquadNumber)
+	.put    ('/position',    player.updatePosition)
 
 	//match
-	.get    ('/league/:leagueId/match', matchController.renderMatchTimeLineView)
+	.get    ('/league/:leagueId/match', match.renderMatchTimeLineView)
 
 	//formation
-	.get    ('/league/:leagueId/formation/:clubId', formationController.renderFormationView)
-	.put    ('/league/:leagueId/formation/:clubId', formationController.saveFormation)
-	.post   ('/sendLineups', 						formationController.sendLineups)
+	.get    ('/league/:leagueId/formation/:clubId', formation.renderFormationView)
+	.put    ('/league/:leagueId/formation/:clubId', formation.saveFormation)
+	.post   ('/sendLineups', 						formation.sendLineups)
 
 	//record
-	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', recordController.renderRecordView)
-	.post   ('/records/:matchId', 	 recordController.insertRecord)
-	.post   ('/recordSubs/:matchId', recordController.insertRecordSubs)
-	.delete ('/records/:matchId', 	 recordController.deleteRecord)
+	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', record.renderRecordView)
+	.post   ('/records/:matchId', 	 record.insertRecord)
+	.post   ('/recordSubs/:matchId', record.insertRecordSubs)
+	.delete ('/records/:matchId', 	 record.deleteRecord)
 
 
 	//매치생성
-	.get('/genMatch', adminController.generateMatch)
-	.get('/insertDate', adminController.insertMatch)
+	.get('/genMatch', admin.generateMatch)
+	.get('/insertDate', admin.insertMatch)
 
 	.post('/updatePasswordAdmin', function (req, res){
 		console.log('req.body   : ', req.body);
