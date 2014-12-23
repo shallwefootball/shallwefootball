@@ -7,13 +7,3 @@ exports.renderLeagueView = function (req, res) {
 
 	res.render('../views/league/league');
 }
-
-exports.selectLeague = function (req, res) {
-
-
-	leagueModel.selectLeague(req.params.leagueId, function (err, league) {
-
-		res.json({league : league});
-	});
-
-}
