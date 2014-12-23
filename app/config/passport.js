@@ -50,7 +50,7 @@ module.exports = function(passport) {
 				} else {
 
 					delete player.password;
-					console.log("passport-player : ", player);
+					// console.log("passport-player : ", player);
 
 					return done(null, player);
 				}
