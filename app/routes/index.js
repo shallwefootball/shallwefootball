@@ -7,7 +7,6 @@ var Auth                    = require('../middleware/authorization');
 var authenticateController  = require('../controllers/authenticateController');
 var userController          = require('../controllers/userController');
 var playerController        = require('../controllers/playerController');
-
 var teamController          = require('../controllers/teamController');
 var clubController          = require('../controllers/clubController');
 var formationController     = require('../controllers/formationController');
@@ -18,57 +17,53 @@ var leagueController        = require('../controllers/leagueController');
 
 //front-end route
 Route
-	.get   ('/*', Auth.requiresLogin)
+	.get    ('/*', Auth.requiresLogin)
 
-	.get   ('/myInfo', userController.renderMyInfoView)
-	.post  ('/updateProfileImg', userController.updateProfileImg)
-	.put   ('/updatePassword', userController.updatePassword)
-
-	.get   ('/myClub/:clubId', clubController.renderMyClubView)
-
-	//user route
-	//로그인, 회원가입
-	.get   ('/login',   authenticateController.renderLoginView)
-	.get   ('/signup',  authenticateController.renderSignupView)
-	.post  ('/login',   authenticateController.login)
-	//not get. post???
-	.get   ('/logout',  authenticateController.logout)
-	.post  ('/signup',  authenticateController.signup)
-	.delete('/signout', authenticateController.signout)
+	.get    ('/', leagueController.renderLeagueView)
 
 
-	.get   ('/', leagueController.renderLeagueView)
+	//auth
+	.get    ('/login',   authenticateController.renderLoginView)
+	.post   ('/login',   authenticateController.login)
+	.get    ('/logout',  authenticateController.logout) 			// logout은 post로 써야함. because pre-fetch
+	.get    ('/signup',  authenticateController.renderSignupView)
+	.post   ('/signup',  authenticateController.signup)
+	.delete ('/signout', authenticateController.signout)
 
-	.post  ('/league/:leagueId/team', teamController.createTeam)
-	.post  ('/league/:leagueId/joinLeague', teamController.joinLeague)
+	//user
+	.get    ('/myInfo',     userController.renderMyInfoView)
+	.put    ('/password',   userController.updatePassword)
+	.put    ('/profileImg', userController.updateProfileImg)
 
-	//club route
-	.get   ('/league/:leagueId/joinedClub', clubController.renderJoinedClubsView)  //리그시작되기 전에
-	.get   ('/league/:leagueId/club/:clubId', clubController.renderClubDetailView)
-	.post  ('/league/:leagueId/club', clubController.createClub)
-	.delete('/deleteClub', clubController.deleteClub)
+	//team
+	.post   ('/league/:leagueId/team', 		 teamController.createTeam)
+	.post   ('/league/:leagueId/joinLeague', teamController.joinLeague)		//createClub
 
-	.post  ('/signupClub', playerController.signupClub)
-	.delete('/signoutClub', playerController.signoutClub)
+	//club
+	.get    ('/myClub/:clubId', 			   clubController.renderMyClubView)
+	.get    ('/league/:leagueId/club/:clubId', clubController.renderClubDetailView)
+	.delete ('/club',  						   clubController.deleteClub)
+	.post   ('/league/:leagueId/club', clubController.createClub)  // 지워질 예정
 
-	.put  ('/updateSquadNumber', playerController.updateSquadNumber)
-	.put  ('/updatePosition', playerController.updatePosition)
+	//player
+	.post   ('/signupClub',  playerController.signupClub)
+	.delete ('/signoutClub', playerController.signoutClub)
+	.put    ('/squadNumber', playerController.updateSquadNumber)
+	.put    ('/position',    playerController.updatePosition)
 
-	// match
-	.get  ('/league/:leagueId/match', matchController.renderMatchTimeLineView)
-	.get  ('/league/:leagueId', leagueController.selectLeague)//why?
+	//match
+	.get    ('/league/:leagueId/match', matchController.renderMatchTimeLineView)
 
 	//formation
-	.get  ('/league/:leagueId/formation/:clubId', formationController.renderFormationView)
-	.put  ('/league/:leagueId/formation/:clubId', formationController.saveFormation)
+	.get    ('/league/:leagueId/formation/:clubId', formationController.renderFormationView)
+	.put    ('/league/:leagueId/formation/:clubId', formationController.saveFormation)
+	.post   ('/sendLineups', 						formationController.sendLineups)
 
-	.post ('/sendLineups', formationController.sendLineups)
-
-
+	//record
 	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', recordController.renderRecordView)
-	.post   ('/records/:matchId', recordController.insertRecord)
+	.post   ('/records/:matchId', 	 recordController.insertRecord)
 	.post   ('/recordSubs/:matchId', recordController.insertRecordSubs)
-	.delete ('/records/:matchId', recordController.deleteRecord)
+	.delete ('/records/:matchId', 	 recordController.deleteRecord)
 
 
 	//매치생성
