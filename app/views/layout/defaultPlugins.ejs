@@ -11,7 +11,7 @@
 
 	var leaguePath = "/league/" + url.split('/')[2];
 
-	if (url.split('/')[2]) {
+	if (url.split('/')[1] == 'league') {
 		$.ajax({
 			type        : 'get',
 			async       : true,
