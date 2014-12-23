@@ -1,9 +1,16 @@
-var fs          = require('fs'),
-		path        = require('path'),
-		async       = require('async'),
-		passport    = require('passport'),
-		userModel   = require('../models/userModel'),
-		folderAPI   = require('./API/folderAPI');
+var fs 			= require('fs');
+var path        = require('path');
+var async       = require('async');
+var passport    = require('passport');
+var userModel   = require('../models/userModel');
+var folderAPI   = require('./API/folderAPI');
+
+
+exports.localsUser = function (req, res, next) {
+
+	res.locals.user = req.user ? req.user : undefined;
+	next();
+}
 
 exports.renderLoginView = function (req, res) {
 
