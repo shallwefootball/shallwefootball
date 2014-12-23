@@ -6,12 +6,6 @@ var userModel   = require('../models/userModel');
 var folderAPI   = require('./API/folderAPI');
 
 
-exports.localsUser = function (req, res, next) {
-
-	res.locals.user = req.user ? req.user : undefined;
-	next();
-}
-
 exports.renderLoginView = function (req, res) {
 
 	res.render('../views/player/login', { message: req.flash('loginMessage') });
