@@ -1,6 +1,19 @@
 var db      = require('../config/database'),
     config  = require('../config/config');
 
+
+exports.selectCreateTeam = function (userId, callback) {
+    db.pool.acquire(function (err, conn) {
+        if(err) console.error('db - err : ', err);
+        conn.query('select teamId, teamName, information, createId from team where createId = ?', [userId], function (err, result) {
+            if (err) console.error('err : ', err);
+
+            callback(err, result);
+        });
+        db.pool.release(conn);
+    });
+};
+
 exports.insertTeam = function(data, callback) {
     db.pool.acquire(function (err, conn) {
         if(err) console.error('db - err : ', err);

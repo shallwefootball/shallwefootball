@@ -1,9 +1,10 @@
-var path            = require('path');
-var async           = require('async');
-var LocalStrategy   = require('passport-local').Strategy;
-var bcrypt          = require('bcryptjs');
-var userModel       = require('../models/userModel');
-var playerModel     = require('../models/playerModel');
+var path            = require('path'),
+	async           = require('async'),
+	LocalStrategy   = require('passport-local').Strategy,
+	bcrypt          = require('bcryptjs'),
+	userModel       = require('../models/userModel'),
+	playerModel     = require('../models/playerModel'),
+	teamModel       = require('../models/teamModel');
 
 module.exports = function(passport) {
 
@@ -14,18 +15,19 @@ module.exports = function(passport) {
 	passport.deserializeUser(function (email, done) {
 
 		userModel.selectUser(email, function(err, user){
-			if(err) return console.error('err : ', err);
 
-			playerModel.selectJoinedLeagues(user.userId, function (err, joinedLeagues) {
-				if(err) return console.error('err : ', err);
+			teamModel.selectCreateTeam(user.userId, function (err, createTeam) {
 
-				user.joinedLeagues = joinedLeagues;
+				playerModel.selectJoinedLeagues(user.userId, function (err, joinedLeagues) {
 
-				if(err) return console.error('err-deserializeUser : ', err.stack);
+					delete user.password;
 
-				delete user.password;
-				done(err, user);
+					user.createTeam    = createTeam;
+					user.joinedLeagues = joinedLeagues;
 
+					done(err, user);
+
+				});
 			});
 		});
 	});
@@ -39,7 +41,6 @@ module.exports = function(passport) {
 	function (req, email, password, done) {
 
 		userModel.selectUser(email, function (err, user) {
-			if(err) return console.error('err-deserializePlayer : ', err.stack);
 
 			if (user) {
 
@@ -89,7 +90,7 @@ module.exports = function(passport) {
 			var profileImage = req.files.profileImage;
 
 			userModel.selectUserEmail(email, function(err, arrayUser) {
-				if (err) { return done(err); }
+
 				if (arrayUser[0]) {
 					return done(null, false, req.flash('signupMessage', '존재하는 이메일입니다.'));
 				} else {
