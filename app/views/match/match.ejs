@@ -27,16 +27,9 @@
 
 		<div class="container">
 
-			<p class="text-right">
-				<strong><%= user.playerName %> </strong>님&nbsp;
-				이 시즌에&nbsp;
+			<% include ../layout/joinedUser %>
 
-				<% if (league.userJoined) { %>
-					참가했습니다.
-				<% }else { %>
-					참가하지 않았습니다.
-				<% } %>
-			</p>
+			<% include ../layout/alertLeague %>
 
 			<%
 				if (league.status == 'before') {
@@ -79,12 +72,12 @@
 
 			});
 
-			$("[data-clubId]").click( function (e) {
+			$("[data-teamId]").click( function (e) {
 				location.href = location.origin +
 							"/league/" +
 							location.pathname.split("/")[2] +
 							"/club/" +
-							$(this).attr("data-clubId");
+							$(this).attr("data-teamId");
 			});
 
 			$('.table tr').click(function () {
