@@ -38,11 +38,12 @@ Route
 	//team
 	.post   ('/league/:leagueId/team', 		 team.team)
 	.post   ('/league/:leagueId/joinLeague', team.joinLeague)		//createClub
+	// .delete ('/league/:leagueId/outLeague',  team.outLeague)		//이게 리그에서 나오는것.
 
 	//club
 	.get    ('/myClub/:clubId', 			   club.myClubView)		//개발준비...
 	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
-	.delete ('/club',  						   club.deleteClub)
+	.delete ('/club',  						   club.deleteClub) 	//이거 다시만들어야함..클럽을 지우는거랑... 리그에서 나오는거랑 두개
 
 	//player
 	.post   ('/signupClub',  player.signupClub)
