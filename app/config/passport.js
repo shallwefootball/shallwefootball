@@ -13,17 +13,18 @@ module.exports = function(passport) {
 
 	passport.deserializeUser(function (email, done) {
 
-		playerModel.selectPlayer(email, function(err, player){
+		userModel.selectUser(email, function(err, user){
 			if(err) return console.error('err : ', err);
 
-			playerModel.selectJoinedLeagues(email, function (err, joinedLeagues) {
+			playerModel.selectJoinedLeagues(user.userId, function (err, joinedLeagues) {
 				if(err) return console.error('err : ', err);
 
-				player.joinedLeagues = joinedLeagues;
+				user.joinedLeagues = joinedLeagues;
 
 				if(err) return console.error('err-deserializeUser : ', err.stack);
-				delete player.password;
-				done(err, player);
+
+				delete user.password;
+				done(err, user);
 
 			});
 		});
@@ -37,20 +38,18 @@ module.exports = function(passport) {
 	},
 	function (req, email, password, done) {
 
-		playerModel.selectPlayer(email, function (err, player) {
+		userModel.selectUser(email, function (err, user) {
 			if(err) return console.error('err-deserializePlayer : ', err.stack);
 
-			if (player) {
+			if (user) {
 
-				if(!bcrypt.compareSync(password, player.password)){
+				if(!bcrypt.compareSync(password, user.password)){
 					console.log("비번틀림......");
 					return done(null, false, req.flash('loginMessage', '비밀번호가 틀렸어,, 알지???'));
 				} else {
 
-					delete player.password;
-					// console.log("passport-player : ", player);
-
-					return done(null, player);
+					// console.log('local-login  user       : ', user);
+					return done(null, user);
 				}
 
 			}else {
@@ -89,7 +88,7 @@ module.exports = function(passport) {
 			var playerFolderPath = path.resolve(__dirname, '..', 'images/users/', email);
 			var profileImage = req.files.profileImage;
 
-			userModel.selectPlayerEmail(email, function(err, arrayUser) {
+			userModel.selectUserEmail(email, function(err, arrayUser) {
 				if (err) { return done(err); }
 				if (arrayUser[0]) {
 					return done(null, false, req.flash('signupMessage', '존재하는 이메일입니다.'));

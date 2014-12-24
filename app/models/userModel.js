@@ -1,7 +1,18 @@
 var db      = require('../config/database'),
     config  = require('../config/config');
 
-exports.selectPlayerEmail = function (email, callback) {
+exports.selectUser = function (email, callback) {
+    db.pool.acquire(function (err, conn) {
+        if(err) console.error('db - err : ', err);
+        conn.query('select u.userId, concat(u.lastName, u.firstName)playerName, DATE_FORMAT(u.birthday, "%Y/%m/%d") birthday, u.email, u.password from user u where u.email = ? ', [email], function (err, result) {
+            if (err) console.error('err : ', err);
+            callback(err, result[0]);
+        });
+        db.pool.release(conn);
+    });
+};
+
+exports.selectUserEmail = function (email, callback) {
     db.pool.acquire(function (err, conn) {
         if(err) console.error('db - err : ', err);
         conn.query('select email from user where email = ?', [email], function (err, result) {
