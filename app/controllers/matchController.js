@@ -20,6 +20,12 @@ exports.matchTimeLineView = function(req, res) {
 
 		leagueModel.selectLeague(req.params.leagueId, function (err, league) {
 
+			req.user.playedLeagues.forEach(function (item, index) {
+				if(league.leagueId == item.leagueId) {
+					league.userJoined = true;
+				}
+			});
+
 			var now 	  = new Date(),
 				year 	  = now.getFullYear(),
 				day 	  = now.getDate(),
@@ -46,7 +52,6 @@ exports.matchTimeLineView = function(req, res) {
 					league 				 : league,
 					groupMatchCount 	 : groupMatchCount,
 					tournamentMatchCount : tournamentMatchCount,
-					user				 : req.user,		//locals.user에 있습니다.
 					clubs				 : clubs
 				});
 			})
