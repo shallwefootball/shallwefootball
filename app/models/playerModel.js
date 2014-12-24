@@ -24,7 +24,7 @@ exports.selectPlayer = function (email, callback) {
 exports.selectJoinedLeagues = function (userId, callback){
     db.pool.acquire(function (err, conn){
         if(err) return console.error('err : ', err);
-        conn.query("select if(p.userId = c.leaderId, 'true', 'false') leader, c.leagueId, l.community, l.season, if (l.end < now(), 'end', if(l.start < now() and now() < l.end, 'playing', if (now() < l.start, 'before', null))) leagueStatus, c.teamId, p.clubId, c.leaderId, p.playerId, p.squadNumber, p.position, p.matchPosition, p.status playerStatus from player p left outer join club c on c.clubId = p.clubId left outer join league l on l.leagueId = c.leagueId where userId = ?", userId, function(err, joinedLeagues) {
+        conn.query("select if(p.userId = c.leaderId, 'true', 'false') leader, c.leagueId, l.community, l.season, if (l.end < now(), 'end', if(l.start < now() and now() < l.end, 'playing', if (now() < l.start, 'before', null))) leagueStatus, c.teamId, p.clubId, t.teamName, c.leaderId, p.playerId, p.squadNumber, p.position, p.matchPosition, p.status playerStatus from player p left outer join club c on c.clubId = p.clubId left outer join league l on l.leagueId = c.leagueId left outer join team t on t.teamId = c.teamId where userId = ?", userId, function(err, joinedLeagues) {
             if (err) return console.error('err : ', err);
 
             callback(err, joinedLeagues);
