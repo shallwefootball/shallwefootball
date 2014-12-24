@@ -72,12 +72,13 @@
 
 			});
 
-			$("[data-teamId]").click( function (e) {
+			$("[data-clubId]").click( function (e) {
+				console.log('teamId click~~~!!!');
 				location.href = location.origin +
 							"/league/" +
 							location.pathname.split("/")[2] +
 							"/club/" +
-							$(this).attr("data-teamId");
+							$(this).attr("data-clubId");
 			});
 
 			$('.table tr').click(function () {

@@ -17,7 +17,7 @@
 			<% include ../layout/alertLeague %>
 
 			<div class="row">
-				<img class="center-block" src="/images/default/defaultClub.jpg">
+				<img id="teamLogo" class="center-block" src="/images/team/<%= club.teamId %>/image140.jpg">
 				<h3 class="text-center"><%= club.teamName %></h3>
 				<input id="clubNumber" type="hidden" value="<%= club.clubId %>">
 				<input id="playerId" type="hidden" value="<%= user.playerId %>">
@@ -232,7 +232,15 @@
 					// image was broken, replace with your new image
 					this.src = '/images/default/defaultUser.png';
 				}
-			})
+			});
+
+			$("#teamLogo").is(function () {
+				if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+					// image was broken, replace with your new image
+					this.src = '/images/default/defaultClub.png';
+				}
+			});
+
 
 
 			//구지 첨부터 특정포지션 설정해놓는게 낫지 않을까???
