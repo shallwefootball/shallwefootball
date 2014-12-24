@@ -1,0 +1,114 @@
+
+			<div class="row">
+
+				<div class="col-md-12">
+					<h3><span class="label label-warning">GK</span> 골키퍼</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>등번호수정</th>
+								<th>포지션수정</th>
+								<th>탈퇴</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<% club.players.GK.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"></td>
+									<td class="vert-align"></td>
+									<td class="vert-align"></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h3><span class="label label-success">DF</span> 수비수</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>등번호수정</th>
+								<th>포지션수정</th>
+								<th>탈퇴</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% club.players.DF.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"></td>
+									<td class="vert-align"></td>
+									<td class="vert-align"></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h3><span class="label label-primary">MF</span> 미드필더</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>등번호수정</th>
+								<th>포지션수정</th>
+								<th>탈퇴</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% club.players.MF.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"></td>
+									<td class="vert-align"></td>
+									<td class="vert-align"></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h3><span class="label label-danger">FW</span> 공격수</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>등번호수정</th>
+								<th>포지션수정</th>
+								<th>탈퇴</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% club.players.FW.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"></td>
+									<td class="vert-align"></td>
+									<td class="vert-align"></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+
+			</div>

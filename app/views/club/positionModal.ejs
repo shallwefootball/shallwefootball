@@ -1,0 +1,47 @@
+
+<div class="modal fade updatePosition" tabindex="-1" role="dialog" aria-labelledby="h4#updatePositionH4" aria-hidden="true">
+
+	<form id="updatePosition" class="form" action="/updatePosition" method="post" role="form">
+
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="updatePositionH4"><strong>새로운 포지션</strong></h4>
+				</div>
+
+				<div class="modal-body">
+
+					<center>
+						<p>현재 포지션</p>
+						<span class="badge" style="font-size:26px;"><%= user.position %></span></a>
+					</center>
+
+					<br>
+
+					<center>
+						<div class="form-group">
+							<input type="hidden" name="playerId" value="<%= user.playerId %>">
+						</div>
+						<div class="form-group">
+							<select class="form-control" name="position">
+								<!-- <option >포지션을 선택하세요.</option> -->
+								<option>GK</option>
+								<option>DF</option>
+								<option>MF</option>
+								<option>FW</option>
+							</select>
+						</div>
+					</center>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+					<button type="submit" class="btn btn-primary">변경</button>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</div>

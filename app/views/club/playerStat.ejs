@@ -1,0 +1,206 @@
+			<div class="row">
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>시즌</th>
+							<th>경기</th>
+							<th>승</th>
+							<th>무</th>
+							<th>패</th>
+							<th>득</th>
+							<th>실</th>
+							<th>차</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<% club.stats.forEach(function (stat) { %>
+
+							<tr>
+								<td><%= stat.season %></td>
+								<td><%= stat.played %></td>
+								<td><%= stat.won %></td>
+								<td><%= stat.drawn %></td>
+								<td><%= stat.lost %></td>
+								<td><%= stat.for %></td>
+								<td><%= stat.against %></td>
+								<td><%= stat.different %></td>
+							</tr>
+
+						<% }); %>
+
+					</tbody>
+				</table>
+
+			</div>
+
+			<div class="row">
+
+				<div class="col-md-12">
+					<h3><span class="label label-warning">GK</span> 골키퍼</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>경기</th>
+								<th>out</th>
+								<th>in</th>
+								<th>득점</th>
+								<th>pk득점</th>
+								<th>자책골</th>
+								<th>pk실축</th>
+								<th>y카드</th>
+								<th>r카드</th>
+								<th>y2카드</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<% club.players.GK.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"><%= player.played %></td>
+									<td class="vert-align"><%= player.out %></td>
+									<td class="vert-align"><%= player.in %></td>
+									<td class="vert-align"><%= player.goalScored %></td>
+									<td class="vert-align"><%= player.penaltyScored %></td>
+									<td class="vert-align"><%= player.ownGoal %></td>
+									<td class="vert-align"><%= player.penaltyMissed %></td>
+									<td class="vert-align"><%= player.yellowCard %></td>
+									<td class="vert-align"><%= player.redCard %></td>
+									<td class="vert-align"><%= player.secondYellowCard %></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h3><span class="label label-success">DF</span> 수비수</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>경기</th>
+								<th>out</th>
+								<th>in</th>
+								<th>득점</th>
+								<th>pk득점</th>
+								<th>자책골</th>
+								<th>pk실축</th>
+								<th>y카드</th>
+								<th>r카드</th>
+								<th>y2카드</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% club.players.DF.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"><%= player.played %></td>
+									<td class="vert-align"><%= player.out %></td>
+									<td class="vert-align"><%= player.in %></td>
+									<td class="vert-align"><%= player.goalScored %></td>
+									<td class="vert-align"><%= player.penaltyScored %></td>
+									<td class="vert-align"><%= player.ownGoal %></td>
+									<td class="vert-align"><%= player.penaltyMissed %></td>
+									<td class="vert-align"><%= player.yellowCard %></td>
+									<td class="vert-align"><%= player.redCard %></td>
+									<td class="vert-align"><%= player.secondYellowCard %></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h3><span class="label label-primary">MF</span> 미드필더</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>경기</th>
+								<th>out</th>
+								<th>in</th>
+								<th>득점</th>
+								<th>pk득점</th>
+								<th>자책골</th>
+								<th>pk실축</th>
+								<th>y카드</th>
+								<th>r카드</th>
+								<th>y2카드</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% club.players.MF.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"><%= player.played %></td>
+									<td class="vert-align"><%= player.out %></td>
+									<td class="vert-align"><%= player.in %></td>
+									<td class="vert-align"><%= player.goalScored %></td>
+									<td class="vert-align"><%= player.penaltyScored %></td>
+									<td class="vert-align"><%= player.ownGoal %></td>
+									<td class="vert-align"><%= player.penaltyMissed %></td>
+									<td class="vert-align"><%= player.yellowCard %></td>
+									<td class="vert-align"><%= player.redCard %></td>
+									<td class="vert-align"><%= player.secondYellowCard %></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12">
+					<h3><span class="label label-danger">FW</span> 공격수</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>등번호</th>
+								<th>이름</th>
+								<th>경기</th>
+								<th>out</th>
+								<th>in</th>
+								<th>득점</th>
+								<th>pk득점</th>
+								<th>자책골</th>
+								<th>pk실축</th>
+								<th>y카드</th>
+								<th>r카드</th>
+								<th>y2카드</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% club.players.FW.forEach(function(player) { %>
+								<tr>
+									<td class="vert-align"><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
+									<td class="vert-align"><%= player.squadNumber %></td>
+									<td class="vert-align"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
+									<td class="vert-align"><%= player.played %></td>
+									<td class="vert-align"><%= player.out %></td>
+									<td class="vert-align"><%= player.in %></td>
+									<td class="vert-align"><%= player.goalScored %></td>
+									<td class="vert-align"><%= player.penaltyScored %></td>
+									<td class="vert-align"><%= player.ownGoal %></td>
+									<td class="vert-align"><%= player.penaltyMissed %></td>
+									<td class="vert-align"><%= player.yellowCard %></td>
+									<td class="vert-align"><%= player.redCard %></td>
+									<td class="vert-align"><%= player.secondYellowCard %></td>
+								</tr>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+
+			</div>

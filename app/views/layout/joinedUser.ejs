@@ -1,0 +1,11 @@
+
+			<p class="text-right">
+				<strong><%= user.playerName %> </strong>님&nbsp;
+				이 시즌에&nbsp;
+
+				<% if (league.userJoined) { %>
+					참가했습니다.
+				<% }else { %>
+					참가하지 않았습니다.
+				<% } %>
+			</p>
