@@ -23,15 +23,32 @@
 
 	    <% console.log('locals.league    :   ', locals.league) %>
 
-		<div class="container">
-			<% var leagueStatus = locals.league.status; %>
-			<% if (leagueStatus == 'playing' || leagueStatus == 'end') { %>
-				<% include schedule %>
-			<% } %>
+	    <% var league = locals.league; %>
 
-			<% if (leagueStatus == 'before') { %>
-				<% include beforeLeague %>
-			<% } %>
+		<div class="container">
+
+			<p class="text-right">
+				<strong><%= user.playerName %> </strong>님&nbsp;
+				이 시즌에&nbsp;
+
+				<% if (league.userJoined) { %>
+					참가했습니다.
+				<% }else { %>
+					참가하지 않았습니다.
+				<% } %>
+			</p>
+
+			<%
+				if (league.status == 'before') {
+			%>
+					<% include beforeLeague %>
+			<%	// playing || end
+				} else {
+			%>
+					<% include schedule %>
+			<%
+				}
+			%>
 
 
 			<% include joinedTeam %>

@@ -1,33 +1,40 @@
+<%	//joined League
+	if (league.userJoined) {
+%>
 
-<p class="text-right"><strong>이름 : <%= user.playerName %></strong></p>
+		<div class="jumbotron">
+			<h1><%= user.playerName %>님 <br> 리그는 곧 시작합니다.</h1>
+			<p><strong><%= league.community %> <%= league.season %>시즌</strong>에 <strong><%= user.teamName %></strong> 팀이 등록되었습니다.</p>
+		</div>
 
-<% if (user.createTeamName == null && user.clubId == null) { %>
-	<div class="jumbotron">
-		<h1>가입된 클럽이 없습니다!!</h1>
-		<p>본인은 팀의 리더인가요?? 그럼 팀을 생성하세요.</p>
-		<a class="btn btn-lg btn-block btn-success" data-toggle="modal" data-target="#createTeam" role="button">팀 만들기</a>
-	</div>
-<% } %>
+<%	// Did Not joined
+	}else {
+%>
 
-<% include ../team/createTeam %>
+	<% if (user.createTeamName == null && user.clubId == null) { %>
+		<div class="jumbotron">
+			<h1>가입된 클럽이 없습니다!!</h1>
+			<p>본인은 팀의 리더인가요?? 그럼 팀을 생성하세요.</p>
+			<a class="btn btn-lg btn-block btn-success" data-toggle="modal" data-target="#createTeam" role="button">팀 만들기</a>
+		</div>
 
+		<% include ../team/createTeamModal %>
 
-<% if (user.createId && !user.teamId) { %>
-	<div class="jumbotron">
-		<h1><%= user.playerName %>님 <br> 클럽을 생성하셨군요!!</h1>
-		<p>이제 리그에 팀을 등록해야 합니다. <strong><%= league.community %> <%= league.season %>시즌</strong>에 <strong><%= user.createTeamName %></strong> 팀을  등록하실건가요???</p>
-		<a class="btn btn-lg btn-block btn-success" data-toggle="modal" data-target="#joinLeague" role="button">리그에 팀 등록</a>
-	</div>
-<% } %>
-
-<% include ../club/joinLeagueModal %>
+	<% } %>
 
 
-<% if (user.teamName){ %>
-	<div class="jumbotron">
-		<h1><%= user.playerName %>님 <br> 리그는 곧 시작합니다.</h1>
-		<p><strong><%= league.community %> <%= league.season %>시즌</strong>에 <strong><%= user.teamName %></strong> 팀이 등록되었습니다.</p>
-	</div>
-<% } %>
+	<% if (user.createId && !user.teamId) { %>
+		<div class="jumbotron">
+			<h1><%= user.playerName %>님 <br> 클럽을 생성하셨군요!!</h1>
+			<p>이제 리그에 팀을 등록해야 합니다. <strong><%= league.community %> <%= league.season %>시즌</strong>에 <strong><%= user.createTeamName %></strong> 팀을  등록하실건가요???</p>
+			<a class="btn btn-lg btn-block btn-success" data-toggle="modal" data-target="#joinLeague" role="button">리그에 팀 등록</a>
+		</div>
+
+		<% include ../club/joinLeagueModal %>
+
+	<% } %>
+<%	} %>
+
+
 
 
