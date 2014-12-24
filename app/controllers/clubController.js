@@ -74,7 +74,7 @@ exports.clubDetailView = function (req, res) {
 
 					leagueModel.selectLeague(leagueId, function (err, league) {
 
-						req.user.playedLeagues.forEach(function (item, index) {
+						req.user.joinedLeagues.forEach(function (item, index) {
 							if(league.leagueId == item.leagueId) {
 								league.userJoined = true;
 							}

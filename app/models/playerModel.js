@@ -21,13 +21,13 @@ exports.selectPlayer = function (email, callback) {
     });
 };
 
-exports.selectPlayedLeagues = function (email, callback){
+exports.selectJoinedLeagues = function (email, callback){
     db.pool.acquire(function (err, conn){
         if(err) return console.error('err : ', err);
-        conn.query('select c.leagueId from user u left outer join player p on u.userId = p.userId left outer join club c on p.clubId = c.clubId left outer join league l on l.leagueId = c.leagueId where u.email = ? order by l.start', email, function(err, playedLeagues) {
+        conn.query('select c.leagueId from user u left outer join player p on u.userId = p.userId left outer join club c on p.clubId = c.clubId left outer join league l on l.leagueId = c.leagueId where u.email = ? order by l.start', email, function(err, joinedLeagues) {
             if (err) return console.error('err : ', err);
 
-            callback(err, playedLeagues);
+            callback(err, joinedLeagues);
 
         });
         db.pool.release(conn);

@@ -16,10 +16,10 @@ module.exports = function(passport) {
 		playerModel.selectPlayer(email, function(err, player){
 			if(err) return console.error('err : ', err);
 
-			playerModel.selectPlayedLeagues(email, function (err, playedLeagues) {
+			playerModel.selectJoinedLeagues(email, function (err, joinedLeagues) {
 				if(err) return console.error('err : ', err);
 
-				player.playedLeagues = playedLeagues;
+				player.joinedLeagues = joinedLeagues;
 
 				if(err) return console.error('err-deserializeUser : ', err.stack);
 				delete player.password;
