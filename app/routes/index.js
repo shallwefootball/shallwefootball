@@ -40,7 +40,7 @@ Route
 	.post   ('/league/:leagueId/joinLeague', team.joinLeague)		//createClub
 
 	//club
-	.get    ('/myClub/:clubId', 			   club.myClubView)
+	.get    ('/myClub/:clubId', 			   club.myClubView)		//개발준비...
 	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
 	.delete ('/club',  						   club.deleteClub)
 
@@ -62,7 +62,7 @@ Route
 	.post   ('/sendLineups', 						formation.sendLineups)
 
 	//record
-	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', record.recordView)
+	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', Auth.requiresAdmin, record.recordView)
 	.post   ('/records/:matchId', 	 record.postRecord)
 	.post   ('/recordSubs/:matchId', record.recordSubs)
 	.delete ('/records/:matchId', 	 record.deleteRecord)
