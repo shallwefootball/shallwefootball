@@ -42,7 +42,7 @@ exports.selectJoinedClubs = function(leagueId, callback) {
 exports.selectClub = function(clubId, callback) {
     db.pool.acquire(function(err, conn){
         if(err) console.error('db - err : ', err);
-        conn.query('select c.clubId, c.leaderId, t.teamName, t.information, concat(u.lastName, u.firstName)leaderName from team t left outer join club c on t.teamId = c.teamId left outer join user u on u.userId = c.leaderId where c.clubId = ?', [clubId], function (err, result) {
+        conn.query('select t.teamId, c.clubId, c.leaderId, t.teamName, t.information, concat(u.lastName, u.firstName)leaderName from team t left outer join club c on t.teamId = c.teamId left outer join user u on u.userId = c.leaderId where c.clubId = ?', [clubId], function (err, result) {
             if (err) console.log('err : ', err);
 
             callback(err, result[0]);
