@@ -8,7 +8,7 @@ exports.requiresLogin = function (req, res, next) {
 	}
 
 	// login으로 오게되면 그냥 로그인 뿌려줌(이거안하면 계속 로그인으로 순환됨)
-	if (req.originalUrl == '/login') return next();
+	if (req.originalUrl == '/login' || req.originalUrl == '/signup' ) return next();
 
 	// 유저가 없으니까 로그인 안한거야
 	if (!req.user) return res.redirect('/login');
@@ -27,6 +27,16 @@ exports.requiresLogin = function (req, res, next) {
 
 };
 
+exports.requiresAdmin = function (req, res, next) {
+
+	if (!(req.user.userId === 18)) {
+
+		return res.json({ message : '권한이 없습니다.'})
+	}
+
+	next();
+
+}
 
 
 /*
