@@ -1,85 +1,85 @@
 /* Global */
 body {
-  padding-top: 45px;
-  /*45패딩이 빵부스러기 위치임*/
-  padding-bottom: 20px;
+	padding-top: 45px;
+	/*45패딩이 빵부스러기 위치임*/
+	padding-bottom: 20px;
 }
 
 body .container {
-  margin-top: 20px;
+	margin-top: 20px;
 }
 
 .header,
 .marketing,
 .footer {
-  padding-right: 15px;
-  padding-left: 15px;
+	padding-right: 15px;
+	padding-left: 15px;
 }
 
 h4 strong,
 h5 strong {
-  color: #f04124;
+	color: #f04124;
 }
 
 .modal-header h4 strong {
-  color: #fff;
+	color: #fff;
 }
 
 a {
-  color: #3c3c3e;
+	color: #3c3c3e;
 }
 
 a:hover,
 a:focus {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 
 .modal-body .container {
-  margin-top: 0px;
+	margin-top: 0px;
 }
 
 /*.panel {
-  border: 0px solid;
+	border: 0px solid;
 }
 .panel-body {
-  background-color: #f4f4f4;
-  border-top: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-left: 1px solid #ddd;
+	background-color: #f4f4f4;
+	border-top: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
 }
 .panel-footer {
-  text-align: center;
-  color: #fff;
-  background-color: #8a8a90;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
+	text-align: center;
+	color: #fff;
+	background-color: #8a8a90;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
 }
 */
 
 .modal-header {
-  background-color: #f04124;
-  color: #fff;
+	background-color: #f04124;
+	color: #fff;
 }
 
 /* navbar */
 .navbar .container-fluid {
-  max-width: 730px;
+	max-width: 730px;
 }
 .bs-docs-nav {
-  margin-bottom: 0;
-  background-color: #fff;
-  border-bottom: 1px solid #c4c4c4;
+	margin-bottom: 0;
+	background-color: #fff;
+	border-bottom: 1px solid #c4c4c4;
 }
 .bs-docs-nav .navbar-brand, .bs-docs-nav .navbar-nav>li>a {
-  font-weight: 500;
-  color: #3c3c3e;
+	font-weight: 500;
+	color: #3c3c3e;
 }
 .bs-docs-nav .navbar-toggle .icon-bar {
-  background-color: #3c3c3e;
+	background-color: #3c3c3e;
 }
 .navbar .navbar-toggle:hover .icon-bar {
-  background-color: #3c3c3e;
+	background-color: #3c3c3e;
 }
 
 
@@ -88,25 +88,25 @@ a:focus {
 /* match Timeline */
 
 .bs-callout+.bs-callout {
-  margin-top: -5px;
+	margin-top: -5px;
 }
 .bs-callout-danger {
-  border-left-color: #d9534f !important;
+	border-left-color: #d9534f !important;
 }
 .bs-callout-info {
-  border-left-color: #5bc0de !important;
+	border-left-color: #5bc0de !important;
 }
 .bs-callout {
-  padding: 20px;
-  margin: 20px 0;
-  border: 1px solid #eee;
-  border-left-width: 5px;
-  border-radius: 3px;
+	padding: 20px;
+	margin: 20px 0;
+	border: 1px solid #eee;
+	border-left-width: 5px;
+	border-radius: 3px;
 }
 
 
 .bs-callout {
-  border-left-width: 4px !important;
+	border-left-width: 4px !important;
 }
 
 .bs-callout h2,
@@ -114,12 +114,12 @@ a:focus {
 .bs-callout h4,
 .bs-callout h5,
 .bs-callout h6 {
-  text-align: center;
-  color: #222 !important;
+	text-align: center;
+	color: #222 !important;
 }
 
 .panel-title .badge {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .panel-body h2,
@@ -127,31 +127,31 @@ a:focus {
 .panel-body h4,
 .panel-body h5,
 .panel-body h6 {
-  text-align: center;
+	text-align: center;
 }
 
 
 
 /* 홈팀어웨이팀 아닐때 버튼*/
 .btn-white {
-  background-color: white;
-  border: 1px solid;
+	background-color: white;
+	border: 1px solid;
 }
 
 .btn-white:hover,
 .btn-white:focus {
-  background-color: #e7e7e7;
-  text-decoration: none;
+	background-color: #e7e7e7;
+	text-decoration: none;
 }
 
 
 /* login signup */
 .logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-  margin-bottom: 18px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 18px;
 }
 
 #loginbox,
@@ -164,24 +164,32 @@ a:focus {
 }
 
 .input-group {
-    margin-top: 20px;
-    margin-bottom: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 
 /* jumbotron */
 .jumbotron {
-  text-align: center;
-  /*border-bottom: 1px solid #e5e5e5;*/
+	text-align: center;
+	/*border-bottom: 1px solid #e5e5e5;*/
 }
 
+.footer {
+	padding-top: 19px;
+	color: #777;
+	border-top: 1px solid #E5E5E5;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #E5E5E5;
+}
 
 
  /*Customize container*/
 @media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
+	.container {
+		max-width: 730px;
+	}
 }
 
 
@@ -189,21 +197,21 @@ a:focus {
 
 /* Responsive: Portrait tablets and up
 @media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-right: 0;
-    padding-left: 0;
-  }
-  /* Space out the masthead
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
+	/* Remove the padding we set earlier */
+	.header,
+	.marketing,
+	.footer {
+		padding-right: 0;
+		padding-left: 0;
+	}
+	/* Space out the masthead
+	.header {
+		margin-bottom: 30px;
+	}
+	/* Remove the bottom border on the jumbotron for visual effect */
+	.jumbotron {
+		border-bottom: 0;
+	}
 }
 
 
