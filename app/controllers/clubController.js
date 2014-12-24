@@ -36,7 +36,7 @@ exports.clubDetailView = function (req, res) {
 	clubModel.selectClub(clubId, function (err, club) {
 
 		if(club === undefined){
-			console.log('clubController.js');
+			console.log('club이 없습니다.');
 			res.redirect('/clubs');
 
 		}else{
