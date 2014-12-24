@@ -80,25 +80,6 @@ exports.clubDetailView = function (req, res) {
 							}
 						});
 
-						var now 	  = new Date(),
-							year 	  = now.getFullYear(),
-							day 	  = now.getDate(),
-							month 	  = now.getMonth() + 1,
-							startDate = new Date(league.start),
-							endDate   = new Date(league.end);
-
-						if (now < startDate) {
-							league.status = 'before';
-						}
-
-						if (startDate < now && now < endDate ) {
-							league.status = 'playing';
-						}
-
-						if (now > endDate) {
-							league.status = 'end';
-						}
-
 						res.render('../views/club/detailedClub', {
 							club   : club,
 							league : league

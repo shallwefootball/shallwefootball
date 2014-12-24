@@ -26,25 +26,6 @@ exports.matchTimeLineView = function(req, res) {
 				}
 			});
 
-			var now 	  = new Date(),
-				year 	  = now.getFullYear(),
-				day 	  = now.getDate(),
-				month 	  = now.getMonth() + 1,
-				startDate = new Date(league.start),
-				endDate   = new Date(league.end);
-
-			if (now < startDate) {
-				league.status = 'before';
-			}
-
-			if (startDate < now && now < endDate ) {
-				league.status = 'playing';
-			}
-
-			if (now > endDate) {
-				league.status = 'end';
-			}
-
 			clubModel.selectClubForLeagueInMatchController(req.params.leagueId, function (err, clubs) {
 
 				res.render('../views/match/match', {
