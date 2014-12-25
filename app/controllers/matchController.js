@@ -18,13 +18,7 @@ exports.matchTimeLineView = function(req, res) {
 			}
 		};
 
-		leagueModel.selectLeague(req.params.leagueId, function (err, league) {
-
-			req.user.joinedLeagues.forEach(function (item, index) {
-				if(league.leagueId == item.leagueId) {
-					league.userJoined = true;
-				}
-			});
+		leagueModel.selectLeague(req.params.leagueId, req.user.userId, function (err, league) {
 
 			clubModel.selectClubForLeagueInMatchController(req.params.leagueId, function (err, clubs) {
 

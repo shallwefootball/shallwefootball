@@ -72,13 +72,7 @@ exports.clubDetailView = function (req, res) {
 
 					club.stats = clubStat;
 
-					leagueModel.selectLeague(leagueId, function (err, league) {
-
-						req.user.joinedLeagues.forEach(function (item, index) {
-							if(league.leagueId == item.leagueId) {
-								league.userJoined = true;
-							}
-						});
+					leagueModel.selectLeague(leagueId, req.user.userId, function (err, league) {
 
 						res.render('../views/club/detailedClub', {
 							club   : club,

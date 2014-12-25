@@ -10,7 +10,7 @@ exports.renderLeagueView = function (req, res) {
 
 exports.leagueJson = function (req, res) {
 
-	leagueModel.selectLeague(req.params.leagueId, function (err, league) {
+	leagueModel.selectLeague(req.params.leagueId, req.user.userId,function (err, league) {
 
 		res.json({league : league});
 	});
