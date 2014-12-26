@@ -24,7 +24,7 @@ exports.selectPlayer = function (email, callback) {
 exports.selectPlayerList = function (clubId, callback) {
     db.pool.acquire(function (err, conn) {
         if(err) console.error('db - err : ', err);
-        conn.query('', [clubId], function(err, playerList) {
+        conn.query('select p.playerId, u.userId, concat(u.lastName, u.firstName)playerName, DATE_FORMAT(u.birthday, "%Y/%m/%d") birthday, u.email, p.squadNumber, p.position, p.matchPosition, p.status, p.orderNumber from player p left outer join user u on u.userId = p.userId where p.clubId = ? order by p.squadNumber', [clubId], function(err, playerList) {
             if(err) console.error('err : ', err);
 
             callback(err, playerList);

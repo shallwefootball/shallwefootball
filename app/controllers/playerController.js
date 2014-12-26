@@ -84,3 +84,14 @@ exports.updatePosition = function (req, res){
 	});
 
 }
+
+exports.playerListJson = function (req, res){
+
+	playerModel.selectPlayerList(req.params.clubId, function (err, playerList) {
+
+		res.json({playerList : playerList});
+	});
+
+
+
+}
