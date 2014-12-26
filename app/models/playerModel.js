@@ -21,6 +21,18 @@ exports.selectPlayer = function (email, callback) {
     });
 };
 
+exports.selectPlayerList = function (clubId, callback) {
+    db.pool.acquire(function (err, conn) {
+        if(err) console.error('db - err : ', err);
+        conn.query('', [clubId], function(err, playerList) {
+            if(err) console.error('err : ', err);
+
+            callback(err, playerList);
+        });
+        db.pool.release(conn);
+    });
+};
+
 exports.selectJoinedLeagues = function (userId, callback){
     db.pool.acquire(function (err, conn){
         if(err) return console.error('err : ', err);
