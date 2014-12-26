@@ -29,7 +29,7 @@ exports.team = function (req, res, next) {
 
 };
 
-exports.joinLeague = function (req, res, next){
+exports.joinLeagueLeader = function (req, res, next){
 
 	var leaderId = req.body.leaderId,
 		formation = "4-3-3",
@@ -41,7 +41,7 @@ exports.joinLeague = function (req, res, next){
 	console.log('clubData    : ', clubData);
 
 
-	teamModel.insertClub(clubData, function (err, clubResult){
+	clubModel.insertClub(clubData, function (err, clubResult){
 		if (err) return console.error('err : ', err);
 
 		if (clubResult.affectedRows > 0) {

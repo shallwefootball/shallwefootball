@@ -112,3 +112,31 @@ exports.selectClubRate = function(clubId, callback) {
 };
 
 
+exports.selectClubRate = function(clubId, callback) {
+    db.pool.acquire(function(err, conn) {
+        if(err) console.error('err : ', err);
+        conn.query('select sum(if(isnull(m.homeScore) and isnull(m.awayScore), 0, 1)) played, sum(if((((c.clubId = m.homeClubId) and m.homeScore > if(isnull(m.awayScore), 0, m.awayScore)) or ((c.clubId = m.awayClubId) and m.awayScore > if(isnull(m.homeScore), 0, m.homeScore))), 1, 0)) won, sum(case when (not(isnull(m.awayScore) and isnull(m.homeScore)) and m.homeScore = m.awayScore) then 1 when (isnull(m.awayScore) and isnull(m.homeScore)) then 0 else 0 end) drawn, sum(case when ((c.clubId = m.homeClubId) and if(isnull(m.homeScore), 0, m.homeScore) < if(isnull(m.awayScore), 0, m.awayScore)) then 1 when ((c.clubId = m.awayClubId) and if(isnull(m.awayScore), 0, m.awayScore) < if(isnull(m.homeScore), 0, m.homeScore)) then 1 when (isnull(m.awayScore) and isnull(m.homeScore)) then 0 else 0 end) lost, floor((sum(if((((c.clubId = m.homeClubId) and m.homeScore > if(isnull(m.awayScore), 0, m.awayScore)) or ((c.clubId = m.awayClubId) and m.awayScore > if(isnull(m.homeScore), 0, m.homeScore))), 1, 0)) / sum(if(isnull(m.homeScore) and isnull(m.awayScore), 0, 1))) * 100) wonRate, floor((sum(case when (not(isnull(m.awayScore) and isnull(m.homeScore)) and m.homeScore = m.awayScore) then 1 when (isnull(m.awayScore) and isnull(m.homeScore)) then 0 else 0 end) / sum(if(isnull(m.homeScore) and isnull(m.awayScore), 0, 1))) * 100) drawnRate, floor((sum(case when ((c.clubId = m.homeClubId) and if(isnull(m.homeScore), 0, m.homeScore) < if(isnull(m.awayScore), 0, m.awayScore)) then 1 when ((c.clubId = m.awayClubId) and if(isnull(m.awayScore), 0, m.awayScore) < if(isnull(m.homeScore), 0, m.homeScore)) then 1 when (isnull(m.awayScore) and isnull(m.homeScore)) then 0 else 0 end) / sum(if(isnull(m.homeScore) and isnull(m.awayScore), 0, 1))) * 100) lostRate from `match` m, club c where (m.homeClubId = ? or m.awayClubId = ?) and c.clubId = ? group by c.clubId', [clubId, clubId, clubId], function(err, result) {
+            if(err) console.error('err : ', err);
+
+            callback(err, result[0]);
+        });
+        db.pool.release(conn);
+    });
+};
+
+exports.insertClub = function(data, callback) {
+    db.pool.acquire(function (err, conn) {
+        if(err) console.error('db - err : ', err);
+        conn.query('insert into club (leaderId, formation, leagueId, teamId) values (?, ?, ?, ?)', data, function(err, result) {
+            if (err) console.error('err : ', err);
+            if (result.affectedRows > 0) {
+                callback(err, result);
+            } else {
+                callback(err);
+            }
+
+        });
+        db.pool.release(conn);
+    });
+};
+
