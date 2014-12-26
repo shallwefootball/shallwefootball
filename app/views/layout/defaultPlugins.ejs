@@ -2,10 +2,18 @@
 <script src="/js/jquery-ui-1.10.4.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery.ui.touch-punch.js"></script>
-<script src="/js/bootstrap-modalmanager.js"></script>
+<script src="/js/nprogress.js"></script>
 
 
 <script>
+
+	NProgress.configure({ ease: 'ease', speed: 500});
+	NProgress.inc();
+
+	$(window).load(function() {
+		// executes when complete page is fully loaded, including all frames, objects and images
+		NProgress.done();
+	});
 
 	var url = window.location.pathname;
 
@@ -17,10 +25,11 @@
 			async       : true,
 			url         : leaguePath,
 			beforeSend  : function() {
+				NProgress.inc();
 				// $('#ajax_load_indicator').show().fadeIn('fast');
 			},
 			success     : function(data) {
-
+				NProgress.inc();
 				$(".navbar-header").append(
 					'<a class="navbar-brand" href="/league/' + data.league.leagueId +
 					'/match"><small>' + data.league.community +
@@ -32,6 +41,9 @@
 			error       : function(data, status, err) {
 				console.log("error forward : "+data);
 				alert('서버와의 통신이 실패했습니다.');
+			},
+			complete    : function (xhr, status) {
+				NProgress.done();
 			}
 	    });
 	}
