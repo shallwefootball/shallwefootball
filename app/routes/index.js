@@ -36,8 +36,8 @@ Route
 	.put    ('/profileImg', user.profileImg)
 
 	//team
-	.post   ('/league/:leagueId/team', 		 team.team)
-	.post   ('/league/:leagueId/joinLeague', team.joinLeague)		//createClub
+	.post   ('/league/:leagueId/team', 		 	   team.team)
+	.post   ('/league/:leagueId/joinLeagueLeader', team.joinLeagueLeader)		//createClub
 	// .delete ('/league/:leagueId/outLeague',  team.outLeague)		//이게 리그에서 나오는것.
 
 	//club
@@ -55,7 +55,7 @@ Route
 	.get    ('/league/:leagueId/match', match.matchTimeLineView)
 
 	//league
-	.get    ('/league/:leagueId', league.leagueJson)
+	.post 	('/league/:leagueId/joinLeagueTeam', league.joinLeagueTeam)
 
 	//formation
 	.get    ('/league/:leagueId/formation/:clubId', formation.formationView)
@@ -67,6 +67,10 @@ Route
 	.post   ('/records/:matchId', 	 record.postRecord)
 	.post   ('/recordSubs/:matchId', record.recordSubs)
 	.delete ('/records/:matchId', 	 record.deleteRecord)
+
+	//API
+	.get    ('/league/:leagueId',   league.leagueJson)
+	.get 	('/playerList/:clubId', player.playerListJson)
 
 
 	//매치생성
