@@ -132,7 +132,7 @@ exports.insertClub = function(data, callback) {
             if (result.affectedRows > 0) {
                 callback(err, result);
             } else {
-                callback(err);
+                return console.log('insert is fail,,,, ', result)
             }
 
         });
