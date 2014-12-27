@@ -91,7 +91,7 @@ exports.outLeague = function (req, res) {
 					done();
 				}, function (error) {
 					if (err) return console.error('err : ', err);
-					console.log('each-async finished');
+					console.log('delete playerList and each-async finished');
 			        callback(null);
 				});
 		    },
@@ -100,11 +100,9 @@ exports.outLeague = function (req, res) {
 				clubModel.deleteClub(clubId, function (err, result) {
 
 					//delete club
-					console.log('out');
+					console.log('league out!!');
 			        callback(null, 'done');
-
 				});
-		        // arg1 now equals 'three'
 		    }
 		], function (err, result) {
 			if (err) return console.error('err : ', err);
