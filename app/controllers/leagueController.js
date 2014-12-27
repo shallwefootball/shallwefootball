@@ -2,7 +2,8 @@ var leagueModel = require('../models/leagueModel');
 	clubModel   = require('../models/clubModel');
 	playerModel = require('../models/playerModel');
 
-var eachAsync   = require('each-async');
+var async   	= require('async');
+	eachAsync   = require('each-async');
 
 
 exports.renderLeagueView = function (req, res) {
@@ -80,23 +81,37 @@ exports.outLeague = function (req, res) {
 	//delete playerLIst
 	playerModel.selectPlayerList(clubId, function (err, playerList) {
 
-		eachAsync(playerList, function (item, index, done) {
+		async.waterfall([
+		    function(callback){
 
-			playerModel.deletePlayer(item.playerId, function (err, result){});
+				eachAsync(playerList, function (item, index, done) {
 
-			done();
-		}, function (error) {
+					playerModel.deletePlayer(item.playerId, function (err, result){});
+
+					done();
+				}, function (error) {
+					if (err) return console.error('err : ', err);
+					console.log('each-async finished');
+			        callback(null);
+				});
+		    },
+		    function(callback){
+
+				clubModel.deleteClub(clubId, function (err, result) {
+
+					//delete club
+					console.log('out');
+			        callback(null, 'done');
+
+				});
+		        // arg1 now equals 'three'
+		    }
+		], function (err, result) {
 			if (err) return console.error('err : ', err);
-			console.log('each-async finished');
 
-			clubModel.deleteClub(clubId, function (err, result) {
-
-				//delete club
-				console.log('out');
-				res.json({message : 'success'});
-
-			});
+			res.json({message : 'success'});
 		});
+
 	});
 }
 
