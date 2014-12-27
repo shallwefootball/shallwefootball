@@ -89,27 +89,6 @@ exports.clubDetailView = function (req, res) {
 };
 
 
-exports.createClub = function (req, res) {
-	// var leagueId    = req.body.leagueId;
-	// var clubName    = req.body.clubName;
-	// var leaderId    = req.user.userId;
-	// var information = req.body.information;
-	// var position    = req.body.position;
-	// var squadNumber = req.body.squadNumber;
-};
-
-exports.deleteClub = function(req, res) {
-	var leaderId = req.user.userId;
-	var clubId   = req.body.clubId;
-
-};
-
-
-
-
-
-
-
 
 
 
