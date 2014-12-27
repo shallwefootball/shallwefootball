@@ -92,7 +92,7 @@
 
 				var url    = '/playerList/' + this.dataset.clubid;
 
-				var $modal = $('#joinLeagueTeam');
+				var $modal = $('#joinLeague');
 
 				$.ajax({
 					type        : 'get',
@@ -103,16 +103,15 @@
 						// $('#ajax_load_indicator').show().fadeIn('fast');
 					},
 					success     : function(data) {
-						console.log('type   ??   : ', typeof(data));
 						var playerList = data.playerList;
-						console.log('player LIst type   ??   : ', typeof(playerList));
-						console.log('plaeyrLIst    : ', playerList);
-						html = '<option value="">리더가 바뀌지않았다면 무시하셔도 됩니다.</option>';
+
+						var html = '<option value="">리더가 바뀌지않았다면 무시하셔도 됩니다.</option>';
+
 						for (var i = 0; i < playerList.length; i++) {
 								html += '<option value="' + playerList[i].userId + '">' + playerList[i].playerName + '</option>';
 						}
+
 						$('select[name="leaderId"]').html(html);
-						$('input[name="playerfList"]').val(data);
 					},
 					error       : function(data, status, err) {
 						console.log("error forward : "+data);
