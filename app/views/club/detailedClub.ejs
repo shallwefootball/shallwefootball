@@ -241,7 +241,7 @@
 					type        : 'delete',
 					async       : true,
 					url         : url,
-					data 		: {clubId : this.value},
+					data 		: {clubId : location.pathname.split("/")[4]},
 					beforeSend  : function() {
 						NProgress.inc();
 					},
