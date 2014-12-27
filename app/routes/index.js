@@ -38,12 +38,10 @@ Route
 	//team
 	.post   ('/league/:leagueId/team', 		 	   team.team)
 	.post   ('/league/:leagueId/joinLeagueLeader', team.joinLeagueLeader)		//createClub
-	// .delete ('/league/:leagueId/outLeague',  team.outLeague)		//이게 리그에서 나오는것.
 
 	//club
 	.get    ('/myClub/:clubId', 			   club.myClubView)		//개발준비...
 	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
-	.delete ('/club',  						   club.deleteClub) 	//이거 다시만들어야함..클럽을 지우는거랑... 리그에서 나오는거랑 두개
 
 	//player
 	.post   ('/signupClub',  player.signupClub)
@@ -55,7 +53,8 @@ Route
 	.get    ('/league/:leagueId/match', match.matchTimeLineView)
 
 	//league
-	.post 	('/league/:leagueId/joinLeagueTeam', league.joinLeagueTeam)
+	.post 	('/league/:leagueId/joinLeague', league.joinLeague)
+	.delete ('/league/:leagueId/outLeague',  league.outLeague)
 
 	//formation
 	.get    ('/league/:leagueId/formation/:clubId', formation.formationView)
