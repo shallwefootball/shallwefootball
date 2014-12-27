@@ -31,9 +31,14 @@
 				<% } %>
 			</div>
 
+			<%	if (league.status == 'before') { %>
+				<% if (user.userId === club.leaderId) { %>
+					<% include editPlayer %>
 
-			<% if (user.userId === club.leaderId) { %>
-				<% include editPlayer %>
+				<% }else { %>
+					<% include playerStat %>
+				<% } %>
+
 			<% }else { %>
 				<% include playerStat %>
 			<% } %>
@@ -224,6 +229,35 @@
 						}
 					});
 
+			});
+
+			$("#outLeague").click(function (e) {
+
+				console.log('out click???');
+
+				var url = "/league/" + location.pathname.split("/")[2] + "/outLeague";
+
+				$.ajax({
+					type        : 'delete',
+					async       : true,
+					url         : url,
+					data 		: {clubId : this.value},
+					beforeSend  : function() {
+						NProgress.inc();
+					},
+					success     : function(data) {
+						console.log('통신성공');
+					},
+					error       : function(data, status, err) {
+						console.log("error forward : "+data);
+						alert('서버와의 통신이 실패했습니다.');
+					},
+					complete    : function (xhr, status) {
+						NProgress.done();
+						alert('리그에서 나왓음');
+						location.href = location.origin + "/league/" + location.pathname.split("/")[2] + "/match";
+					}
+				});
 			});
 
 			//insert default image
