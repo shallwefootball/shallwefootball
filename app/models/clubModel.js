@@ -128,7 +128,7 @@ exports.insertClub = function(data, callback) {
     db.pool.acquire(function (err, conn) {
         if(err) console.error('db - err : ', err);
         conn.query('insert into club (leaderId, formation, leagueId, teamId) values (?, ?, ?, ?)', data, function(err, result) {
-            if (err) console.error('err : ', err);
+            if (err) return console.error('err : ', err);
             if (result.affectedRows > 0) {
                 callback(err, result);
             } else {
@@ -139,4 +139,21 @@ exports.insertClub = function(data, callback) {
         db.pool.release(conn);
     });
 };
+
+exports.deleteClub = function(data, callback) {
+    db.pool.acquire(function (err, conn) {
+        if(err) console.error('db - err : ', err);
+        conn.query('delete from club where clubId = ?', data, function(err, result) {
+            if (err) return console.error('err : ', err);
+            if (result.affectedRows > 0) {
+                callback(err, result);
+            } else {
+                return console.log('delete is fail,,,, ', result)
+            }
+
+        });
+        db.pool.release(conn);
+    });
+};
+
 

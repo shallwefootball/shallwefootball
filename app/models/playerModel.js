@@ -71,8 +71,8 @@ exports.deletePlayer = function (playerId, callback){
 
             if (result.affectedRows == 1) {
                 callback(err, result);
-            } else{
-                callback(err);
+            }else {
+                return console.log('delete error : ', result);
             }
         });
         db.pool.release(conn);

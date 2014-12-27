@@ -1,5 +1,8 @@
 var leagueModel = require('../models/leagueModel');
 	clubModel   = require('../models/clubModel');
+	playerModel = require('../models/playerModel');
+
+var eachAsync   = require('each-async');
 
 
 exports.renderLeagueView = function (req, res) {
@@ -17,57 +20,84 @@ exports.leagueJson = function (req, res) {
 	});
 }
 
-exports.joinLeagueTeam = function (req, res) {
+exports.joinLeague = function (req, res) {
 
-	//create Club
-	// clubid(auto), leaderid, formation, temaid, leagueId
-		// req.body.position,
-		// req.body.squadNumber
+	var oldClubId = req.body.clubId;
 
-	var data = [
-		req.body.leaderId,
-		req.body.teamId,
-		'4-3-3',
-		req.params.leagueId
-	];
+	playerModel.selectPlayerList(oldClubId, function (err, playerList) {
 
-	console.log('data     : ', data);
-	console.log('req.body.playerList     : ', typeof(req.body.playerList));
-	console.log('req.body.playerList     : ', req.body.playerList);
+		// if not exist leaderId
+		var leaderId = req.body.leaderId ? req.body.leaderId : req.user.userId;
 
-	// clubModel.insertClub(data, function (err, result) {
+		//create Club
+		// clubId(auto), leaderId, formation, leagueId, teamId
+		var data = [
+			leaderId,
+			'4-3-3',
+			req.params.leagueId,
+			req.body.teamId
+		];
 
-	// 	//insert결과로 클럽아이디를 받습니다.
-	// 	var userId = req.user.userId,
-	// 		clubId = result.insertId,
-	// 		squadNumber = req.body.squadNumber,
-	// 		position = req.body.position,
-	// 		matchPosition = req.body.position,
-	// 		orderNumber = 0,
-	// 		status = 'starting';
+		clubModel.insertClub(data, function (err, result) {
 
-	// 	var playerData = [userId, clubId, squadNumber, position, matchPosition, orderNumber, status];
-	// 	console.log('player data    : ', playerData);
+			//insert결과로 클럽아이디를 받습니다.
+			var newClubId = result.insertId;
 
-	// 	playerModel.insertPlayer(playerData, function (err, result){
-	// 		if (err) return console.error('err : ', err);
-	// 		res.redirect('back');
+			eachAsync(playerList, function (item, index, done) {
 
-	// 	});
-	// 	//and insert player;
+				// 유저아이디, 새로운클럽아이디, 스쿼드넘버, 포지션, 매치포지션, 오더넘버, 스테더스
+				var playerData = [
+					item.userId,
+					newClubId,
+					item.squadNumber,
+					item.position,
+					item.matchPosition,
+					item.orderNumber,
+					item.status
+				];
 
-	// });
+				playerModel.insertPlayer(playerData, function (err, result){
+					if (err) return console.error('err : ', err);
+				});
 
+				done();
+			}, function (error) {
+				if (err) return console.error('err : ', err);
 
-
-	// 	var leaderId = req.body.leaderId,
-	// 	formation = "4-3-3",
-	// 	leagueId = req.params.leagueId,
-	// 	teamId = req.body.teamId;
-
-	// var clubData = [ leaderId, formation, leagueId, teamId ];
-
-	// console.log('clubData    : ', clubData);
-
+				console.log('each-async finished');
+				res.redirect('back');
+			});
+		});
+	});
 }
+
+exports.outLeague = function (req, res) {
+
+	var clubId = req.body.clubId;
+
+	console.log('clubId1!!!!!!!!     : ', clubId);
+
+	//delete playerLIst
+	playerModel.selectPlayerList(clubId, function (err, playerList) {
+
+		eachAsync(playerList, function (item, index, done) {
+
+			playerModel.deletePlayer(item.playerId, function (err, result){});
+
+			done();
+		}, function (error) {
+			if (err) return console.error('err : ', err);
+			console.log('each-async finished');
+
+			clubModel.deleteClub(clubId, function (err, result) {
+
+				//delete club
+				console.log('out');
+				res.json({message : 'success'});
+
+			});
+		});
+	});
+}
+
 
