@@ -1,0 +1,85 @@
+<script>
+
+	//click glyphicon-pencil
+	$('.glyphicon-pencil').click(function (e) {
+		var playerId 	  = $(this).attr('data-player-id'),
+			playerName 	  = $(this).attr('data-player-name'),
+			value 		  = $(this).attr('value'),
+			modal 		  = $(this).attr('data-target');
+
+		//set player
+		$(modal).find('[name="playerId"]').val(playerId);
+		$(modal).find('.modal-title').children('strong').text(playerName);
+		$(modal).find('.text-muted').text(value);
+
+	});
+
+	$('#positionForm').submit(function (e){
+
+		console.log('success submit');
+		// Prevent form submission
+		e.preventDefault();
+
+		var $form = $(e.target);
+
+		$.ajax({
+			type        : 'PUT',
+			async       : true,
+			url         : "/position",
+			data        : $form.serialize(),
+			success     : function(data) {
+				switch (data.message) {
+
+					case "success" :
+						alert("포지션이 변경되었습니다.");
+						location.reload(); break;
+
+					case "fail" :
+
+						alert('실패했습니다.'); break;
+				}
+
+			},
+			error       : function(data, status, err) {
+				console.log("error forward : "+data);
+					alert('서버와의 통신이 실패했습니다.');
+			}
+		});
+
+	});
+
+	$('#squadNumberForm').submit(function (e){
+
+		console.log('success submit');
+		// Prevent form submission
+		e.preventDefault();
+
+		var $form = $(e.target);
+
+		$.ajax({
+			type        : 'PUT',
+			async       : true,
+			url         : "/squadNumber",
+			data        : $form.serialize(),
+			success     : function(data) {
+				switch (data.message) {
+
+					case "success" :
+						alert("스쿼드넘버가 변경되었습니다.");
+						location.reload(); break;
+
+					case "fail" :
+
+						alert('실패했습니다.'); break;
+				}
+
+			},
+			error       : function(data, status, err) {
+				console.log("error forward : "+data);
+					alert('서버와의 통신이 실패했습니다.');
+			}
+		});
+
+	});
+
+</script>
