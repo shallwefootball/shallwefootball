@@ -45,7 +45,7 @@ exports.insertUser = function (data, callback) {
             if (result.affectedRows == 1) {
                 callback(err, result);
             } else {
-                callback(err);
+                return console.log('insert fail...        ', result);
             }
 
         });
