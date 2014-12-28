@@ -13,18 +13,22 @@
 				text-align: center;
 			}
 			td > a {
-			    color: #008CBA;
-			    cursor: pointer;
+				color: #008CBA;
+				cursor: pointer;
 			}
 			td > a:hover {
 				text-decoration: underline;
 			}
 			.playerName {
-				width: 50px;
+				/*width: 50px;*/
 			}
 			.glyphicon-remove, .glyphicon-pencil{
 				font-size: 1.2em; /* size lager */
 				cursor: pointer;
+			}
+			.bootstrap-select > .btn {
+				/* 이거 bootstrap default select box 맞춰주는거야 꼭필요*/
+				padding: 6px 12px !important;
 			}
 		</style>
 
@@ -89,8 +93,6 @@
 				<% } %>
 			<%	}	/* end before */%>
 
-			<% include signupClubModal %>
-
 			<% include ../layout/footer %>
 
 		</div> <!-- /container -->
@@ -100,6 +102,8 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<% include ../layout/defaultPlugins %>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
+		<script src="/js/bootstrap-select.js"></script>
 		<script>
 			//포메이션으로 이동
 			$("#getFormation").click( function (e) {
@@ -180,81 +184,71 @@
 
 			});
 
-			$('#updatePosition').submit(function (e){
+			$('#positionForm').submit(function (e){
 
-					console.log('success submit');
-					// Prevent form submission
-					e.preventDefault();
+				console.log('success submit');
+				// Prevent form submission
+				e.preventDefault();
 
-					var playerId = $('#position').find('[name="playerId"]').val();
-					var position = $('#position').find('[name="position"]').val();
+				var $form = $(e.target);
 
+				$.ajax({
+					type        : 'PUT',
+					async       : true,
+					url         : "/position",
+					data        : $form.serialize(),
+					success     : function(data) {
+						switch (data.message) {
 
-					$.ajax({
-						type        : 'PUT',
-						async       : true,
-						url         : "/position",
-						data        : {
-							playerId : playerId,
-							position : position
-						},
-						success     : function(data) {
-							switch (data.message) {
+							case "success" :
+								alert("포지션이 변경되었습니다.");
+								location.reload(); break;
 
-								case "success" :
-									alert("포지션이 변경되었습니다.");
-									location.reload(); break;
+							case "fail" :
 
-								case "fail" :
-
-									alert('실패했습니다.'); break;
-							}
-
-						},
-						error       : function(data, status, err) {
-							console.log("error forward : "+data);
-								alert('서버와의 통신이 실패했습니다.');
+								alert('실패했습니다.'); break;
 						}
-					});
+
+					},
+					error       : function(data, status, err) {
+						console.log("error forward : "+data);
+							alert('서버와의 통신이 실패했습니다.');
+					}
+				});
 
 			});
 
-			$('#squadNumber').submit(function (e){
+			$('#squadNumberForm').submit(function (e){
 
-					console.log('success submit');
-					// Prevent form submission
-					e.preventDefault();
+				console.log('success submit');
+				// Prevent form submission
+				e.preventDefault();
 
-					var playerId = $('#squadNumber').find('[name="playerId"]').val();
-					var squadNumber = $('#squadNumber').find('[name="squadNumber"]').val();
+				var $form = $(e.target);
 
+				$.ajax({
+					type        : 'PUT',
+					async       : true,
+					url         : "/squadNumber",
+					data        : $form.serialize(),
+					success     : function(data) {
+						switch (data.message) {
 
-					$.ajax({
-						type        : 'PUT',
-						async       : true,
-						url         : "/squadNumber",
-						data        : {
-							playerId : playerId,
-							squadNumber : squadNumber
-						},
-						success     : function(data) {
-							switch (data.message) {
+							case "success" :
+								alert("스쿼드넘버가 변경되었습니다.");
+								location.reload(); break;
 
-								case "success" :
-									alert("스쿼드넘버가 변경되었습니다.");
-									location.reload(); break;
+							case "fail" :
 
-								case "fail" :
-
-									alert('실패했습니다.'); break;
-							}
-
-						},
-						error       : function(data, status, err) {
-							console.log("error forward : "+data);
-								alert('서버와의 통신이 실패했습니다.');
+								alert('실패했습니다.'); break;
 						}
-					});
+
+					},
+					error       : function(data, status, err) {
+						console.log("error forward : "+data);
+							alert('서버와의 통신이 실패했습니다.');
+					}
+				});
 
 			});
 
@@ -286,6 +280,43 @@
 				});
 			});
 
+			$('.glyphicon-remove.text-danger').click(function (e) {
+
+				var playerName = $(this).attr('data-player-name'),
+					playerId   = $(this).attr('data-player-id');
+
+				$("#outClub").attr('data-player-id', playerId)
+				$(".confirmPlayerOutModal").find('center > h4').text(playerName);
+				$(".confirmPlayerOutModal").modal('show');
+			});
+
+
+			$("#outClub").click(function (e) {
+
+				var url = '/signoutClub/' + $(this).attr('data-player-id');
+
+				$.ajax({
+					type        : 'delete',
+					async       : true,
+					url         : url,
+					beforeSend  : function() {
+						NProgress.inc();
+					},
+					success     : function(data) {
+						console.log('통신성공');
+					},
+					error       : function(data, status, err) {
+						console.log("error forward : "+ data);
+						alert('서버와의 통신이 실패했습니다.');
+					},
+					complete    : function (xhr, status) {
+						NProgress.done();
+						alert('제외되었습니다.');
+						location.reload();
+					}
+				});
+			});
+
 			//insert default image
 			$(".img-circle").each(function () {
 				if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
@@ -300,7 +331,6 @@
 					this.src = '/images/default/defaultClub.png';
 				}
 			});
-
 
 
 			//구지 첨부터 특정포지션 설정해놓는게 낫지 않을까???
@@ -330,6 +360,140 @@
 				//     }
 				// });
 
+
+			$('#playerForm')
+		        .find('[name="position"]')
+		            .selectpicker()
+		            .change(function(e) {
+		                // revalidate the language when it is changed
+		                $('#bootstrapSelectForm').bootstrapValidator('revalidateField', 'position');
+		            })
+		            .end()
+		        .find('[name="squadNumber"]')
+		            .selectpicker()
+		            .change(function(e) {
+		                // revalidate the language when it is changed
+		                $('#bootstrapSelectForm').bootstrapValidator('revalidateField', 'squadNumber');
+		            })
+		            .end()
+				.bootstrapValidator({
+					// To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+					live : 'submitted',
+		            excluded: ':disabled',
+					feedbackIcons: {
+						valid: 'glyphicon glyphicon-ok',
+						invalid: 'glyphicon glyphicon-remove',
+						validating: 'glyphicon glyphicon-refresh'
+					},
+					fields: {
+						lastName: {
+							feedbackIcons: 'false',
+							// message: 'The username is not valid',
+							validators: {
+								notEmpty: {
+									message: '성을 적어주세요.'
+								},
+								stringLength: {
+									// min: 6,
+									max: 20,
+									message: '너무 길어요.'
+								},
+								regexp: {
+									regexp: /^[ㄱ-ㅎ가-힣]+$/,
+									message: '한글로 입력해주세요.'
+								}
+							}
+						},
+						firstName: {
+							feedbackIcons: 'false',
+							// message: 'The username is not valid',
+							validators: {
+								notEmpty: {
+									message: '이름을 적어 주세요.'
+								},
+								stringLength: {
+									// min: 6,
+									max: 20,
+									message: '너무 길어요.'
+								},
+								regexp: {
+									regexp: /^[ㄱ-ㅎ가-힣]+$/,
+									message: '한글로 입력해주세요.'
+								}
+							}
+						},
+						email: {
+							feedbackIcons: 'false',
+							validators: {
+								notEmpty: {
+									message: '이메일을 적어주세요.'
+								},
+								emailAddress: {
+									message: '이메일 형식에 맞게 적어주세요.'
+								}
+							}
+						},
+						birthday: {
+							feedbackIcons: 'false',
+							validators: {
+								notEmpty: {
+									message: '생일을 입력해 주세요.'
+								},
+								date: {
+									format: 'YYYY/MM/DD',
+									message: '형식에 맞게 입력해 주세요.'
+								}
+							}
+						},
+		                position: {
+		                	feedbackIcons: 'false',
+		                    validators: {
+		                        notEmpty: {
+		                            message: '포지션을 선택해야합니다.'
+		                        }
+		                    }
+		                },
+		                squadNumber: {
+		                	feedbackIcons: 'false',
+		                    validators: {
+		                        notEmpty: {
+		                            message: '등번호를 선택해야합니다.'
+		                        }
+		                    }
+		                }
+					}
+				})
+		        .on('success.form.bv', function(e) {
+		            // Prevent form submission
+		            e.preventDefault();
+
+		            // Get the form instance
+		            var $form = $(e.target);
+
+		            // Get the BootstrapValidator instance
+		            var bv = $form.data('bootstrapValidator');
+
+		            // Use Ajax to submit form data
+		            $.post($form.attr('action'), $form.serialize(), function(result) {
+		            	if (result.message == 'existed') {
+		            		html = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">×</button><strong>오 이런!</strong> 중복된 이메일이군요.</div>'
+
+	            			$('#playerForm').find('.form-group').last().after(html);
+	            			$('#playerForm').find('[name="email"]').parent().addClass('has-error');
+
+							setTimeout(function() {
+								$(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+									$(this).remove();
+								});
+							}, 5000)
+
+
+		            	}else {
+		            		location.reload();
+		            	}
+
+		            }, 'json');
+		        });
 
 
 		</script>
