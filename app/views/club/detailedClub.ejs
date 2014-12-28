@@ -3,10 +3,31 @@
 	<head>
 		<% include ../layout/head %>
 		<style>
-			.table tbody>tr>td.vert-align {
+			.table tbody>tr>td {
 				vertical-align: middle;
 			}
+			img.img-circle {
+				margin: 0 auto;
+			}
+			th, td {
+				text-align: center;
+			}
+			td > a {
+			    color: #008CBA;
+			    cursor: pointer;
+			}
+			td > a:hover {
+				text-decoration: underline;
+			}
+			.playerName {
+				width: 50px;
+			}
+			.glyphicon-remove, .glyphicon-pencil{
+				font-size: 1.2em; /* size lager */
+				cursor: pointer;
+			}
 		</style>
+
 	</head>
 	<body>
 		<% include ../layout/navbar %>
@@ -53,8 +74,8 @@
 
 				<% if (user.clubId === club.clubId && !(user.userId === club.leaderId)) { %>
 
-					<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updatePosition">포지션 수정 </button>
-					<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updateSquadNumber">스쿼드넘버 수정 </button>
+					<!-- <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updatePosition">포지션 수정 </button>
+					<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".squadNumber">스쿼드넘버 수정 </button> -->
 					<button type="button" class="btn btn-danger btn-lg btn-block" id="signoutClub">이 클럽 탈퇴 </button>
 
 					<div class="bs-callout">
@@ -69,10 +90,6 @@
 			<%	}	/* end before */%>
 
 			<% include signupClubModal %>
-
-			<% include squadNumberModal %>
-
-			<% include positionModal %>
 
 			<% include ../layout/footer %>
 
@@ -149,7 +166,19 @@
 
 			});
 
+			//click glyphicon-pencil
+			$('.glyphicon-pencil').click(function (e) {
+				var playerId 	  = $(this).attr('data-player-id'),
+					playerName 	  = $(this).attr('data-player-name'),
+					value 		  = $(this).attr('value'),
+					modal 		  = $(this).attr('data-target');
 
+				//set player
+				$(modal).find('[name="playerId"]').val(playerId);
+				$(modal).find('.modal-title').children('strong').text(playerName);
+				$(modal).find('.text-muted').text(value);
+
+			});
 
 			$('#updatePosition').submit(function (e){
 
@@ -157,14 +186,14 @@
 					// Prevent form submission
 					e.preventDefault();
 
-					var playerId = $('#updatePosition').find('[name="playerId"]').val();
-					var position = $('#updatePosition').find('[name="position"]').val();
+					var playerId = $('#position').find('[name="playerId"]').val();
+					var position = $('#position').find('[name="position"]').val();
 
 
 					$.ajax({
 						type        : 'PUT',
 						async       : true,
-						url         : "/updatePosition",
+						url         : "/position",
 						data        : {
 							playerId : playerId,
 							position : position
@@ -190,22 +219,20 @@
 
 			});
 
-
-
-			$('#updateSquadNumber').submit(function (e){
+			$('#squadNumber').submit(function (e){
 
 					console.log('success submit');
 					// Prevent form submission
 					e.preventDefault();
 
-					var playerId = $('#updateSquadNumber').find('[name="playerId"]').val();
-					var squadNumber = $('#updateSquadNumber').find('[name="squadNumber"]').val();
+					var playerId = $('#squadNumber').find('[name="playerId"]').val();
+					var squadNumber = $('#squadNumber').find('[name="squadNumber"]').val();
 
 
 					$.ajax({
 						type        : 'PUT',
 						async       : true,
-						url         : "/updateSquadNumber",
+						url         : "/squadNumber",
 						data        : {
 							playerId : playerId,
 							squadNumber : squadNumber
