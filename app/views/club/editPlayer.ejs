@@ -1,200 +1,200 @@
 
-			<div class="row">
+<div class="row">
 
-				<div class="col-md-12">
-					<h3><span class="text-warning">GK</span> 골키퍼</h3>
-					<table class="table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>등번호</th>
-								<th class="playerName">이름</th>
-								<th>등번호수정</th>
-								<th>포지션수정</th>
-								<th>제외</th>
-							</tr>
-						</thead>
-						<tbody>
+	<div class="col-md-12">
+		<h3><span class="text-warning">GK</span> 골키퍼</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>등번호</th>
+					<th class="playerName">이름</th>
+					<th>등번호수정</th>
+					<th>포지션수정</th>
+					<th>제외</th>
+				</tr>
+			</thead>
+			<tbody>
 
-							<% club.players.GK.forEach(function(player) { %>
-								<tr>
-									<td>
-										<img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A">
-									</td>
-									<td class="playerName"><%= player.squadNumber %></td>
-									<td>
-										<a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a>
-									</td>
-									<td>
-										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
-										data-player-name="<%= player.playerName %>"
-										data-player-id="<%= player.playerId %>"
-										value="<%= player.squadNumber %>"
-										></span>
-									</td>
-									<td>
-										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".positionModal"
-										data-player-name="<%= player.playerName %>"
-										data-player-id="<%= player.playerId %>"
-										value="<%= player.position %>"
-										></span>
-									</td>
-									<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
-								</tr>
-							<% }) %>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-12">
-					<h3><span class="text-success">DF</span> 수비수</h3>
-					<table class="table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>등번호</th>
-								<th class="playerName">이름</th>
-								<th>등번호수정</th>
-								<th>포지션수정</th>
-								<th>제외</th>
-							</tr>
-						</thead>
-						<tbody>
-							<% club.players.DF.forEach(function(player) { %>
-								<tr>
-									<td>
-										<img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A">
-									</td>
-									<td class="playerName"><%= player.squadNumber %></td>
-									<td>
-										<a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a>
-									</td>
-									<td>
-										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
-										data-player-name="<%= player.playerName %>"
-										data-player-id="<%= player.playerId %>"
-										value="<%= player.squadNumber %>"
-										></span>
-									</td>
-									<td>
-										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".positionModal"
-										data-player-name="<%= player.playerName %>"
-										data-player-id="<%= player.playerId %>"
-										value="<%= player.position %>"
-										></span>
-									</td>
-									<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
-								</tr>
-							<% }) %>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-12">
-					<h3><span class="text-primary">MF</span> 미드필더</h3>
-					<table class="table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>등번호</th>
-								<th class="playerName">이름</th>
-								<th>등번호수정</th>
-								<th>포지션수정</th>
-								<th>제외</th>
-							</tr>
-						</thead>
-						<tbody>
-							<% club.players.MF.forEach(function(player) { %>
-								<tr>
-									<td>
-										<img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A">
-									</td>
-									<td class="playerName"><%= player.squadNumber %></td>
-									<td>
-										<a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a>
-									</td>
-									<td>
-										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
-										data-player-name="<%= player.playerName %>"
-										data-player-id="<%= player.playerId %>"
-										value="<%= player.squadNumber %>"
-										></span>
-									</td>
-									<td>
-										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".positionModal"
-										data-player-name="<%= player.playerName %>"
-										data-player-id="<%= player.playerId %>"
-										value="<%= player.position %>"
-										></span>
-									</td>
-									<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
-								</tr>
-							<% }) %>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-12">
-					<h3><span class="text-danger">FW</span> 공격수</h3>
-					<table class="table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>등번호</th>
-								<th class="playerName">이름</th>
-								<th>등번호수정</th>
-								<th>포지션수정</th>
-								<th>제외</th>
-							</tr>
-						</thead>
-						<tbody>
-							<% club.players.FW.forEach(function(player) { %>
-								<tr>
-									<td>
-										<img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A">
-									</td>
-									<td class="playerName"><%= player.squadNumber %></td>
-									<td>
-										<a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a>
-									</td>
-									<td>
-										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
-										data-player-name="<%= player.playerName %>"
-										data-player-id="<%= player.playerId %>"
-										value="<%= player.squadNumber %>"
-										></span>
-									</td>
-									<td>
-										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".positionModal"
-										data-player-name="<%= player.playerName %>"
-										data-player-id="<%= player.playerId %>"
-										value="<%= player.position %>"
-										></span>
-									</td>
-									<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
-								</tr>
-							<% }) %>
-						</tbody>
-					</table>
-				</div>
+				<% club.players.GK.forEach(function(player) { %>
+					<tr>
+						<td>
+							<img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A">
+						</td>
+						<td class="playerName"><%= player.squadNumber %></td>
+						<td>
+							<a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
+							data-player-name="<%= player.playerName %>"
+							data-player-id="<%= player.playerId %>"
+							value="<%= player.squadNumber %>"
+							></span>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".positionModal"
+							data-player-name="<%= player.playerName %>"
+							data-player-id="<%= player.playerId %>"
+							value="<%= player.position %>"
+							></span>
+						</td>
+						<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-12">
+		<h3><span class="text-success">DF</span> 수비수</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>등번호</th>
+					<th class="playerName">이름</th>
+					<th>등번호수정</th>
+					<th>포지션수정</th>
+					<th>제외</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% club.players.DF.forEach(function(player) { %>
+					<tr>
+						<td>
+							<img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A">
+						</td>
+						<td class="playerName"><%= player.squadNumber %></td>
+						<td>
+							<a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
+							data-player-name="<%= player.playerName %>"
+							data-player-id="<%= player.playerId %>"
+							value="<%= player.squadNumber %>"
+							></span>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".positionModal"
+							data-player-name="<%= player.playerName %>"
+							data-player-id="<%= player.playerId %>"
+							value="<%= player.position %>"
+							></span>
+						</td>
+						<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-12">
+		<h3><span class="text-primary">MF</span> 미드필더</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>등번호</th>
+					<th class="playerName">이름</th>
+					<th>등번호수정</th>
+					<th>포지션수정</th>
+					<th>제외</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% club.players.MF.forEach(function(player) { %>
+					<tr>
+						<td>
+							<img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A">
+						</td>
+						<td class="playerName"><%= player.squadNumber %></td>
+						<td>
+							<a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
+							data-player-name="<%= player.playerName %>"
+							data-player-id="<%= player.playerId %>"
+							value="<%= player.squadNumber %>"
+							></span>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".positionModal"
+							data-player-name="<%= player.playerName %>"
+							data-player-id="<%= player.playerId %>"
+							value="<%= player.position %>"
+							></span>
+						</td>
+						<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-12">
+		<h3><span class="text-danger">FW</span> 공격수</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>등번호</th>
+					<th class="playerName">이름</th>
+					<th>등번호수정</th>
+					<th>포지션수정</th>
+					<th>제외</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% club.players.FW.forEach(function(player) { %>
+					<tr>
+						<td>
+							<img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A">
+						</td>
+						<td class="playerName"><%= player.squadNumber %></td>
+						<td>
+							<a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
+							data-player-name="<%= player.playerName %>"
+							data-player-id="<%= player.playerId %>"
+							value="<%= player.squadNumber %>"
+							></span>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".positionModal"
+							data-player-name="<%= player.playerName %>"
+							data-player-id="<%= player.playerId %>"
+							value="<%= player.position %>"
+							></span>
+						</td>
+						<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
 
-			</div>
+</div>
 
-			<button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target=".addPlayerModal">
-				선수추가 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-			</button>
-			<br>
-			<button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target=".confirmLeagueOutModal">
-				리그에 참가하지않음 <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
-			</button>
+<button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target=".addPlayerModal">
+	선수추가 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+</button>
+<br>
+<button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target=".confirmLeagueOutModal">
+	리그에 참가하지않음 <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+</button>
 
 
 
-			<% include ../modal/squadNumberModal %>
+<% include ../modal/squadNumberModal %>
 
-			<% include ../modal/positionModal %>
+<% include ../modal/positionModal %>
 
-			<% include ../modal/confirmLeagueOutModal %>
+<% include ../modal/confirmLeagueOutModal %>
 
-			<% include ../modal/addPlayerModal %>
+<% include ../modal/addPlayerModal %>
 
-			<% include ../modal/confirmPlayerOutModal %>
+<% include ../modal/confirmPlayerOutModal %>
 
 
