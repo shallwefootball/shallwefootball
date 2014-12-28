@@ -11,7 +11,7 @@
 								<th class="playerName">이름</th>
 								<th>등번호수정</th>
 								<th>포지션수정</th>
-								<th>탈퇴</th>
+								<th>제외</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -39,7 +39,7 @@
 										value="<%= player.position %>"
 										></span>
 									</td>
-									<td><span class="glyphicon glyphicon-remove text-danger"></span></td>
+									<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
 								</tr>
 							<% }) %>
 						</tbody>
@@ -55,7 +55,7 @@
 								<th class="playerName">이름</th>
 								<th>등번호수정</th>
 								<th>포지션수정</th>
-								<th>탈퇴</th>
+								<th>제외</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -82,7 +82,7 @@
 										value="<%= player.position %>"
 										></span>
 									</td>
-									<td><span class="glyphicon glyphicon-remove text-danger"></span></td>
+									<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
 								</tr>
 							<% }) %>
 						</tbody>
@@ -98,7 +98,7 @@
 								<th class="playerName">이름</th>
 								<th>등번호수정</th>
 								<th>포지션수정</th>
-								<th>탈퇴</th>
+								<th>제외</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -125,7 +125,7 @@
 										value="<%= player.position %>"
 										></span>
 									</td>
-									<td><span class="glyphicon glyphicon-remove text-danger"></span></td>
+									<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
 								</tr>
 							<% }) %>
 						</tbody>
@@ -141,7 +141,7 @@
 								<th class="playerName">이름</th>
 								<th>등번호수정</th>
 								<th>포지션수정</th>
-								<th>탈퇴</th>
+								<th>제외</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -168,7 +168,7 @@
 										value="<%= player.position %>"
 										></span>
 									</td>
-									<td><span class="glyphicon glyphicon-remove text-danger"></span></td>
+									<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
 								</tr>
 							<% }) %>
 						</tbody>
@@ -177,11 +177,11 @@
 
 			</div>
 
-			<button type="button" class="btn btn-success btn-lg btn-block" id="addPlayer">
+			<button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target=".addPlayerModal">
 				선수추가 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 			</button>
 			<br>
-			<button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target=".confirmModal">
+			<button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target=".confirmLeagueOutModal">
 				리그에 참가하지않음 <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
 			</button>
 
@@ -191,6 +191,10 @@
 
 			<% include ../modal/positionModal %>
 
-			<% include ../modal/confirmModal %>
+			<% include ../modal/confirmLeagueOutModal %>
+
+			<% include ../modal/addPlayerModal %>
+
+			<% include ../modal/confirmPlayerOutModal %>
 
 
