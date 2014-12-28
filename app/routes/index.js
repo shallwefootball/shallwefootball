@@ -26,8 +26,8 @@ Route
 	.get    ('/login',   authenticate.loginView)
 	.post   ('/login',   authenticate.login)
 	.get    ('/logout',  authenticate.logout) 			// logout은 post로 써야함. because pre-fetch
-	.get    ('/signup',  authenticate.signupView)
-	.post   ('/signup',  authenticate.signup)
+	// .get    ('/signup',  authenticate.signupView)
+	// .post   ('/signup',  authenticate.signup)
 	.delete ('/signout', authenticate.signout)
 
 	//user
@@ -42,12 +42,13 @@ Route
 	//club
 	.get    ('/myClub/:clubId', 			   club.myClubView)		//개발준비...
 	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
+	.post   ('/club/:clubId/player',  		   club.insertPlayer)
 
 	//player
-	.post   ('/signupClub',  player.signupClub)
-	.delete ('/signoutClub', player.signoutClub)
-	.put    ('/squadNumber', player.updateSquadNumber)
-	.put    ('/position',    player.updatePosition)
+	.post   ('/signupClub',  		   player.signupClub)
+	.delete ('/signoutClub/:playerId', player.signoutClub)
+	.put    ('/squadNumber', 		   player.updateSquadNumber)
+	.put    ('/position',    		   player.updatePosition)
 
 	//match
 	.get    ('/league/:leagueId/match', match.matchTimeLineView)

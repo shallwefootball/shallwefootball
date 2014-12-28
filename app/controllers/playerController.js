@@ -1,6 +1,7 @@
 var playerModel   = require('../models/playerModel');
 
 exports.signupClub = function (req, res){
+
 	var userId        = req.user.userId;
 	var clubId        = req.body.clubId;
 	var position      = req.body.position;
@@ -43,11 +44,12 @@ exports.signupClub = function (req, res){
 
 exports.signoutClub = function (req, res){
 
-	playerModel.deletePlayer(req.body.playerId, function(err, result){
+	playerModel.deletePlayer(req.params.playerId, function(err, result){
 		if(result.affectedRows > 0) {
-			res.json({redirect : "/"});
+			res.json({message : 'success'});
 		}else {
-			res.json({isSuccess : "fail"});
+			console.log('delete fail.....        ', result);
+			res.json({message : "fail"});
 		}
 	});
 };
@@ -61,6 +63,7 @@ exports.updateSquadNumber = function (req, res){
 		if(result.affectedRows > 0){
 			res.json({message : "success"});
 		}else {
+			return console.log('fail update      :  ', result);
 			res.json({message : "fail"});
 		}
 

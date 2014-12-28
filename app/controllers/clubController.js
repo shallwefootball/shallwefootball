@@ -88,6 +88,78 @@ exports.clubDetailView = function (req, res) {
 	});
 };
 
+exports.insertPlayer = function (req, res) {
+
+	// 중복되는 이메일..
+	// new user..
+	// selectOrderNumber
+	// insert player..
+
+	var userData = [
+		req.body.email,
+		null,
+		req.body.lastName,
+		req.body.firstName,
+		req.body.birthday
+	]
+
+	userModel.selectUserEmail(req.body.email, function(err, email) {
+
+		if (email[0]) {
+			return res.json({message : 'existed'});
+		} else {
+
+			userModel.insertUser(userData, function (err, newUser) {
+
+				playerModel.selectOrderNumber (req.params.clubId, function (err, countResult) {
+
+					var newPlayerOrderNumber = countResult.orderNumber + 1;
+
+					console.log('연산되었나요??? newPlayerOrderNumber       : ,', newPlayerOrderNumber);
+
+					var newUserId     		 = newUser.insertId,
+						clubId        		 = req.params.clubId,
+						squadNumber   		 = req.body.squadNumber,
+						position      		 = req.body.position,
+						matchPosition 		 = req.body.position,
+						status 				 = '';
+
+					if (newPlayerOrderNumber < 11) {
+						status = "starting";
+					}else if (newPlayerOrderNumber < 16 && newPlayerOrderNumber > 10) {
+						status = "sub";
+					}else if (newPlayerOrderNumber >= 16) {
+						status = "excepted";
+					}
+
+					var playerData = [
+						newUserId,
+						clubId,
+						squadNumber,
+						position,
+						matchPosition,
+						newPlayerOrderNumber,
+						status
+					];
+
+					playerModel.insertPlayer(playerData, function (err, result) {
+
+						if(result.affectedRows > 0) {
+							res.json({message : "success"});
+							// res.redirect('back');
+						}else {
+							res.json({message : "클럽가입 실패입니다."});
+						}
+					});
+				});
+			});
+
+
+
+		}     //end if existedUser
+	});     //end selectPlayerEmail
+}
+
 
 
 
