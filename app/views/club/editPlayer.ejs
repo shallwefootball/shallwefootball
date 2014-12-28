@@ -177,11 +177,20 @@
 
 			</div>
 
-			<button type="button" class="btn btn-danger btn-lg btn-block" id="outLeague">리그에 참가하지않음</button>
+			<button type="button" class="btn btn-success btn-lg btn-block" id="addPlayer">
+				선수추가 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+			</button>
+			<br>
+			<button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target=".confirmModal">
+				리그에 참가하지않음 <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+			</button>
+
 
 
 			<% include ../modal/squadNumberModal %>
 
 			<% include ../modal/positionModal %>
+
+			<% include ../modal/confirmModal %>
 
 
