@@ -2,9 +2,7 @@ var path            = require('path'),
 	async           = require('async'),
 	LocalStrategy   = require('passport-local').Strategy,
 	bcrypt          = require('bcryptjs'),
-	userModel       = require('../models/userModel'),
-	playerModel     = require('../models/playerModel'),
-	teamModel       = require('../models/teamModel');
+	userModel       = require('../models/userModel');
 
 module.exports = function(passport) {
 
@@ -16,19 +14,9 @@ module.exports = function(passport) {
 
 		userModel.selectUser(email, function(err, user){
 
-			teamModel.selectCreateTeam(user.userId, function (err, createTeam) {
+			delete user.password;
 
-				playerModel.selectJoinedLeagues(user.userId, function (err, joinedLeagues) {
-
-					delete user.password;
-
-					user.createTeam    = createTeam;
-					user.joinedLeagues = joinedLeagues;
-
-					done(err, user);
-
-				});
-			});
+			done(err, user);
 		});
 	});
 

@@ -3,7 +3,11 @@ var fs 			= require('fs'),
 	async       = require('async'),
 	passport    = require('passport'),
 	userModel   = require('../models/userModel'),
+	playerModel = require('../models/playerModel'),
+	teamModel	= require('../models/teamModel'),
 	folderAPI   = require('./API/folderAPI');
+
+var eachAsync 		= require('each-async');
 
 
 exports.loginView = function (req, res) {
@@ -90,9 +94,38 @@ exports.signout = function (req, res, next) {
 };
 
 
+exports.setUser = function (req, res, next) {
 
+	var user = req.user;
 
+	teamModel.selectCreateTeam(user.userId, function (err, createTeam) {
 
+		playerModel.selectJoinedLeagues(user.userId, function (err, result) {
+
+			var transfer 	  = [],
+				joinedLeagues = [];
+
+			eachAsync(result, function (item, index, eachDone) {
+
+				if (item.leagueStatus == 'end') {
+					joinedLeagues.push(item);
+				}else if (item.leagueStatus == 'before'){
+					transfer.push(item);
+				}
+				eachDone();
+			}, function (error) {
+				if (err) return console.error('err : ', err);
+
+				user.createTeam    = createTeam;
+				user.transfer      = transfer;
+				user.joinedLeagues = joinedLeagues;
+
+				next();
+			});
+		});
+	});
+
+};
 
 
 
