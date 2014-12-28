@@ -104,6 +104,13 @@
 		<% include ../layout/defaultPlugins %>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 		<script src="/js/bootstrap-select.js"></script>
+
+		<% include ../js/updatePositionSqaudNumberJs %>
+
+		<% include ../js/removePlayerInClubJs %>
+
+		<% include ../js/insertPlayerValidatorJs %>
+
 		<script>
 			//포메이션으로 이동
 			$("#getFormation").click( function (e) {
@@ -211,13 +218,6 @@
 					this.src = '/images/default/defaultClub.png';
 				}
 			});
-
-			<% include ../js/updatePositionSqaudNumberJs %>
-
-			<% include ../js/removePlayerInClubJs %>
-
-			<% include ../js/insertPlayerValidatorJs %>
-
 
 			//구지 첨부터 특정포지션 설정해놓는게 낫지 않을까???
 			// $('#updatePosition')
