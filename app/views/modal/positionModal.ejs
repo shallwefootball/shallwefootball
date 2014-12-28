@@ -1,20 +1,20 @@
 
-<div class="modal fade updatePosition" tabindex="-1" role="dialog" aria-labelledby="h4#updatePositionH4" aria-hidden="true">
+<div class="modal fade positionModal" tabindex="-1" role="dialog" aria-labelledby="h4#positionTitle" aria-hidden="true">
 
-	<form id="updatePosition" class="form" action="/updatePosition" method="post" role="form">
+	<form id="position" class="form" action="/position" method="post" role="form">
 
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title" id="updatePositionH4"><strong>새로운 포지션</strong></h4>
+					<h4 class="modal-title" id="positionTitle"><strong>error</strong> - 새로운 포지션</h4>
 				</div>
 
 				<div class="modal-body">
 
 					<center>
 						<p>현재 포지션</p>
-						<span class="badge" style="font-size:26px;"><%= user.position %></span></a>
+						<span class="text-muted" style="font-size:26px;"></span>
 					</center>
 
 					<br>
