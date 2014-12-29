@@ -34,7 +34,7 @@ Route
 	.get    ('/myInfo',     		user.myInfoView)
 	.put    ('/password',			user.password)
 	.put    ('/profileImg', 		user.profileImg)
-	.post   ('/submitClub/:clubId', user.insertPlayer, authenticate.login)
+	.post   ('/submitClub/:clubId', user.insertPlayer)
 
 	//team
 	.post   ('/league/:leagueId/team', 		 	   team.team)
