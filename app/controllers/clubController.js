@@ -88,7 +88,7 @@ exports.clubDetailView = function (req, res) {
 	});
 };
 
-exports.insertPlayer = function (req, res) {
+exports.insertUserPlayer = function (req, res) {
 
 	// 중복되는 이메일..
 	// new user..
@@ -139,7 +139,8 @@ exports.insertPlayer = function (req, res) {
 						position,
 						matchPosition,
 						newPlayerOrderNumber,
-						status
+						status,
+						null// transfer
 					];
 
 					playerModel.insertPlayer(playerData, function (err, result) {
