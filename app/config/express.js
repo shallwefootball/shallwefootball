@@ -20,6 +20,10 @@ module.exports = function(app, express, passport) {
     app.use(methodOverride());
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded());
+
+    app.use(express.static(path.join(__dirname, '../..', 'public')));
+    app.use('/images', express.static(path.join(__dirname, '../..', 'public/images')));
+
     app.use(cookieParser('notagoodsecretnoreallydontusethisone'));
     app.use(session());
     app.use(passport.initialize());
@@ -27,8 +31,6 @@ module.exports = function(app, express, passport) {
         maxAge: new Date(Date.now() + 3600000)
     }));
     app.use(flash());
-    app.use(express.static(path.join(__dirname, '../..', 'public')));
-    app.use('/images', express.static(path.join(__dirname, '../..', 'public/images')));
 
     // routes 폴더의 index.js 로 이동
     app.use(routes);

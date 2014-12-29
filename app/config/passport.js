@@ -2,7 +2,12 @@ var path            = require('path'),
 	async           = require('async'),
 	LocalStrategy   = require('passport-local').Strategy,
 	bcrypt          = require('bcryptjs'),
-	userModel       = require('../models/userModel');
+	userModel       = require('../models/userModel'),
+	teamModel		= require('../models/teamModel'),
+	playerModel		= require('../models/playerModel');
+
+var eachAsync 	= require('each-async');
+
 
 module.exports = function(passport) {
 
@@ -12,12 +17,42 @@ module.exports = function(passport) {
 
 	passport.deserializeUser(function (email, done) {
 
+		console.log('deserializeUser called...........');
+
 		userModel.selectUser(email, function(err, user){
 
 			delete user.password;
 
-			done(err, user);
-		});
+
+			//set user config
+			teamModel.selectCreateTeam(user.userId, function (err, createTeam) {
+
+				playerModel.selectJoinedLeagues(user.userId, function (err, result) {
+
+					var transfer 	  = [],
+						joinedLeagues = [];
+
+					eachAsync(result, function (item, index, eachDone) {
+
+						if (item.leagueStatus == 'end') {
+							joinedLeagues.push(item);
+						}else if (item.leagueStatus == 'before'){
+							transfer.push(item);
+						}
+						eachDone();
+					}, function (error) {
+						if (err) return console.error('err : ', err);
+
+						user.createTeam    = createTeam;
+						user.transfer      = transfer;
+						user.joinedLeagues = joinedLeagues;
+
+						done(err, user);
+
+					});
+				});
+			});
+	    });
 	});
 
 	passport.use('local-login', new LocalStrategy({

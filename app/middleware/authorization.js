@@ -23,8 +23,7 @@ exports.requiresLogin = function (req, res, next) {
 	//인증되면 로그인과 동시에 user정보 뿌려줌
 	if (req.isAuthenticated()) {
 
-		console.log('authorization     : ', req.session.user);
-		res.locals.user = req.session.user;
+		res.locals.user = req.user;
 		next();
 	}
 
