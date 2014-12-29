@@ -12,8 +12,6 @@ var eachAsync 	= require('each-async');
 
 exports.loginView = function (req, res) {
 
-	console.log('login session     : ', req.session);
-
 	res.render('../views/player/login', { message: req.flash('loginMessage') });
 };
 
@@ -25,12 +23,6 @@ exports.signupView = function (req, res) {
 
 
 exports.login = function (req, res, next) {
-
-	// passport.authenticate('local-login', {
-	// 	successRedirect: '/',
-	// 	failureRedirect: '/login',
-	// 	failureFlash: true
-	// })(req, res, next);
 
 	passport.authenticate('local-login', function(err, user, info) {
 	    if (err) { return next(err); }
