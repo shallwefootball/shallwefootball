@@ -4,17 +4,17 @@
 			<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
 			<br>
 			<br>
-			<h3 class="media-heading">레헵</h3>
-			<p><small>1988/02/03</small>
+			<h3 class="media-heading"><%= user.playerName %></h3>
+			<p><small><%= user.birthday %></small>
 				<br>
-				test@gmail.com
+				<%= user.email %>
 			</p>
 		</center>
 		<center>
 
 			<table class="table">
 				<caption>
-					<h5 class="text-left">이적판</h5>
+					<h5 class="text-left">이적판 - </h5>
 				</caption>
 				<thead>
 					<tr>
@@ -26,6 +26,46 @@
 					</tr>
 				</thead>
 				<tbody>
+					<% user.transfer.forEach(function (item, index) { %>
+						<tr>
+							<td>
+								<%= item.season %> <%= item.community %>
+							</td>
+							<td>
+								<%= item.teamName %>
+							</td>
+							<% switch(item.playerStatus) {
+								case "starting" || "sub" || "excepted" : %>
+									<td></td>
+									<td>완료</td>
+									<td>
+										<span class="glyphicon glyphicon-saved"></span>
+									</td>
+								<% break;
+								case "loveCall" : %>
+									<td>러브콜</td>
+									<td>
+										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=""></span>
+									</td>
+								<% break;
+								case "submit" : %>
+									<td>요청중</td>
+									<td>취소?</td>
+								<% break;
+								case "reject" : %>
+									<td>거부함</td>
+									<td></td>
+								<% break;
+								case "rejected" : %>
+									<td>거절됨</td>
+									<td></td>
+								<% break;
+							} %>
+
+						</tr>
+
+
+					<% }); %>
 					<tr>
 						<td>2015 여주</td>
 						<td>무진</td>
@@ -48,9 +88,9 @@
 			</table>
 
 
-			<table class="table">
+			<table class="table" id="playerStat">
 				<caption>
-					<h5 class="text-left">career - </h5>
+					<h5 class="text-left">Career - </h5>
 				</caption>
 				<thead>
 					<tr>
@@ -75,32 +115,40 @@
 						<td>in</td>
 						<td>goalScored</td>
 						<td>penaltyScored</td>
-						<td class="hidden-xs"> ownGoal</td>
-						<td class="hidden-xs"> penaltyMissed</td>
-						<td class="hidden-xs"> yellowCard</td>
-						<td class="hidden-xs"> redCard</td>
-						<td class="hidden-xs"> secondYellowCard</td>
+						<td class="hidden-xs">ownGoal</td>
+						<td class="hidden-xs">penaltyMissed</td>
+						<td class="hidden-xs">yellowCard</td>
+						<td class="hidden-xs">redCard</td>
+						<td class="hidden-xs">secondYellowCard</td>
 					</tr>
 					<tr>
 						<td colspan="11">
-							<p class="text-right"><small>(c) - captain</small></p>
+							<p class="text-right"><small><span class="text-danger">(c)</span> - captain</small></p>
 						</td>
 					</tr>
 				</tfoot>
 				<tbody>
-					<tr>
-						<td>season (c)</td>
-						<td>played</td>
-						<td>out</td>
-						<td>in</td>
-						<td>goalScored</td>
-						<td>penaltyScored</td>
-						<td class="hidden-xs"> ownGoal</td>
-						<td class="hidden-xs"> penaltyMissed</td>
-						<td class="hidden-xs"> yellowCard</td>
-						<td class="hidden-xs"> redCard</td>
-						<td class="hidden-xs"> secondYellowCard</td>
-					</tr>
+					<% user.joinedLeagues.forEach(function (item, index) { %>
+						<tr>
+
+							<td>
+								<%= item.season %> <%= item.community %>
+								<% if (item.leader) { %>
+									<span class="text-danger"> (c)</span>
+								<% } %>
+							</td>
+							<td><%= item.played %></td>
+							<td><%= item.out %></td>
+							<td><%= item.in %></td>
+							<td><%= item.goalScored %></td>
+							<td><%= item.penaltyScored %></td>
+							<td class="hidden-xs"><%= item.ownGoal %></td>
+							<td class="hidden-xs"><%= item.penaltyMissed %></td>
+							<td class="hidden-xs"><%= item.yellowCard %></td>
+							<td class="hidden-xs"><%= item.redCard %></td>
+							<td class="hidden-xs"><%= item.secondYellowCard %></td>
+						</tr>
+					<% }); %>
 				</tbody>
 			</table>
 

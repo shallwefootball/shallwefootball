@@ -9,8 +9,10 @@
 			th, td {
 				text-align: center;
 			}
-			.glyphicon-remove, .glyphicon-pencil{
+			.glyphicon {
 				font-size: 1.2em; /* size lager */
+			}
+			.glyphicon-remove, .glyphicon-pencil {
 				cursor: pointer;
 			}
 		</style>
@@ -79,6 +81,17 @@
 		<% include ../layout/defaultPlugins %>
 
 		<script>
+			// table sum
+			$("#playerStat tfoot tr:first td:not(:first)").text(function(i){
+			    var total = 0;
+
+			    $("#playerStat tbody").find("td:nth-child("+(i+2)+")").each(function(){
+
+			        total += parseInt( $(this).text(), 10 ) || 0;
+			    });
+			    return total;
+			});
+
 
 		</script>
 	</body>
