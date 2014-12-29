@@ -7,10 +7,12 @@ var fs 			= require('fs'),
 	teamModel	= require('../models/teamModel'),
 	folderAPI   = require('./API/folderAPI');
 
-var eachAsync 		= require('each-async');
+var eachAsync 	= require('each-async');
 
 
 exports.loginView = function (req, res) {
+
+	console.log('login session     : ', req.session);
 
 	res.render('../views/player/login', { message: req.flash('loginMessage') });
 };
@@ -24,15 +26,59 @@ exports.signupView = function (req, res) {
 
 exports.login = function (req, res, next) {
 
-	passport.authenticate('local-login', {
-		successRedirect: '/',
-		failureRedirect: '/login',
-		failureFlash: true
+	// passport.authenticate('local-login', {
+	// 	successRedirect: '/',
+	// 	failureRedirect: '/login',
+	// 	failureFlash: true
+	// })(req, res, next);
+
+	passport.authenticate('local-login', function(err, user, info) {
+	    if (err) { return next(err); }
+	    if (!user) { return res.redirect('/login'); }
+	    req.logIn(user, function(err) {
+			if (err) return next(err);
+
+			console.log('authenticate info    : ', info);
+
+			//set user config
+			teamModel.selectCreateTeam(user.userId, function (err, createTeam) {
+
+				playerModel.selectJoinedLeagues(user.userId, function (err, result) {
+
+					var transfer 	  = [],
+						joinedLeagues = [];
+
+					eachAsync(result, function (item, index, eachDone) {
+
+						if (item.leagueStatus == 'end') {
+							joinedLeagues.push(item);
+						}else if (item.leagueStatus == 'before'){
+							transfer.push(item);
+						}
+						eachDone();
+					}, function (error) {
+						if (err) return console.error('err : ', err);
+
+						user.createTeam    = createTeam;
+						user.transfer      = transfer;
+						user.joinedLeagues = joinedLeagues;
+
+
+						req.session.user = user;
+						console.log('set user    : ', req.session.user);
+
+						return res.redirect('/');
+					});
+				});
+			});
+	    });
 	})(req, res, next);
+
 };
 
 exports.logout = function (req, res) {
 
+	delete req.session.user;
 	req.logout();
 	res.redirect('/');
 };
@@ -93,39 +139,6 @@ exports.signout = function (req, res, next) {
 	});
 };
 
-
-exports.setUser = function (req, res, next) {
-
-	var user = req.user;
-
-	teamModel.selectCreateTeam(user.userId, function (err, createTeam) {
-
-		playerModel.selectJoinedLeagues(user.userId, function (err, result) {
-
-			var transfer 	  = [],
-				joinedLeagues = [];
-
-			eachAsync(result, function (item, index, eachDone) {
-
-				if (item.leagueStatus == 'end') {
-					joinedLeagues.push(item);
-				}else if (item.leagueStatus == 'before'){
-					transfer.push(item);
-				}
-				eachDone();
-			}, function (error) {
-				if (err) return console.error('err : ', err);
-
-				user.createTeam    = createTeam;
-				user.transfer      = transfer;
-				user.joinedLeagues = joinedLeagues;
-
-				next();
-			});
-		});
-	});
-
-};
 
 
 

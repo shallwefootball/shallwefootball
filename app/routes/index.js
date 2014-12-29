@@ -19,7 +19,7 @@ var Auth 		 = require('../middleware/authorization'),
 Route
 	.get    ('/*', Auth.requiresLogin)
 
-	.get    ('/', authenticate.setUser, league.renderLeagueView)
+	.get    ('/', league.renderLeagueView)
 
 
 	//auth
