@@ -132,3 +132,29 @@ exports.password = function (req, res){
 
 }
 
+exports.insertPlayer = function (req, res) {
+
+    var playerData = [
+        req.user.userId,
+        req.params.clubId,
+        null, //sqaudNumber
+        req.body.position,
+        req.body.position,
+        null, //orderNumber
+        'wait', //status
+        'submit' //transfer
+    ];
+
+    playerModel.insertPlayer(playerData, function (err, result) {
+
+        if(result.affectedRows > 0) {
+
+            res.redirect('/');
+        }else {
+            console.log("insertPlayer fali..... in userController..");
+        }
+    });
+
+
+}
+

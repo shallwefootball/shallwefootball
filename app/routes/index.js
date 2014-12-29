@@ -31,9 +31,10 @@ Route
 	.delete ('/signout', authenticate.signout)
 
 	//user
-	.get    ('/myInfo',     user.myInfoView)
-	.put    ('/password',   user.password)
-	.put    ('/profileImg', user.profileImg)
+	.get    ('/myInfo',     		user.myInfoView)
+	.put    ('/password',			user.password)
+	.put    ('/profileImg', 		user.profileImg)
+	.post   ('/submitClub/:clubId', user.insertPlayer, authenticate.login)
 
 	//team
 	.post   ('/league/:leagueId/team', 		 	   team.team)
@@ -42,7 +43,7 @@ Route
 	//club
 	.get    ('/myClub/:clubId', 			   club.myClubView)		//개발준비...
 	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
-	.post   ('/club/:clubId/player',  		   club.insertPlayer)
+	.post   ('/club/:clubId/player',  		   club.insertUserPlayer)
 
 	//player
 	.post   ('/signupClub',  		   player.signupClub)

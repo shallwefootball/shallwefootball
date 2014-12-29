@@ -18,47 +18,72 @@
 				</caption>
 				<thead>
 					<tr>
+						<th></th>
 						<th>시즌</th>
 						<th>클럽</th>
-						<th>형태</th>
-						<th>상태</th>
-						<th>사인</th>
+						<th>확인</th>
 					</tr>
 				</thead>
 				<tbody>
 					<% user.transfer.forEach(function (item, index) { %>
 						<tr>
-							<td>
-								<%= item.season %> <%= item.community %>
-							</td>
-							<td>
-								<%= item.teamName %>
-							</td>
 							<% switch(item.playerStatus) {
-								case "starting" || "sub" || "excepted" : %>
-									<td></td>
-									<td>완료</td>
-									<td>
-										<span class="glyphicon glyphicon-saved"></span>
-									</td>
+								case "transfered" : %>
+									<% switch(item.transfer) {
+										case "loveCalled" : %>
+											<td>러브콜</td>
+											<td>
+												<%= item.season %> <%= item.community %>
+											</td>
+											<td>
+												<%= item.teamName %>
+											</td>
+											<td>
+												<span class="glyphicon glyphicon-ok text-success"></span>
+											</td>
+										<% break;
+										case "submit" : %>
+											<td>가입요청</td>
+											<td>
+												<%= item.season %> <%= item.community %>
+											</td>
+											<td>
+												<%= item.teamName %>
+											</td>
+											<td>
+												<span class="glyphicon glyphicon-ok text-success"></span>
+											</td>
+										<% break;
+									} %>
 								<% break;
-								case "loveCall" : %>
-									<td>러브콜</td>
-									<td>
-										<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=""></span>
-									</td>
-								<% break;
-								case "submit" : %>
-									<td>요청중</td>
-									<td>취소?</td>
-								<% break;
-								case "reject" : %>
-									<td>거부함</td>
-									<td></td>
-								<% break;
-								case "rejected" : %>
-									<td>거절됨</td>
-									<td></td>
+								case "wait" : %>
+									<% switch(item.transfer) {
+										case "loveCalled" : %>
+											<td>러브콜</td>
+											<td>
+												<%= item.season %> <%= item.community %>
+											</td>
+											<td>
+												<%= item.teamName %>
+											</td>
+											<td>
+												<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=""></span>
+											</td>
+										<% break;
+										case "submit" : %>
+											<td>가입요청</td>
+											<td>
+												<%= item.season %> <%= item.community %>
+											</td>
+											<td>
+												<%= item.teamName %>
+											</td>
+											<td>
+												대기중..
+												<!-- <span class="glyphicon glyphicon-remove text-danger" data-toggle="modal" data-target=""></span> -->
+											</td>
+										<% break;
+									} %>
 								<% break;
 							} %>
 
@@ -67,22 +92,35 @@
 
 					<% }); %>
 					<tr>
+						<td>t러브콜</td>
 						<td>2015 여주</td>
 						<td>무진</td>
-						<td>러브콜</td>
-						<td>대기중</td>
 						<td>
 							<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=""></span>
 						</td>
 					</tr>
 					<tr>
+						<td>t이적요청</td>
 						<td>2015 여주</td>
 						<td>승성</td>
-						<td>이적요청</td>
-						<td>대기중</td>
+						<td>요청 대기중..</td>
+					</tr>
+					<tr>
+						<td>t이적요청</td>
+						<td>2015 여주</td>
+						<td>승성</td>
 						<td>
-							<!-- <span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=""></span> -->
+							<span class="glyphicon glyphicon-remove text-danger" data-toggle="modal" data-target=""></span>
 						</td>
+					</tr>
+					<tr>
+						<td>t
+							<span class="glyphicon glyphicon-heart-empty text-danger" data-toggle="modal" data-target=""></span>
+							콜
+						</td>
+						<td>2015 여주</td>
+						<td>승성</td>
+						<td>거부함</td>
 					</tr>
 				</tbody>
 			</table>
