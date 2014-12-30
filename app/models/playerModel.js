@@ -61,7 +61,7 @@ exports.selectJoinedLeagues = function (userId, callback){
 exports.insertPlayer = function (data, callback){
     db.pool.acquire(function (err, conn){
         if(err) return console.error('err : ', err);
-        conn.query('insert into player (userId, clubId, squadNumber, position, matchPosition, orderNumber, status, transfer) values (?, ?, ?, ?, ?, ?, ?, ?)', data, function(err, result) {
+        conn.query('insert into player (userId, clubId, squadNumber, position, matchPosition, orderNumber, status, transferStatus, transfer) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', data, function(err, result) {
             if (err) return console.error('err : ', err);
 
             if (result.affectedRows == 1) {

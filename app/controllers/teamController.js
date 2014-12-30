@@ -57,7 +57,7 @@ exports.joinLeagueLeader = function (req, res, next){
 				orderNumber = 0,
 				status = 'starting';
 
-			var playerData = [userId, clubId, squadNumber, position, matchPosition, orderNumber, status, null];
+			var playerData = [userId, clubId, squadNumber, position, matchPosition, orderNumber, status, null, null];
 			console.log('player data    : ', playerData);
 
 

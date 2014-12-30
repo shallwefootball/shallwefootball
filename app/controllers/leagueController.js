@@ -54,7 +54,9 @@ exports.joinLeague = function (req, res) {
 					item.position,
 					item.matchPosition,
 					item.orderNumber,
-					item.status
+					item.status,
+					null,
+					null
 				];
 
 				playerModel.insertPlayer(playerData, function (err, result){

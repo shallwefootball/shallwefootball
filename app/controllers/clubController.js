@@ -148,6 +148,7 @@ exports.insertUserPlayer = function (req, res) {
 						matchPosition,
 						newPlayerOrderNumber,
 						status,
+						null// transferStatus,
 						null// transfer
 					];
 

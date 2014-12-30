@@ -141,7 +141,8 @@ exports.insertPlayer = function (req, res) {
         req.body.position,
         req.body.position,
         null, //orderNumber
-        'wait', //status
+        null, //status
+        'wait' //transferStatus,
         'submit' //transfer
     ];
 

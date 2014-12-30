@@ -25,7 +25,7 @@ exports.signupClub = function (req, res){
 			status = "excepted";
 		}
 
-		var data        = [ userId, clubId, squadNumber, position, matchPosition, orderNumber, status ];
+		var data        = [ userId, clubId, squadNumber, position, matchPosition, orderNumber, status, null, null ];
 		console.log('data     : ', data);
 
 		playerModel.insertPlayer(data, function(err, result){
