@@ -36,6 +36,39 @@
 	<body>
 		<% include ../layout/navbar %>
 		<div class="container">
+			<%
+				// --- 클럽 ---
+				//리더
+				//신규플레이어	()
+				//기존 등록이된 플레이어 (starting, sub, excepted)
+				//가입요청온 플레이어 (submit)
+				//러브콜이 간 플레이어 (loveCall)
+				//이적이완료된 플레이어 (transfered)
+
+				// --- 리그 ---
+				// 시작전.
+				// 진행중.
+				// 끝
+				// 이적시장.
+				if (user.transfer) {
+					user.transfer.forEach(function (item, index) {
+
+						switch (item.playerStatus) {
+							//이적상태	 -- 완료
+							case 'transfered' : break;
+							//이적상태	 -- 대기
+							case 'wait' :
+								switch (item.transfer) {
+									case 'submit' : break;
+									case 'loveCall' : break;
+								}
+								break;
+							//기존회원 -- 등록됨
+							case 'starting' || 'sub' || 'excepted' : break;
+						}
+					});
+				}
+			%>
 
 			<% include ../layout/joinedUser %>
 
@@ -56,13 +89,21 @@
 				<% } %>
 			</div>
 
-			<%	if (league.status == 'before') { %>
-				<% if (user.userId === club.leaderId) { %>
-					<% include editPlayer %>
 
-				<% }else { %>
-					<% include playerStat %>
-				<% } %>
+
+			<%	if (league.status == 'before') { %>
+				<% 	//리더
+					if (user.userId === club.leaderId) {
+				%>
+						<% include editPlayer %>
+
+				<%
+					}else {
+				%>
+						<% include playerStat %>
+				<%
+					}
+				%>
 
 			<% }else { %>
 				<% include playerStat %>
@@ -76,21 +117,24 @@
 
 			<%	if (league.status == 'before') { %>
 
-				<% if (user.clubId === club.clubId && !(user.userId === club.leaderId)) { %>
+				<%
+					switch (club.userStatus) {
+						case 'new' : %>
+							<a type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target=".submitClubModal">
+								이 클럽에 가입요청
+							</a>
+						<% break;
+						case 'wait' : %>
 
-					<!-- <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updatePosition">포지션 수정 </button>
-					<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".squadNumber">스쿼드넘버 수정 </button> -->
-					<button type="button" class="btn btn-danger btn-lg btn-block" id="signoutClub">이 클럽 탈퇴 </button>
+						<% break;
+						case 'joined' : %>
+							<!-- <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updatePosition">포지션 수정 </button>
+							<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".squadNumber">스쿼드넘버 수정 </button> -->
 
-					<div class="bs-callout">
-						<h5>리그가 시작되면 탈퇴할 수 없습니다.</h5>
-					</div>
+						<% break;
+					}
+				%>
 
-				<% }else if (!(user.userId === club.leaderId)) { %>
-					<a type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target=".submitClubModal">
-						이 클럽에 가입요청
-					</a>
-				<% } %>
 			<%	}	/* end before */%>
 
 			<% include ../modal/submitClubModal %>
@@ -150,6 +194,7 @@
 
 			});
 
+			//<button type="button" class="btn btn-danger btn-lg btn-block" id="signoutClub">이 클럽 탈퇴 </button>
 			$("#signoutClub").click(function(e) {
 				$.ajax({
 					type        : 'delete',
