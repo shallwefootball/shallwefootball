@@ -30,7 +30,7 @@
 							<% switch(item.playerStatus) {
 								case "transfered" : %>
 									<% switch(item.transfer) {
-										case "loveCalled" : %>
+										case "loveCall" : %>
 											<td>러브콜</td>
 											<td>
 												<%= item.season %> <%= item.community %>
@@ -58,7 +58,7 @@
 								<% break;
 								case "wait" : %>
 									<% switch(item.transfer) {
-										case "loveCalled" : %>
+										case "loveCall" : %>
 											<td>러브콜</td>
 											<td>
 												<%= item.season %> <%= item.community %>
