@@ -8,11 +8,80 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th>시즌</th>
-					<th>클럽</th>
+					<th>이름</th>
+					<th>포지션</th>
 					<th>확인</th>
 				</tr>
 			</thead>
+			<tbody>
+				<% club.transferList.forEach(function (item, index) { %>
+
+					<tr>
+						<% switch(item.status) {
+							case "transfered" : %>
+								<% switch(item.transfer) {
+									case "loveCalled" : %>
+										<td>러브콜</td>
+										<td>
+											<%= item.playerName %>
+										</td>
+										<td>
+											<%= item.position %>
+										</td>
+										<td>
+											<span class="glyphicon glyphicon-ok text-success"></span>
+										</td>
+									<% break;
+									case "submit" : %>
+										<td>가입요청</td>
+										<td>
+											<%= item.playerName %>
+										</td>
+										<td>
+											<%= item.position %>
+										</td>
+										<td>
+											<span class="glyphicon glyphicon-ok text-success"></span>
+										</td>
+									<% break;
+								} %>
+							<% break;
+							case "wait" : %>
+								<% switch(item.transfer) {
+									case "loveCalled" : %>
+										<td>러브콜</td>
+										<td>
+											<%= item.playerName %>
+										</td>
+										<td>
+											<%= item.position %>
+										</td>
+										<td>
+											대기중..
+										</td>
+									<% break;
+									case "submit" : %>
+										<td>가입요청</td>
+										<td>
+											<%= item.playerName %>
+										</td>
+										<td>
+											<%= item.position %>
+										</td>
+										<td>
+											<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=""></span>
+											<!-- <span class="glyphicon glyphicon-remove text-danger" data-toggle="modal" data-target=""></span> -->
+										</td>
+									<% break;
+								} %>
+							<% break;
+						} %>
+
+					</tr>
+
+
+				<% }); %>
+			</tbody>
 			<tbody>
 				<tr>
 					<td>t가입요청</td>
