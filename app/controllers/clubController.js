@@ -41,32 +41,40 @@ exports.clubDetailView = function (req, res) {
 
 		}else{
 
-			clubModel.selectPlayersInClubForLeague(clubId, leagueId, function (err, players) {
-				var GK = [];
-				var DF = [];
-				var MF = [];
-				var FW = [];
-				var squadNumbers = [];
+			playerModel.selectPlayerListForLeague(clubId, leagueId, function (err, players) {
+				var GK			 = [],
+					DF			 = [],
+					MF			 = [],
+					FW			 = [],
+					squadNumbers = [],
+					transferList = [];
 
 				for (var i = 0; i < players.length; i++) {
 
 					squadNumbers.push(players[i].squadNumber);
 
-					switch (players[i].position) {
-						case "GK" : GK.push(players[i]); break;
-						case "DF" : DF.push(players[i]); break;
-						case "MF" : MF.push(players[i]); break;
-						case "FW" : FW.push(players[i]); break;
-						default : break;
+					if (players[i].status == 'starting' || players[i].status == 'sub' || players[i].status == 'excepted') {
+
+						switch (players[i].position) {
+							case "GK" : GK.push(players[i]); break;
+							case "DF" : DF.push(players[i]); break;
+							case "MF" : MF.push(players[i]); break;
+							case "FW" : FW.push(players[i]); break;
+							default : break;
+						}
+					}else {
+
+						transferList.push(players[i]);
 					}
 				}
 
 				club.squadNumbers = squadNumbers;
-				club.players = {};
-				club.players.GK = GK;
-				club.players.DF = DF;
-				club.players.MF = MF;
-				club.players.FW = FW;
+				club.transferList = transferList;
+				club.players 	  = {};
+				club.players.GK   = GK;
+				club.players.DF   = DF;
+				club.players.MF   = MF;
+				club.players.FW   = FW;
 
 				clubModel.selectClubStatDetail(clubId, function (err, clubStat) {
 
