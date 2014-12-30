@@ -27,7 +27,7 @@
 				<tbody>
 					<% user.transfer.forEach(function (item, index) { %>
 						<tr>
-							<% switch(item.playerStatus) {
+							<% switch(item.transferStatus) {
 								case "transfered" : %>
 									<% switch(item.transfer) {
 										case "loveCall" : %>
@@ -42,7 +42,7 @@
 												<span class="glyphicon glyphicon-ok text-success"></span>
 											</td>
 										<% break;
-										case "submit" : %>
+										case "requestCall" : %>
 											<td>가입요청</td>
 											<td>
 												<%= item.season %> <%= item.community %>
@@ -70,7 +70,7 @@
 												<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=""></span>
 											</td>
 										<% break;
-										case "submit" : %>
+										case "requestCall" : %>
 											<td>가입요청</td>
 											<td>
 												<%= item.season %> <%= item.community %>
@@ -91,7 +91,7 @@
 
 
 					<% }); %>
-					<tr>
+					<!-- <tr>
 						<td>t러브콜</td>
 						<td>2015 여주</td>
 						<td>무진</td>
@@ -121,7 +121,7 @@
 						<td>2015 여주</td>
 						<td>승성</td>
 						<td>거부함</td>
-					</tr>
+					</tr> -->
 				</tbody>
 			</table>
 

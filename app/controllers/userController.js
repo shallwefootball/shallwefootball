@@ -143,7 +143,7 @@ exports.insertPlayer = function (req, res) {
         null, //orderNumber
         null, //status
         'wait', //transferStatus,
-        'submit' //transfer
+        'requestCall' //transfer
     ];
 
     playerModel.insertPlayer(playerData, function (err, result) {
