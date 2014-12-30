@@ -37,107 +37,136 @@
 		<% include ../layout/navbar %>
 		<div class="container">
 			<%
-				// --- 클럽 ---
-				//리더
-				//신규플레이어	()
-				//기존 등록이된 플레이어 (starting, sub, excepted)
-				//가입요청온 플레이어 (submit)
-				//러브콜이 간 플레이어 (loveCall)
-				//이적이완료된 플레이어 (transfered)
+				// --- 클럽 --- club.userAuth
+				//1. 리더
+				//2. 신규선수(다른팀에 요청받거나, 해도 됨) new
+				//3. 기존 등록이된 플레이어 registered (starting, sub, excepted)는 waitLeague
 
-				// --- 리그 ---
+				//4. 가입요청온 플레이어 (requestCall)
+				//5. 러브콜이 간 플레이어 (loveCall)
+				//6. 이적이완료된 플레이어 (transfered)
+
+				// --- 리그 --- league.userJoined
 				// 시작전.
+					// 리그에 참가됨 (어떤클럽이던)
+					// 참가안됨
 				// 진행중.
 				// 끝
 				// 이적시장.
+
 				if (user.transfer) {
 					user.transfer.forEach(function (item, index) {
 
-						switch (item.playerStatus) {
-							//이적상태	 -- 완료
-							case 'transfered' : break;
-							//이적상태	 -- 대기
-							case 'wait' :
-								switch (item.transfer) {
-									case 'submit' : break;
-									case 'loveCall' : break;
-								}
-								break;
-							//기존회원 -- 등록됨
-							case 'starting' || 'sub' || 'excepted' : break;
+						// user의 이적할 클럽들중 보고있는 클럽과 같을경우.
+						if (item.clubId == club.clubId) {
+
+							switch (item.transferStatus) {
+								// 이적상태	 -- 완료
+								case 'transfered' :
+									club.userAuth = 'registered';
+									break;
+								// 이적상태	 -- 대기
+								case 'wait' :
+									switch (item.transfer) {
+										case 'requestCall' :
+											club.userAuth = 'requestCall';
+											break;
+										case 'loveCall' :
+											club.userAuth = 'loveCall';
+											break;
+									}
+									break;
+							}
+						// 다를경우는 가입을해야겠지
+						// 근데 waitLeague가 있으면 안되겠지?
+						// waitLeague는 오지않음 그러니까 new만 하면됨.
+						}else {
+							if(!club.userAuth) {
+								club.userAuth = 'new';
+							}
+							if (club.userAuth != "new") {
+								return;
+							}
+							club.userAuth = 'new';
 						}
 					});
 				}
+
+				var waitLeague = user.waitLeague[0];
+
+				if (waitLeague) {
+
+					if (waitLeague.clubId == club.clubId) {
+						club.userAuth = 'registered';
+					}else {
+						club.userAuth = 'anotherRegistered';
+					}
+
+					if (user.userId == club.leaderId) {
+						club.userAuth = 'leader';
+					}
+
+				}
 			%>
+
+			<% console.log("club       :   " , club); %>
+			<% console.log("league     :   " , league); %>
 
 			<% include ../layout/joinedUser %>
 
 			<% include ../layout/alertLeague %>
 
-			<div class="row">
-				<img id="teamLogo" class="center-block" src="/images/team/<%= club.teamId %>/image140.jpg">
-				<h3 class="text-center"><%= club.teamName %></h3>
-				<input id="clubNumber" type="hidden" value="<%= club.clubId %>">
-				<input id="playerId" type="hidden" value="<%= user.playerId %>">
-				<p class="text-muted text-center">리더 : <%= club.leaderName%> </p>
-				<!-- <p class="text-muted text-center">승률 : 30%(총 20경기 4승 3무 3패) !!더미</p> -->
-
-				<%	if (league.status == 'playing') { %>
-					<p class="text-center">
-						<button id="getFormation" class="btn btn-info btn-lg">Formation</button>
-					</p>
-				<% } %>
-			</div>
-
+			<% include clubInfo %>
 
 
 			<%	if (league.status == 'before') { %>
 				<% 	//리더
-					if (user.userId === club.leaderId) {
+					if (club.userAuth == 'leader') {
 				%>
+
+						<% include transfer %>
+
 						<% include editPlayer %>
 
-				<%
+				<%	// no leader
 					}else {
 				%>
-						<% include playerStat %>
+					<% include playerStat %>
+					<%
+						switch (club.userAuth) {
+							case 'new' : %>
+								<a type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target=".requestCallModal">
+									이 클럽에 가입요청
+								</a>
+							<% break;
+							case 'registered' : %>
+
+								<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updatePosition">포지션 수정 </button>
+								<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".squadNumber">스쿼드넘버 수정 </button>
+							<% break;
+							case 'requestCall' : %>
+								<h1>입단요청하고 대기중이여.</h1>
+							<% break;
+							case 'loveCall' : %>
+								<h1>이팀에서 러브콜 받았어 얼른 수락해.</h1>
+							<% break;
+						}
+					%>
 				<%
 					}
 				%>
 
-			<% }else { %>
+			<%	//not before.
+				}else {
+			%>
 				<% include playerStat %>
-			<% } %>
-
+			<%
+				}
+			%>
 
 			<% include ../layout/playerLim %>
 
-			<% console.log("club     :   " , club); %>
-			<% console.log("league     :   " , league); %>
-
-			<%	if (league.status == 'before') { %>
-
-				<%
-					switch (club.userStatus) {
-						case 'new' : %>
-							<a type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target=".submitClubModal">
-								이 클럽에 가입요청
-							</a>
-						<% break;
-						case 'wait' : %>
-
-						<% break;
-						case 'joined' : %>
-							<!-- <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updatePosition">포지션 수정 </button>
-							<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".squadNumber">스쿼드넘버 수정 </button> -->
-
-						<% break;
-					}
-				%>
-
-			<%	}	/* end before */%>
-
-			<% include ../modal/submitClubModal %>
+			<% include ../modal/requestCallModal %>
 
 			<% include ../layout/footer %>
 
@@ -251,7 +280,7 @@
 				});
 			});
 
-			//insert default image
+			// insert default image
 			$(".img-circle").each(function () {
 				if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
 					// image was broken, replace with your new image
@@ -293,7 +322,7 @@
 				//     }
 				// });
 
-			$('.submitClubModal form')
+			$('.requestCallModal form')
 		        .find('[name="position"]')
 		            .selectpicker()
 		            .change(function(e) {
