@@ -1,5 +1,6 @@
 var logger          = require('morgan');
 var path            = require('path');
+var favicon         = require('serve-favicon');
 var methodOverride  = require('method-override');
 var cookieParser    = require('cookie-parser');
 var bodyParser      = require('body-parser');
@@ -15,6 +16,8 @@ module.exports = function(app, express, passport) {
     app.set('views', path.join(__dirname, '..', 'views'));
     app.set('view engine', 'ejs');
 
+    app.use(favicon(path.join(__dirname, '../..', '/public/favicon.ico')));
+
     app.use(logger('dev'));
     app.use(multiparty());
     app.use(methodOverride());
@@ -22,7 +25,7 @@ module.exports = function(app, express, passport) {
     app.use(bodyParser.urlencoded());
 
     app.use(express.static(path.join(__dirname, '../..', 'public')));
-    app.use('/images', express.static(path.join(__dirname, '../..', 'public/images')));
+    // app.use('/images', express.static(path.join(__dirname, '../..', 'public/images')));
 
     app.use(cookieParser('notagoodsecretnoreallydontusethisone'));
     app.use(session());
