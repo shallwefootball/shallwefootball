@@ -5,6 +5,7 @@ var fs            = require('fs'),
 	config        = require('../config/config'),
 	clubModel     = require('../models/clubModel'),
 	userModel     = require('../models/userModel'),
+	playerModel   = require('../models/playerModel'),
 	leagueModel   = require('../models/leagueModel'),
 	setForeignKey = require('../models/setForeignKey'),
 	folderAPI     = require('../controllers/API/folderAPI');
@@ -42,12 +43,11 @@ exports.clubDetailView = function (req, res) {
 		}else{
 
 			playerModel.selectPlayerListForLeague(clubId, leagueId, function (err, players) {
-				var GK			 = [],
-					DF			 = [],
-					MF			 = [],
-					FW			 = [],
-					squadNumbers = [],
-					transferList = [];
+				var squadNumbers = [],
+					readyPlayers = [],
+					transfered   = [],
+					transfering  = [];
+
 
 				for (var i = 0; i < players.length; i++) {
 
@@ -55,26 +55,21 @@ exports.clubDetailView = function (req, res) {
 
 					if (players[i].status == 'starting' || players[i].status == 'sub' || players[i].status == 'excepted') {
 
-						switch (players[i].position) {
-							case "GK" : GK.push(players[i]); break;
-							case "DF" : DF.push(players[i]); break;
-							case "MF" : MF.push(players[i]); break;
-							case "FW" : FW.push(players[i]); break;
-							default : break;
-						}
+						readyPlayers.push(players[i]);
+
+					}else if (players[i].status == 'transfered') {
+
+						transfered.push(players[i]);
 					}else {
 
-						transferList.push(players[i]);
+						transfering.push(players[i]);
 					}
 				}
 
 				club.squadNumbers = squadNumbers;
-				club.transferList = transferList;
-				club.players 	  = {};
-				club.players.GK   = GK;
-				club.players.DF   = DF;
-				club.players.MF   = MF;
-				club.players.FW   = FW;
+				club.readyPlayers = readyPlayers;
+				club.transfered   = transfered;
+				club.transfering  = transfering;
 
 				clubModel.selectClubStatDetail(clubId, function (err, clubStat) {
 
@@ -170,6 +165,47 @@ exports.insertUserPlayer = function (req, res) {
 	});     //end selectPlayerEmail
 }
 
+exports.transferedPlayer = function (req, res) {
+	var userId        = req.user.userId;
+	var clubId        = req.body.clubId;
+	var position      = req.body.position;
+	var matchPosition = req.body.position;
+	var squadNumber   = req.body.squadNumber;
+
+	playerModel.selectOrderNumber (clubId, function (err, countResult) {
+		console.log('countResult       : ', countResult);
+		console.log('typeof countResult       : ', typeof countResult);
+		console.log('parseInt(countResult)       : ', parseInt(countResult));
+
+
+		var orderNumber = countResult.orderNumber++;
+		var status      = '';
+
+		if (orderNumber < 11) {
+			status = "starting";
+		}else if (orderNumber < 16 && orderNumber > 10) {
+			status = "sub";
+		}else if (orderNumber >= 16) {
+			status = "excepted";
+		}
+		//player Status 를 transfered로 두는 이유는 새로들어온 이적생들을 따로 보여주기위해서임.
+		// formation 부분수정하고 어차피 excepted하면됨
+
+		var data        = [ userId, clubId, squadNumber, position, matchPosition, orderNumber, status, null, null ];
+		console.log('data     : ', data);
+
+		playerModel.insertPlayer(data, function(err, result){
+
+			if(result.affectedRows > 0) {
+				res.redirect('back');
+			}else {
+				res.json({message : "클럽가입 실패입니다."});
+			}
+		});
+
+	})
+
+}
 
 
 
