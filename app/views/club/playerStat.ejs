@@ -38,37 +38,86 @@
 
 			<div class="row">
 
-				<div class="col-md-12">
-					<h3><span class="text-warning">GK</span> 골키퍼</h3>
-					<table class="table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>등번호</th>
-								<th class="playerName">이름</th>
-								<th>경기</th>
-								<th>out</th>
-								<th>in</th>
-								<th>득점</th>
-								<th>pk득점</th>
-								<th class="hidden-xs">자책골</th>
-								<th class="hidden-xs">pk실축</th>
-								<th class="hidden-xs">y카드</th>
-								<th class="hidden-xs">r카드</th>
-								<th class="hidden-xs">y2카드</th>
-							</tr>
-						</thead>
-						<tbody>
+				<caption>
+					<h4 class="text-left">Player - </h4>
+				</caption>
+				<table class="table">
+					<thead>
+						<tr>
+							<th></th>
+							<th>등번호</th>
+							<th>이름</th>
+							<th>경기</th>
+							<th>out</th>
+							<th>in</th>
+							<th>득점</th>
+							<th>pk득점</th>
+							<th class="hidden-xs">자책골</th>
+							<th class="hidden-xs">pk실축</th>
+							<th class="hidden-xs">y카드</th>
+							<th class="hidden-xs">r카드</th>
+							<th class="hidden-xs">y2카드</th>
+						</tr>
+					</thead>
 
-							<% club.players.GK.forEach(function(player) { %>
+					<tbody>
+
+						<%
+							var level = 0;
+							club.readyPlayers.forEach(function (player, index) {
+								switch (player.position) {
+									case 'GK' :
+										if (level == 0) { %>
+											<tr>
+												<td class="text-left" colspan="13">
+													<span class="text-warning" style="font-size:1.4em;">GK</span>
+												</td>
+											</tr>
+										<% level++;
+										}
+										break;
+									case 'DF' :
+										if (level == 1) { %>
+											<tr>
+												<td class="text-left" colspan="13">
+													<span class="text-success" style="font-size:1.4em;">DF</span>
+												</td>
+											</tr>
+										<% level++;
+										}
+										break;
+									case 'MF' :
+										if (level == 2) { %>
+											<tr>
+												<td class="text-left" colspan="13">
+													<span class="text-info" style="font-size:1.4em;">MF</span>
+												</td>
+											</tr>
+										<% level++;
+										}
+										break;
+									case 'FW' :
+										if (level == 3) { %>
+											<tr>
+												<td class="text-left" colspan="13">
+													<span class="text-danger" style="font-size:1.4em;">FW</span>
+												</td>
+											</tr>
+										<% level++;
+										}
+								 		break;
+								} %>
+
+							<% if (player.userId == user.userId) {%>
+								<tr class="info">
+							<% } else {  %>
 								<tr>
-									<td><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
-									<td><%= player.squadNumber %></td>
-									<td class="playerName">
-										<a data-toggle="modal" data-target="#playerLim">
-											<%= player.playerName %>
-										</a>
+							<% } %>
+									<td>
+										<img src="/images/default/defaultUser40.png" class="img-circle img-responsive" alt="A">
 									</td>
+									<td><%= player.squadNumber%></td>
+									<td><%= player.playerName%></td>
 									<td><%= player.played %></td>
 									<td><%= player.out %></td>
 									<td><%= player.in %></td>
@@ -80,144 +129,10 @@
 									<td class="hidden-xs"><%= player.redCard %></td>
 									<td class="hidden-xs"><%= player.secondYellowCard %></td>
 								</tr>
-							<% }) %>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-12">
-					<h3><span class="text-success">DF</span> 수비수</h3>
-					<table class="table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>등번호</th>
-								<th class="playerName">이름</th>
-								<th>경기</th>
-								<th>out</th>
-								<th>in</th>
-								<th>득점</th>
-								<th>pk득점</th>
-								<th class="hidden-xs">자책골</th>
-								<th class="hidden-xs">pk실축</th>
-								<th class="hidden-xs">y카드</th>
-								<th class="hidden-xs">r카드</th>
-								<th class="hidden-xs">y2카드</th>
-							</tr>
-						</thead>
-						<tbody>
-							<% club.players.DF.forEach(function(player) { %>
-								<tr>
-									<td><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
-									<td><%= player.squadNumber %></td>
-									<td class="playerName">
-										<a data-toggle="modal" data-target="#playerLim">
-											<%= player.playerName %>
-										</a>
-									</td>
-									<td><%= player.played %></td>
-									<td><%= player.out %></td>
-									<td><%= player.in %></td>
-									<td><%= player.goalScored %></td>
-									<td><%= player.penaltyScored %></td>
-									<td class="hidden-xs"><%= player.ownGoal %></td>
-									<td class="hidden-xs"><%= player.penaltyMissed %></td>
-									<td class="hidden-xs"><%= player.yellowCard %></td>
-									<td class="hidden-xs"><%= player.redCard %></td>
-									<td class="hidden-xs"><%= player.secondYellowCard %></td>
-								</tr>
-							<% }) %>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-12">
-					<h3><span class="text-primary">MF</span> 미드필더</h3>
-					<table class="table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>등번호</th>
-								<th class="playerName">이름</th>
-								<th>경기</th>
-								<th>out</th>
-								<th>in</th>
-								<th>득점</th>
-								<th>pk득점</th>
-								<th class="hidden-xs">자책골</th>
-								<th class="hidden-xs">pk실축</th>
-								<th class="hidden-xs">y카드</th>
-								<th class="hidden-xs">r카드</th>
-								<th class="hidden-xs">y2카드</th>
-							</tr>
-						</thead>
-						<tbody>
-							<% club.players.MF.forEach(function(player) { %>
-								<tr>
-									<td><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
-									<td><%= player.squadNumber %></td>
-									<td class="playerName">
-										<a data-toggle="modal" data-target="#playerLim">
-											<%= player.playerName %>
-										</a>
-									</td>
-									<td><%= player.played %></td>
-									<td><%= player.out %></td>
-									<td><%= player.in %></td>
-									<td><%= player.goalScored %></td>
-									<td><%= player.penaltyScored %></td>
-									<td class="hidden-xs"><%= player.ownGoal %></td>
-									<td class="hidden-xs"><%= player.penaltyMissed %></td>
-									<td class="hidden-xs"><%= player.yellowCard %></td>
-									<td class="hidden-xs"><%= player.redCard %></td>
-									<td class="hidden-xs"><%= player.secondYellowCard %></td>
-								</tr>
-							<% }) %>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-12">
-					<h3><span class="text-danger">FW</span> 공격수</h3>
-					<table class="table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>등번호</th>
-								<th class="playerName">이름</th>
-								<th>경기</th>
-								<th>out</th>
-								<th>in</th>
-								<th>득점</th>
-								<th>pk득점</th>
-								<th class="hidden-xs">자책골</th>
-								<th class="hidden-xs">pk실축</th>
-								<th class="hidden-xs">y카드</th>
-								<th class="hidden-xs">r카드</th>
-								<th class="hidden-xs">y2카드</th>
-							</tr>
-						</thead>
-						<tbody>
-							<% club.players.FW.forEach(function(player) { %>
-								<tr>
-									<td><img src="/images/user/<%= player.userId %>" class="img-circle img-responsive" alt="A"></td>
-									<td><%= player.squadNumber %></td>
-									<td class="playerName">
-										<a data-toggle="modal" data-target="#playerLim">
-											<%= player.playerName %>
-										</a>
-									</td>
-									<td><%= player.played %></td>
-									<td><%= player.out %></td>
-									<td><%= player.in %></td>
-									<td><%= player.goalScored %></td>
-									<td><%= player.penaltyScored %></td>
-									<td class="hidden-xs"><%= player.ownGoal %></td>
-									<td class="hidden-xs"><%= player.penaltyMissed %></td>
-									<td class="hidden-xs"><%= player.yellowCard %></td>
-									<td class="hidden-xs"><%= player.redCard %></td>
-									<td class="hidden-xs"><%= player.secondYellowCard %></td>
-								</tr>
-							<% }) %>
-						</tbody>
-					</table>
-				</div>
+						<% }); %>
+					</tbody>
+
+
+				</table>
 
 			</div>
