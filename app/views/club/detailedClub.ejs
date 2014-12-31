@@ -156,8 +156,18 @@
 							<% break;
 							case 'registered' : %>
 
-								<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".updatePosition">포지션 수정 </button>
-								<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target=".squadNumber">스쿼드넘버 수정 </button>
+								<button type="button" class="btn btn-lg btn-block positionSquad-btn" data-toggle="modal" data-target=".positionModal"
+								data-player-name="<%= club.myInfo[0].playerName %>"
+								data-player-id="<%= club.myInfo[0].playerId %>"
+								data-player-position="<%= club.myInfo[0].position %>">내 포지션 수정 </button>
+								<button type="button" class="btn btn-lg btn-block positionSquad-btn" data-toggle="modal" data-target=".squadNumberModal"
+								data-player-name="<%= club.myInfo[0].playerName %>"
+								data-player-id="<%= club.myInfo[0].playerId %>"
+								data-player-squadNumber="<%= club.myInfo[0].squadNumber %>">내 스쿼드넘버 수정 </button>
+
+								<% include ../modal/squadNumberModal %>
+								<% include ../modal/positionModal %>
+
 							<% break;
 							case 'requestCall' : %>
 								<h1>입단요청하고 대기중이여.</h1>

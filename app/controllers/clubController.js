@@ -43,13 +43,18 @@ exports.clubDetailView = function (req, res) {
 		}else{
 
 			playerModel.selectPlayerListForLeague(clubId, leagueId, function (err, players) {
-				var squadNumbers = [],
+				var myInfo		 = [],
+					squadNumbers = [],
 					readyPlayers = [],
 					transfered   = [],
 					transfering  = [];
 
 
 				for (var i = 0; i < players.length; i++) {
+
+					if(players[i].userId == req.user.userId){
+						myInfo.push(players[i]);
+					}
 
 					squadNumbers.push(players[i].squadNumber);
 
@@ -66,6 +71,7 @@ exports.clubDetailView = function (req, res) {
 					}
 				}
 
+				club.myInfo 	  = myInfo;
 				club.squadNumbers = squadNumbers;
 				club.readyPlayers = readyPlayers;
 				club.transfered   = transfered;
