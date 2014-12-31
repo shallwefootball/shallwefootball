@@ -88,6 +88,37 @@
 									} %>
 								</tr>
 							<% break;
+							case "reject" :
+							case "rejected" : %>
+								<tr class="danger">
+									<% switch(player.transfer) {
+										case "loveCall" : %>
+											<td>러브콜</td>
+											<td>
+												거절
+											</td>
+											<td>
+												<%= player.playerName %>
+											</td>
+											<td>
+												<%= player.position %>
+											</td>
+										<% break;
+										case "requestCall" : %>
+											<td>가입요청</td>
+											<td>
+												거절
+											</td>
+											<td>
+												<%= player.playerName %>
+											</td>
+											<td>
+												<%= player.position %>
+											</td>
+										<% break;
+									} %>
+								</tr>
+							<% break;
 						} %>
 
 				<% }); %>

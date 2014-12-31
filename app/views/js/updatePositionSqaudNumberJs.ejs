@@ -129,4 +129,38 @@
 
 	});
 
+	$('.reject-btn').click(function (e) {
+		var body 	 = $(this).parent().prev(),
+			playerId = $(body).find('input').val();
+			url		 = '/player/' + playerId;
+
+		$.ajax({
+			type        : 'PUT',
+			async       : true,
+			url         : url,
+			success     : function(data) {
+				switch (data.message) {
+
+					case "success" :
+						alert("요청을 거절했습니다.");
+						location.reload(); break;
+
+					case "fail" :
+						alert('실패했습니다.'); break;
+				}
+			},
+			error       : function(data, status, err) {
+				console.log("error forward : "+data);
+					alert('서버와의 통신이 실패했습니다.');
+			}
+		});
+
+	})
+
 </script>
+
+
+
+
+
+

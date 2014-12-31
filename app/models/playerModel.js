@@ -143,6 +143,18 @@ exports.updateTransferedPlayer = function (data, callback){
     });
 }
 
+exports.updateRejectPlayer = function (data, callback){
+
+    db.pool.acquire(function(err, conn) {
+        if(err) console.error('db - err : ', err);
+        conn.query('update player set transferStatus = "rejected" where playerId = ?', data, function(err, result) {
+            if(err) console.error('err : ', err);
+
+            callback(err, result);
+        });
+        db.pool.release(conn);
+    });
+}
 
 
 

@@ -203,6 +203,19 @@ exports.transferedPlayer = function (req, res) {
 
 }
 
+exports.rejectPlayer = function (req, res) {
+
+	playerModel.updateRejectPlayer(req.params.playerId, function (err, result) {
+
+		if(result.affectedRows > 0) {
+			res.json({message : "success"});
+		}else {
+			console.error('rejectPlayer fail..... ', result);
+			res.json({message : "fali"});
+		}
+	});
+}
+
 
 
 

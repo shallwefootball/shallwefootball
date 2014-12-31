@@ -45,6 +45,7 @@ Route
 	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
 	.post   ('/club/:clubId/player',  		   club.insertUserPlayer)
 	.put    ('/club/:clubId/player/:playerId', club.transferedPlayer)
+	.put    ('/player/:playerId', 			   club.rejectPlayer)
 
 	//player
 	.post   ('/signupClub',  		   player.signupClub)
