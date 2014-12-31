@@ -35,79 +35,79 @@
 	</head>
 	<body>
 		<% include ../layout/navbar %>
-		<div class="container">
-			<%
-				// --- 클럽 --- club.userAuth
-				//1. 리더
-				//2. 신규선수(다른팀에 요청받거나, 해도 됨) new
-				//3. 기존 등록이된 플레이어 registered (starting, sub, excepted)는 waitLeague
+		<%
+			// --- 클럽 --- club.userAuth
+			//1. 리더
+			//2. 신규선수(다른팀에 요청받거나, 해도 됨) new
+			//3. 기존 등록이된 플레이어 registered (starting, sub, excepted)는 waitLeague
 
-				//4. 가입요청온 플레이어 (requestCall)
-				//5. 러브콜이 간 플레이어 (loveCall)
-				//6. 이적이완료된 플레이어 (transfered)
+			//4. 가입요청온 플레이어 (requestCall)
+			//5. 러브콜이 간 플레이어 (loveCall)
+			//6. 이적이완료된 플레이어 (transfered)
 
-				// --- 리그 --- league.userJoined
-				// 시작전.
-					// 리그에 참가됨 (어떤클럽이던)
-					// 참가안됨
-				// 진행중.
-				// 끝
-				// 이적시장.
+			// --- 리그 --- league.userJoined
+			// 시작전.
+				// 리그에 참가됨 (어떤클럽이던)
+				// 참가안됨
+			// 진행중.
+			// 끝
+			// 이적시장.
 
-				if (user.transfer) {
-					user.transfer.forEach(function (item, index) {
+			if (user.transfer) {
+				user.transfer.forEach(function (item, index) {
 
-						// user의 이적할 클럽들중 보고있는 클럽과 같을경우.
-						if (item.clubId == club.clubId) {
+					// user의 이적할 클럽들중 보고있는 클럽과 같을경우.
+					if (item.clubId == club.clubId) {
 
-							switch (item.transferStatus) {
-								// 이적상태	 -- 완료
-								case 'transfered' :
-									club.userAuth = 'registered';
-									break;
-								// 이적상태	 -- 대기
-								case 'wait' :
-									switch (item.transfer) {
-										case 'requestCall' :
-											club.userAuth = 'requestCall';
-											break;
-										case 'loveCall' :
-											club.userAuth = 'loveCall';
-											break;
-									}
-									break;
-							}
-						// 다를경우는 가입을해야겠지
-						// 근데 waitLeague가 있으면 안되겠지?
-						// waitLeague는 오지않음 그러니까 new만 하면됨.
-						}else {
-							if(!club.userAuth) {
-								club.userAuth = 'new';
-							}
-							if (club.userAuth != "new") {
-								return;
-							}
+						switch (item.transferStatus) {
+							// 이적상태	 -- 완료
+							case 'transfered' :
+								club.userAuth = 'registered';
+								break;
+							// 이적상태	 -- 대기
+							case 'wait' :
+								switch (item.transfer) {
+									case 'requestCall' :
+										club.userAuth = 'requestCall';
+										break;
+									case 'loveCall' :
+										club.userAuth = 'loveCall';
+										break;
+								}
+								break;
+						}
+					// 다를경우는 가입을해야겠지
+					// 근데 waitLeague가 있으면 안되겠지?
+					// waitLeague는 오지않음 그러니까 new만 하면됨.
+					}else {
+						if(!club.userAuth) {
 							club.userAuth = 'new';
 						}
-					});
+						if (club.userAuth != "new") {
+							return;
+						}
+						club.userAuth = 'new';
+					}
+				});
+			}
+
+			var waitLeague = user.waitLeague[0];
+
+			if (waitLeague) {
+
+				if (waitLeague.clubId == club.clubId) {
+					club.userAuth = 'registered';
+				}else {
+					club.userAuth = 'anotherRegistered';
 				}
 
-				var waitLeague = user.waitLeague[0];
-
-				if (waitLeague) {
-
-					if (waitLeague.clubId == club.clubId) {
-						club.userAuth = 'registered';
-					}else {
-						club.userAuth = 'anotherRegistered';
-					}
-
-					if (user.userId == club.leaderId) {
-						club.userAuth = 'leader';
-					}
-
+				if (user.userId == club.leaderId) {
+					club.userAuth = 'leader';
 				}
-			%>
+
+			}
+		%>
+		<div class="container">
 
 			<% console.log("club       :   " , club); %>
 			<% console.log("league     :   " , league); %>
@@ -124,9 +124,24 @@
 					if (club.userAuth == 'leader') {
 				%>
 
-						<% include transfer %>
+						<% include transfering %>
+
+						<% include transfered %>
 
 						<% include editPlayer %>
+
+						<% include ../modal/responseCallModal %>
+
+						<% include ../modal/squadNumberModal %>
+
+						<% include ../modal/positionModal %>
+
+						<% include ../modal/confirmLeagueOutModal %>
+
+						<% include ../modal/addPlayerModal %>
+
+						<% include ../modal/confirmPlayerOutModal %>
+
 
 				<%	// no leader
 					}else {
@@ -284,7 +299,7 @@
 			$(".img-circle").each(function () {
 				if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
 					// image was broken, replace with your new image
-					this.src = '/images/default/defaultUser.png';
+					this.src = '/images/default/defaultUser40.png';
 				}
 			});
 
@@ -293,6 +308,40 @@
 					// image was broken, replace with your new image
 					this.src = '/images/default/defaultClub.png';
 				}
+			});
+
+			$('.responseCallModal form').submit(function (e){
+
+				console.log('success submit');
+				// Prevent form submission
+				e.preventDefault();
+
+				// var $form = $(e.target);
+
+				// $.ajax({
+				// 	type        : 'PUT',
+				// 	async       : true,
+				// 	url         : "",
+				// 	data        : $form.serialize(),
+				// 	success     : function(data) {
+				// 		switch (data.message) {
+
+				// 			case "success" :
+				// 				alert("포지션이 변경되었습니다.");
+				// 				location.reload(); break;
+
+				// 			case "fail" :
+
+				// 				alert('실패했습니다.'); break;
+				// 		}
+
+				// 	},
+				// 	error       : function(data, status, err) {
+				// 		console.log("error forward : "+data);
+				// 			alert('서버와의 통신이 실패했습니다.');
+				// 	}
+				// });
+
 			});
 
 			//구지 첨부터 특정포지션 설정해놓는게 낫지 않을까???
@@ -345,6 +394,50 @@
 		                    validators: {
 		                        notEmpty: {
 		                            message: '포지션을 선택해야합니다.'
+		                        }
+		                    }
+		                }
+					}
+				})
+
+			$('.responseCallModal form')
+		        .find('[name="position"]')
+		            .selectpicker()
+		            .change(function(e) {
+		                // revalidate the language when it is changed
+		                $('#bootstrapSelectForm').bootstrapValidator('revalidateField', 'position');
+		            })
+		            .end()
+		        .find('[name="squadNumber"]')
+		            .selectpicker()
+		            .change(function(e) {
+		                // revalidate the language when it is changed
+		                $('#bootstrapSelectForm').bootstrapValidator('revalidateField', 'squadNumber');
+		            })
+		            .end()
+				.bootstrapValidator({
+					// To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+					live : 'submitted',
+		            excluded: ':disabled',
+					feedbackIcons: {
+						valid: 'glyphicon glyphicon-ok',
+						invalid: 'glyphicon glyphicon-remove',
+						validating: 'glyphicon glyphicon-refresh'
+					},
+					fields: {
+		                position: {
+		                	feedbackIcons: 'false',
+		                    validators: {
+		                        notEmpty: {
+		                            message: '포지션을 선택해야합니다.'
+		                        }
+		                    }
+		                },
+		                squadNumber: {
+		                	feedbackIcons: 'false',
+		                    validators: {
+		                        notEmpty: {
+		                            message: '등번호를 선택해야합니다.'
 		                        }
 		                    }
 		                }
