@@ -2,15 +2,30 @@
 
 	//click glyphicon-pencil
 	$('.glyphicon-pencil').click(function (e) {
+
 		var playerId 	  = $(this).attr('data-player-id'),
+			clubId	 	  = $(this).attr('data-club-id'),
 			playerName 	  = $(this).attr('data-player-name'),
-			value 		  = $(this).attr('value'),
 			modal 		  = $(this).attr('data-target');
 
 		//set player
 		$(modal).find('[name="playerId"]').val(playerId);
-		$(modal).find('.modal-title').children('strong').text(playerName);
-		$(modal).find('.text-muted').text(value);
+		switch ($(e.target).attr('data-target')) {
+			case '.responseCallModal' :
+				$(modal).find('form').attr('action', "/club/" + clubId + "/player/" + playerId)
+				$(modal).find('.media-heading').text(playerName);
+				$(modal).find('.text-muted').text($(this).attr('data-player-position'));
+				break;
+			case '.squadNumberModal' :
+				$(modal).find('.modal-title').children('strong').text(playerName);
+				$(modal).find('.text-muted').text($(this).attr('data-player-squadNumber'));
+				 break;
+			case '.positionModal' :
+				$(modal).find('.modal-title').children('strong').text(playerName);
+				$(modal).find('.text-muted').text($(this).attr('data-player-position'));
+				break;
+		}
+
 
 	});
 
@@ -70,6 +85,38 @@
 
 					case "fail" :
 
+						alert('실패했습니다.'); break;
+				}
+
+			},
+			error       : function(data, status, err) {
+				console.log("error forward : "+data);
+					alert('서버와의 통신이 실패했습니다.');
+			}
+		});
+
+	});
+
+	$('.responseCallModal form').submit(function (e){
+
+		// Prevent form submission
+		e.preventDefault();
+
+		var $form = $(e.target);
+
+		$.ajax({
+			type        : 'PUT',
+			async       : true,
+			url         : $form.context.action,
+			data        : $form.serialize(),
+			success     : function(data) {
+				switch (data.message) {
+
+					case "success" :
+						alert("등록되었습니다.");
+						location.reload(); break;
+
+					case "fail" :
 						alert('실패했습니다.'); break;
 				}
 
