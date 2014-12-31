@@ -1,11 +1,14 @@
 <table class="table">
-
+	<caption>
+		<h4 class="text-left">Player - </h4>
+	</caption>
 	<thead>
 		<tr>
 			<th></th>
 			<th>등번호</th>
 			<th class="playerName">이름</th>
-			<th>수정</th>
+			<th>등번호 수정</th>
+			<th>포지션 수정</th>
 			<th>제외</th>
 		</tr>
 	</thead>
@@ -13,12 +16,12 @@
 
 		<%
 			var level = 0;
-			club.readyPlayers.forEach(function (item, index) {
-				switch (item.position) {
+			club.readyPlayers.forEach(function (player, index) {
+				switch (player.position) {
 					case 'GK' :
 						if (level == 0) { %>
 							<tr>
-								<td class="text-left" colspan="5">
+								<td class="text-left" colspan="6">
 									<span class="text-warning" style="font-size:1.4em;">GK</span>
 								</td>
 							</tr>
@@ -28,7 +31,7 @@
 					case 'DF' :
 						if (level == 1) { %>
 							<tr>
-								<td class="text-left" colspan="5">
+								<td class="text-left" colspan="6">
 									<span class="text-success" style="font-size:1.4em;">DF</span>
 								</td>
 							</tr>
@@ -38,7 +41,7 @@
 					case 'MF' :
 						if (level == 2) { %>
 							<tr>
-								<td class="text-left" colspan="5">
+								<td class="text-left" colspan="6">
 									<span class="text-info" style="font-size:1.4em;">MF</span>
 								</td>
 							</tr>
@@ -48,7 +51,7 @@
 					case 'FW' :
 						if (level == 3) { %>
 							<tr>
-								<td class="text-left" colspan="5">
+								<td class="text-left" colspan="6">
 									<span class="text-danger" style="font-size:1.4em;">FW</span>
 								</td>
 							</tr>
@@ -61,10 +64,23 @@
 					<td>
 						<img src="/images/default/defaultUser40.png" class="img-circle img-responsive" alt="A">
 					</td>
-					<td><%= item.squadNumber%></td>
-					<td><%= item.playerName%></td>
-					<td><span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-toggle="modal" data-target=".squadNumberModal" data-player-name="<%= item.playerName %>" data-player-id="<%= item.playerId %>" value="<%= item.squadNumber %>"></span></td>
-					<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= item.playerId %>" data-player-name="<%= item.playerName %>"></span></td>
+					<td><%= player.squadNumber%></td>
+					<td><%= player.playerName%></td>
+					<td>
+						<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
+						data-player-name="<%= player.playerName %>"
+						data-player-id="<%= player.playerId %>"
+						data-player-squadNumber="<%= player.squadNumber %>"
+						></span>
+					</td>
+					<td>
+						<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".positionModal"
+						data-player-name="<%= player.playerName %>"
+						data-player-id="<%= player.playerId %>"
+						data-player-position="<%= player.position %>"
+						></span>
+					</td>
+					<td><span class="glyphicon glyphicon-remove text-danger" data-player-id="<%= player.playerId %>" data-player-name="<%= player.playerName %>"></span></td>
 				</tr>
 		<% }); %>
 	</tbody>
