@@ -3,7 +3,7 @@
 
 		<table class="table">
 			<caption>
-				<h5 class="text-left">이적시장. </h5>
+				<h4 class="text-left">이적시장 - </h4>
 			</caption>
 			<thead>
 				<tr>
@@ -14,25 +14,25 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% club.transfering.forEach(function (item, index) { %>
+				<% club.transfering.forEach(function (player, index) { %>
 
-						<% switch(item.transferStatus) {
+						<% switch(player.transferStatus) {
 							case "transfered" : %>
 								<tr class="success">
-									<% switch(item.transfer) {
+									<% switch(player.transfer) {
 										case "loveCall" : %>
 											<td>러브콜</td>
 											<td>
 												완료 <span class="glyphicon glyphicon-ok text-success"></span>
 											</td>
 											<td>
-												<%= item.playerName %>
+												<%= player.playerName %>
 											</td>
 											<td>
-												<%= item.position %>
+												<%= player.position %>
 											</td>
 											<td>
-												<%= item.squadNumber ? item.squadNumber : "" %>
+												<%= player.squadNumber ? player.squadNumber : "" %>
 											</td>
 										<% break;
 										case "requestCall" : %>
@@ -41,10 +41,10 @@
 												완료 <span class="glyphicon glyphicon-ok text-success"></span>
 											</td>
 											<td>
-												<%= item.playerName %>
+												<%= player.playerName %>
 											</td>
 											<td>
-												<%= item.position %>
+												<%= player.position %>
 											</td>
 										<% break;
 									} %>
@@ -52,30 +52,37 @@
 							<% break;
 							case "wait" : %>
 								<tr>
-									<% switch(item.transfer) {
+									<% switch(player.transfer) {
 										case "loveCall" : %>
 											<td>러브콜</td>
 											<td>
 												대기중..
 											</td>
 											<td>
-												<%= item.playerName %>
+												<%= player.playerName %>
 											</td>
 											<td>
-												<%= item.position %>
+												<%= player.position %>
 											</td>
 										<% break;
 										case "requestCall" : %>
 											<td>가입요청</td>
-											<td>
+											<!-- <td>
 												<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".responseCallModal"></span>
-												<!-- <span class="glyphicon glyphicon-remove text-danger" data-toggle="modal" data-target=""></span> -->
+											</td> -->
+											<td>
+												<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".responseCallModal"
+												data-player-name="<%= player.playerName %>"
+												data-player-id="<%= player.playerId %>"
+												data-club-id="<%= club.clubId %>"
+												data-player-position="<%= player.position %>"
+												></span>
 											</td>
 											<td>
-												<%= item.playerName %>
+												<%= player.playerName %>
 											</td>
 											<td>
-												<%= item.position %>
+												<%= player.position %>
 											</td>
 										<% break;
 									} %>
@@ -85,36 +92,6 @@
 
 				<% }); %>
 			</tbody>
-			<!-- <tbody>
-				<tr>
-					<td>t가입요청</td>
-					<td>2015 여주</td>
-					<td>승성</td>
-					<td>
-						<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=""></span>
-					</td>
-				</tr>
-				<tr>
-					<td>t
-						<span class="glyphicon glyphicon-heart-empty text-danger" data-toggle="modal" data-target=""></span>
-						콜
-					</td>
-					<td>2015 여주</td>
-					<td>승성</td>
-					<td>
-						거부됨
-					</td>
-				</tr>
-				<tr>
-					<td>t
-						<span class="glyphicon glyphicon-heart-empty text-danger" data-toggle="modal" data-target=""></span>
-						콜
-					</td>
-					<td>2015 여주</td>
-					<td>승성</td>
-					<td>대기중..</td>
-				</tr>
-			</tbody> -->
 		</table>
 	</div>
 </div>
