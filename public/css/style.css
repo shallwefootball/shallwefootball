@@ -193,7 +193,11 @@ a:focus {
 }
 
 
-
+@media (max-width: 767px) {
+  .player-name {
+    width: 50px;
+  }
+}
 
 /* Responsive: Portrait tablets and up
 @media screen and (min-width: 768px) {

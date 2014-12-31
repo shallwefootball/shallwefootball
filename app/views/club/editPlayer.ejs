@@ -65,7 +65,7 @@
 						<img src="/images/default/defaultUser40.png" class="img-circle img-responsive" alt="A">
 					</td>
 					<td><%= player.squadNumber%></td>
-					<td><%= player.playerName%></td>
+					<td class="player-name"><a data-toggle="modal" data-target="#playerLim"><%= player.playerName %></a></td>
 					<td>
 						<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=".squadNumberModal"
 						data-player-name="<%= player.playerName %>"
@@ -86,10 +86,13 @@
 	</tbody>
 </table>
 
-
+<!--
+<button type="button" class="btn btn-success btn-lg btn-block searchPlayer">
+	선수검색 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+</button> -->
 
 <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target=".addPlayerModal">
-	선수추가 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+	새로운 선수추가 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 </button>
 <br>
 <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target=".confirmLeagueOutModal">
