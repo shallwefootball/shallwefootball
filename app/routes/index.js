@@ -44,6 +44,7 @@ Route
 	.get    ('/myClub/:clubId', 			   club.myClubView)		//개발준비...
 	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
 	.post   ('/club/:clubId/player',  		   club.insertUserPlayer)
+	.put    ('/club/:clubId/player/:playerId', club.transferedPlayer)
 
 	//player
 	.post   ('/signupClub',  		   player.signupClub)

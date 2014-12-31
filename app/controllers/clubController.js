@@ -116,9 +116,7 @@ exports.insertUserPlayer = function (req, res) {
 
 				playerModel.selectOrderNumber (req.params.clubId, function (err, countResult) {
 
-					var newPlayerOrderNumber = countResult.orderNumber + 1;
-
-					console.log('연산되었나요??? newPlayerOrderNumber       : ,', newPlayerOrderNumber);
+					var orderNumber = countResult.orderNumber + 1;
 
 					var newUserId     		 = newUser.insertId,
 						clubId        		 = req.params.clubId,
@@ -127,11 +125,11 @@ exports.insertUserPlayer = function (req, res) {
 						matchPosition 		 = req.body.position,
 						status 				 = '';
 
-					if (newPlayerOrderNumber < 11) {
+					if (orderNumber < 11) {
 						status = "starting";
-					}else if (newPlayerOrderNumber < 16 && newPlayerOrderNumber > 10) {
+					}else if (orderNumber < 16 && orderNumber > 10) {
 						status = "sub";
-					}else if (newPlayerOrderNumber >= 16) {
+					}else if (orderNumber >= 16) {
 						status = "excepted";
 					}
 
@@ -141,7 +139,7 @@ exports.insertUserPlayer = function (req, res) {
 						squadNumber,
 						position,
 						matchPosition,
-						newPlayerOrderNumber,
+						orderNumber,
 						status,
 						null, 	// transferStatus
 						null 	// transfer
@@ -166,44 +164,42 @@ exports.insertUserPlayer = function (req, res) {
 }
 
 exports.transferedPlayer = function (req, res) {
-	var userId        = req.user.userId;
-	var clubId        = req.body.clubId;
-	var position      = req.body.position;
-	var matchPosition = req.body.position;
-	var squadNumber   = req.body.squadNumber;
 
-	playerModel.selectOrderNumber (clubId, function (err, countResult) {
-		console.log('countResult       : ', countResult);
-		console.log('typeof countResult       : ', typeof countResult);
-		console.log('parseInt(countResult)       : ', parseInt(countResult));
+	playerModel.selectOrderNumber (req.params.clubId, function (err, countResult) {
 
+		var orderNumber = countResult.orderNumber + 1;
 
-		var orderNumber = countResult.orderNumber++;
-		var status      = '';
+		var playerId       = req.params.playerId,
+			position       = req.body.position,
+			matchPosition  = req.body.position,
+			squadNumber    = req.body.squadNumber,
+			status 		   = 'transfered',
+			transferStatus = 'transfered';
 
-		if (orderNumber < 11) {
-			status = "starting";
-		}else if (orderNumber < 16 && orderNumber > 10) {
-			status = "sub";
-		}else if (orderNumber >= 16) {
-			status = "excepted";
-		}
-		//player Status 를 transfered로 두는 이유는 새로들어온 이적생들을 따로 보여주기위해서임.
+		// player Status 를 transfered로 두는 이유는 새로들어온 이적생들을 따로 보여주기위해서임.
 		// formation 부분수정하고 어차피 excepted하면됨
 
-		var data        = [ userId, clubId, squadNumber, position, matchPosition, orderNumber, status, null, null ];
-		console.log('data     : ', data);
+		var data        = [
+			squadNumber,
+			position,
+			matchPosition,
+			orderNumber,
+			status,
+			transferStatus,
+			playerId
+		];
 
-		playerModel.insertPlayer(data, function(err, result){
+		playerModel.updateTransferedPlayer(data, function (err, result) {
 
 			if(result.affectedRows > 0) {
-				res.redirect('back');
+				res.json({message : "success"});
 			}else {
-				res.json({message : "클럽가입 실패입니다."});
+				console.error('transfered fail..... ', result);
+				res.json({message : "fali"});
 			}
 		});
 
-	})
+	});
 
 }
 

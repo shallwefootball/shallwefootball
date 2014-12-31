@@ -115,9 +115,7 @@ exports.updatePosition = function (playerId, position, callback){
         });
         db.pool.release(conn);
     });
-
 }
-
 
 exports.updateSquadNumber = function (playerId, squadNumber, callback){
 
@@ -130,7 +128,19 @@ exports.updateSquadNumber = function (playerId, squadNumber, callback){
         });
         db.pool.release(conn);
     });
+}
 
+exports.updateTransferedPlayer = function (data, callback){
+
+    db.pool.acquire(function(err, conn) {
+        if(err) console.error('db - err : ', err);
+        conn.query('update player set squadNumber = ?, position = ?, matchPosition = ?, orderNumber = ?, status = ?, transferStatus = ? where playerId = ?', data, function(err, result) {
+            if(err) console.error('err : ', err);
+
+            callback(err, result);
+        });
+        db.pool.release(conn);
+    });
 }
 
 
