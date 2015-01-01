@@ -39,7 +39,8 @@ module.exports = function(passport) {
 							joinedLeagues.push(item);
 
 						//	playerStatus null이면 현재 이적협상중이거나, 거절된겁니다.
-						}else if (item.leagueStatus == 'before' && item.playerStatus != null){
+						//	end가 아니면 현재 리그시작전이거나 진행중입니다.
+						}else if (item.leagueStatus != 'end' && item.playerStatus != null){
 							currentLeague.push(item);
 						}else {
 							transfer.push(item);
