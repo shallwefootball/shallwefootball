@@ -176,10 +176,18 @@ td > a {
 td > a:hover {
 	text-decoration: underline;
 }
-.glyphicon-remove, .glyphicon-pencil{
+
+/*--------------------------------------------
+custom glyphicon  */
+.glyphicon {
 	font-size: 1.2em; /* size lager */
+}
+.glyphicon-remove, .glyphicon-pencil {
 	cursor: pointer;
 }
+
+/*--------------------------------------------
+bootstrtap-select  */
 .bootstrap-select > .btn {
 	/* 이거 bootstrap default select box 맞춰주는거야 꼭필요*/
 	padding: 6px 12px !important;

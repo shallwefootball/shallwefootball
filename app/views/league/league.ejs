@@ -2,30 +2,12 @@
 <html>
 	<head>
 		<% include ../layout/head %>
-		<style>
-			.table tbody>tr>td {
-				vertical-align: middle;
-			}
-			th, td {
-				text-align: center;
-			}
-			.glyphicon {
-				font-size: 1.2em; /* size lager */
-			}
-			.glyphicon-remove, .glyphicon-pencil {
-				cursor: pointer;
-			}
-		</style>
 	</head>
 	<body>
 
 		<% include ../layout/navbar %>
 
 		<div class="container">
-
-
-			<% include ../layout/player %>
-
 
 			<h4 class="text-left">League -  </h4>
 
@@ -47,35 +29,10 @@
 
 			</div>
 
-			<div class="row">
 
-				<div class="col-md-6">
-					<a href="/league/4/match">
-						<div class="panel panel-warning">
-							<div class="panel-heading">
-								<h3 class="panel-title">여주 2013/14</h3>
-							</div>
-							<div class="panel-body">
-								종료된 리그입니다.
-							</div>
-						</div>
-					</a>
-				</div>
+			<% include ../layout/player %>
 
-				<div class="col-md-6">
-					<a href="/league/1/match">
-						<div class="panel panel-warning">
-							<div class="panel-heading">
-								<h3 class="panel-title">여주 2014</h3>
-							</div>
-							<div class="panel-body">
-								종료된 리그입니다.
-							</div>
-						</div>
-					</a>
-				</div>
 
-			</div>
 
 			<% include ../layout/footer %>
 
