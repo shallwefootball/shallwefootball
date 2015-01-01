@@ -12,7 +12,6 @@
 			<h4 class="text-left">League -  </h4>
 
 			<div class="row">
-
 				<div class="col-md-12">
 					<a href="/league/5/match">
 						<div class="panel panel-info">
@@ -21,18 +20,32 @@
 							</div>
 							<div class="panel-body">
 								<h4>명단 수정기간입니다.</h4>
-								<p class="text-center">지금부터 <strong>2015년 3월 14일 19:00</strong> 까지.</p>
+								<p class="text-center"><strong>2015년 3월 14일 19:00</strong> 까지.</p>
 							</div>
 						</div>
 					</a>
 				</div>
-
 			</div>
 
+			<div class="row">
+				<div class="col-md-12">
+					<center>
+						<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+						<br>
+						<br>
+						<h3 class="media-heading"><%= user.playerName %></h3>
+						<p><small><%= user.birthday %></small>
+							<br>
+							<%= user.email %>
+						</p>
+					</center>
 
-			<% include ../layout/player %>
+					<% include ../table/playerTransferTable %>
 
+					<% include ../table/playerCareerTable %>
 
+				</div>
+			</div>
 
 			<% include ../layout/footer %>
 
@@ -43,16 +56,15 @@
 
 		<script>
 			// table sum
-			$("#playerStat tfoot tr:first td:not(:first)").text(function(i){
+			$("#playerCareer tfoot tr:first td:not(:first)").text(function(i){
 			    var total = 0;
 
-			    $("#playerStat tbody").find("td:nth-child("+(i+2)+")").each(function(){
+			    $("#playerCareer tbody").find("td:nth-child("+(i+2)+")").each(function(){
 
 			        total += parseInt( $(this).text(), 10 ) || 0;
 			    });
 			    return total;
 			});
-
 
 		</script>
 	</body>
