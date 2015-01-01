@@ -1,82 +1,36 @@
-/* Global */
+/*--------------------------------------------
+Global */
 body {
 	padding-top: 45px;
 	/*45패딩이 빵부스러기 위치임*/
 	padding-bottom: 20px;
 }
-
 body .container {
 	margin-top: 20px;
 }
-
 .header,
 .marketing,
 .footer {
 	padding-right: 15px;
 	padding-left: 15px;
 }
-
 h4 strong,
 h5 strong {
 	color: #f04124;
 }
-
 .modal-header h4 strong {
 	color: #fff;
 }
-
 a {
 	color: #3c3c3e;
 }
-
 a:hover,
 a:focus {
 	text-decoration: none;
 }
 
 /*--------------------------------------------
-Serach */
-#search {
-	margin-top: 5px;
-}
-
-#results {
-	width: 209px;
-	margin-top: 45px;
-	position: fixed;
-	z-index: 300;
-}
-
-
-
-.modal-body .container {
-	margin-top: 0px;
-}
-
-/*.panel {
-	border: 0px solid;
-}
-.panel-body {
-	background-color: #f4f4f4;
-	border-top: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	border-left: 1px solid #ddd;
-}
-.panel-footer {
-	text-align: center;
-	color: #fff;
-	background-color: #8a8a90;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 0px;
-}
-*/
-
-.modal-header {
-	background-color: #f04124;
-	color: #fff;
-}
-
-/* navbar */
+navbar */
 .navbar .container-fluid {
 	max-width: 730px;
 }
@@ -96,11 +50,39 @@ Serach */
 	background-color: #3c3c3e;
 }
 
+/*--------------------------------------------
+Serach */
+#search {
+	margin-top: 5px;
+}
 
+#results {
+	width: 209px;
+	margin-top: 45px;
+	position: fixed;
+	z-index: 300;
+}
 
+/*--------------------------------------------
+modal */
+.modal-body .container {
+	margin-top: 0px;
+}
 
-/* match Timeline */
+.modal-header {
+	background-color: #f04124;
+	color: #fff;
+}
 
+/*--------------------------------------------
+jumbotron  */
+.jumbotron {
+	text-align: center;
+	/*border-bottom: 1px solid #e5e5e5;*/
+}
+
+/*--------------------------------------------
+match Timeline */
 .bs-callout+.bs-callout {
 	margin-top: -5px;
 }
@@ -117,12 +99,9 @@ Serach */
 	border-left-width: 5px;
 	border-radius: 3px;
 }
-
-
 .bs-callout {
 	border-left-width: 4px !important;
 }
-
 .bs-callout h2,
 .bs-callout h3,
 .bs-callout h4,
@@ -132,10 +111,11 @@ Serach */
 	color: #222 !important;
 }
 
+/*--------------------------------------------
+panel */
 .panel-title .badge {
 	cursor: pointer;
 }
-
 .panel-body h2,
 .panel-body h3,
 .panel-body h4,
@@ -144,22 +124,20 @@ Serach */
 	text-align: center;
 }
 
-
-
-/* 홈팀어웨이팀 아닐때 버튼*/
+/*--------------------------------------------
+홈팀어웨이팀 아닐때 버튼 */
 .btn-white {
 	background-color: white;
 	border: 1px solid;
 }
-
 .btn-white:hover,
 .btn-white:focus {
 	background-color: #e7e7e7;
 	text-decoration: none;
 }
 
-
-/* login signup */
+/*--------------------------------------------
+login signup */
 .logo {
 	display: block;
 	margin-left: auto;
@@ -167,7 +145,6 @@ Serach */
 	margin-top: 10px;
 	margin-bottom: 18px;
 }
-
 #loginbox,
 #signupbox {
 	margin-top: 50px;
@@ -176,19 +153,40 @@ Serach */
 #signupbox .panel-body {
 	padding-top: 30px;
 }
-
 .input-group {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
 
-
-/* jumbotron */
-.jumbotron {
+/*--------------------------------------------
+table, table image  */
+.table tbody>tr>td {
+	vertical-align: middle;
+}
+img.img-circle {
+	margin: 0 auto;
+}
+th, td {
 	text-align: center;
-	/*border-bottom: 1px solid #e5e5e5;*/
+}
+td > a {
+	color: #008CBA;
+	cursor: pointer;
+}
+td > a:hover {
+	text-decoration: underline;
+}
+.glyphicon-remove, .glyphicon-pencil{
+	font-size: 1.2em; /* size lager */
+	cursor: pointer;
+}
+.bootstrap-select > .btn {
+	/* 이거 bootstrap default select box 맞춰주는거야 꼭필요*/
+	padding: 6px 12px !important;
 }
 
+/*--------------------------------------------
+footer  */
 .footer {
 	padding-top: 19px;
 	color: #777;
@@ -198,15 +196,16 @@ Serach */
 	border-top-color: #E5E5E5;
 }
 
-
- /*Customize container*/
+/*--------------------------------------------
+Customize container  */
 @media (min-width: 768px) {
 	.container {
 		max-width: 730px;
 	}
 }
 
-
+/*--------------------------------------------
+player name  */
 @media (max-width: 767px) {
   .player-name {
     width: 50px;
@@ -231,5 +230,4 @@ Serach */
 		border-bottom: 0;
 	}
 }
-
 
