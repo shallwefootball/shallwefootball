@@ -30,7 +30,7 @@ module.exports = function(passport) {
 				playerModel.selectJoinedLeagues(user.userId, function (err, result) {
 
 					var transfer 	  = [],
-						waitLeague	  = [],
+						currentLeague = [],
 						joinedLeagues = [];
 
 					eachAsync(result, function (item, index, eachDone) {
@@ -40,7 +40,7 @@ module.exports = function(passport) {
 
 						//	playerStatus null이면 현재 이적협상중이거나, 거절된겁니다.
 						}else if (item.leagueStatus == 'before' && item.playerStatus != null){
-							waitLeague.push(item);
+							currentLeague.push(item);
 						}else {
 							transfer.push(item);
 						}
@@ -50,7 +50,7 @@ module.exports = function(passport) {
 
 						user.createTeam    = createTeam;
 						user.transfer      = transfer;
-						user.waitLeague    = waitLeague;
+						user.currentLeague = currentLeague;
 						user.joinedLeagues = joinedLeagues;
 
 						done(err, user);

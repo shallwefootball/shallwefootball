@@ -9,7 +9,7 @@
 			// --- 클럽 --- club.userAuth
 			//1. 리더
 			//2. 신규선수(다른팀에 요청받거나, 해도 됨) new
-			//3. 기존 등록이된 플레이어 registered (starting, sub, excepted)는 waitLeague
+			//3. 기존 등록이된 플레이어 registered (starting, sub, excepted)는 currentLeague
 
 			//4. 가입요청온 플레이어 (requestCall)
 			//5. 러브콜이 간 플레이어 (loveCall)
@@ -61,11 +61,11 @@
 				});
 			}
 
-			var waitLeague = user.waitLeague[0];
+			var currentLeague = user.currentLeague[0];
 
-			if (waitLeague) {
+			if (currentLeague) {
 
-				if (waitLeague.clubId == club.clubId) {
+				if (currentLeague.clubId == club.clubId) {
 					club.userAuth = 'registered';
 				}else {
 					club.userAuth = 'anotherRegistered';
