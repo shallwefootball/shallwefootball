@@ -197,13 +197,16 @@
 				</tfoot>
 				<tbody>
 					<% user.joinedLeagues.forEach(function (item, index) { %>
-						<tr>
+						<tr class="text-muted">
 
 							<td>
-								<%= item.season %> <%= item.community %>
-								<% if (item.leader) { %>
-									<span class="text-danger"> (c)</span>
-								<% } %>
+								<a href="/league/<%= item.leagueId%>/match">
+									<%= item.season %> <%= item.community %>
+									<% if (item.leader) { %>
+										<span class="text-danger"> (c)</span>
+									<% } %>
+								</a>
+								종료
 							</td>
 							<td><%= item.played %></td>
 							<td><%= item.out %></td>
