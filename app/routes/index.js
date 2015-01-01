@@ -13,13 +13,16 @@ var Auth 		 = require('../middleware/authorization'),
 	record       = require('../controllers/recordController'),
 	match        = require('../controllers/matchController'),
 	admin        = require('../controllers/adminController'),
-	league       = require('../controllers/leagueController');
+	league       = require('../controllers/leagueController'),
+	search       = require('../controllers/searchController');
 
 //front-end route
 Route
 	.get    ('/*', Auth.requiresLogin)
 
 	.get    ('/', league.renderLeagueView)
+
+	.get 	('/search/:query', search.player)
 
 
 	//auth

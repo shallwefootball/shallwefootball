@@ -34,6 +34,20 @@ a:focus {
 	text-decoration: none;
 }
 
+/*--------------------------------------------
+Serach */
+#search {
+	margin-top: 5px;
+}
+
+#results {
+	width: 209px;
+	margin-top: 45px;
+	position: fixed;
+	z-index: 300;
+}
+
+
 
 .modal-body .container {
 	margin-top: 0px;

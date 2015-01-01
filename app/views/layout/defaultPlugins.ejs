@@ -48,4 +48,56 @@
 	    });
 	}
 
+
+	// Live Search
+	// On Search Submit and Get Results
+	function search() {
+		var query_value = $('input#search').val();
+			url = "/search/" + query_value
+		$('b#search-string').text(query_value);
+		if(query_value !== ''){
+			$.ajax({
+				type: "get",
+				url: url,
+				cache: false,
+				success: function(players){
+
+					var html = '';
+
+				    for (var i = 0; i < players.length; i++) {
+						// html += '<li class="players">';
+						html += '<a href="#" class="list-group-item">';
+						html += '<h4 class="list-group-item-heading">' + players[i].playerName + '</h4>';
+						html += '<p class="list-group-item-text">' + players[i].teamName + '</p>';
+						html += '</a>';
+				    };
+
+					$("div#results").html(html);
+				}
+			});
+		}return false;
+	}
+
+	$("input#search").on("keyup", function(e) {
+		// Set Timeout
+		clearTimeout($.data(this, 'timer'));
+
+		// Set Search String
+		var search_string = $(this).val();
+
+		// Do Search
+		if (search_string == '') {
+			$("div#results").fadeOut();
+			$('p#results-text').fadeOut();
+		}else{
+			$("div#results").fadeIn();
+			$('p#results-text').fadeIn();
+			$(this).data('timer', setTimeout(search, 100));
+		};
+	}).on("focusout", function (e){
+		console.log('focusout~~~!!!');
+		$("div#results").fadeOut();
+		$('p#results-text').fadeOut();
+	});
+
 </script>

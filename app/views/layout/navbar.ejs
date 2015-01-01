@@ -16,8 +16,17 @@
 				<ul class="nav navbar-nav navbar-right">
 					<% console.log('locals.user in navbar        :  ', locals.user) %>
 					<!-- <li><a href="/myInfo">내정보</a></li> -->
+					<li>
+						<input type="text" id="search" class="form-control hidden-xs" placeholder="선수검색" autocomplete="off">
+					</li>
+					<div class="list-group" id="results"></div>
+					<!-- <div id="search-result"> -->
+						<!-- <p id="results-text" class="text-muted" style="display:none;">Showing results for: <b id="search-string">Array</b></p> -->
+					<!-- </div> -->
 					<li><a href="/logout">로그아웃</a></li>
 				</ul>
 			</div>
 		</div>
 	</header>
+
+
