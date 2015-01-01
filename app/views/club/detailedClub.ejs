@@ -2,36 +2,6 @@
 <html>
 	<head>
 		<% include ../layout/head %>
-		<style>
-			.table tbody>tr>td {
-				vertical-align: middle;
-			}
-			img.img-circle {
-				margin: 0 auto;
-			}
-			th, td {
-				text-align: center;
-			}
-			td > a {
-				color: #008CBA;
-				cursor: pointer;
-			}
-			td > a:hover {
-				text-decoration: underline;
-			}
-			.playerName {
-				/*width: 50px;*/
-			}
-			.glyphicon-remove, .glyphicon-pencil{
-				font-size: 1.2em; /* size lager */
-				cursor: pointer;
-			}
-			.bootstrap-select > .btn {
-				/* 이거 bootstrap default select box 맞춰주는거야 꼭필요*/
-				padding: 6px 12px !important;
-			}
-		</style>
-
 	</head>
 	<body>
 		<% include ../layout/navbar %>
@@ -319,34 +289,6 @@
 					this.src = '/images/default/defaultClub.png';
 				}
 			});
-
-
-			//구지 첨부터 특정포지션 설정해놓는게 낫지 않을까???
-			// $('#updatePosition')
-				// .find('[name="position"]')
-				//     .selectpicker()
-				//     .change(function(e) {
-				//         // revalidate the language when it is changed
-				//         $('#updatePosition').bootstrapValidator('revalidateField', 'position');
-				//     })
-				//     .end()
-				// .bootstrapValidator({
-				//     excluded: ':disabled',
-				//     feedbackIcons: {
-				//         valid: 'glyphicon glyphicon-ok',
-				//         invalid: 'glyphicon glyphicon-remove',
-				//         validating: 'glyphicon glyphicon-refresh'
-				//     },
-				//     fields: {
-				//         language: {
-				//             validators: {
-				//                 notEmpty: {
-				//                     message: 'Please select your native language.'
-				//                 }
-				//             }
-				//         }
-				//     }
-				// });
 
 			$('.requestCallModal form')
 		        .find('[name="position"]')
