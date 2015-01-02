@@ -87,6 +87,13 @@ jumbotron  */
 
 /*--------------------------------------------
 home my info  */
+@font-face {
+	font-family: 'AvantGardeExtLitITCTT';
+	src: url('../fonts/AvantGardeExtLitITCTT.eot');
+	src: local('☺'), url('../fonts/AvantGardeExtLitITCTT.woff') format('woff'), url('../fonts/AvantGardeExtLitITCTT.ttf') format('truetype'), url('../fonts/AvantGardeExtLitITCTT.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
 .box {
     border-radius: 0px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
@@ -128,6 +135,15 @@ home my info  */
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
     transition: all 0.5s ease 0s;
+}
+.current-info {
+	font-family: 'AvantGardeExtLitITCTT';
+	font-size: 4em;
+}
+.current-info img{
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
 
 /*--------------------------------------------

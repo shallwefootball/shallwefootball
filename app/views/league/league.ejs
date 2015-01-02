@@ -44,8 +44,34 @@
 								<small><i class="fa fa-envelope-o"></i> <%= user.email %></small>
 							</p>
 		                </div>
-		                <% if (!user.currentLeague.length > 0) { %>
-							<% include ../table/playerTransferTable %>
+
+		                <% if (user.currentLeague.length > 0) { %>
+						        <div class="col-md-4">
+									<center>
+										<h4 class="current-info"><%= user.currentLeague[0].season %></h4>
+										<p><%= user.currentLeague[0].community %></p>
+									</center>
+									<p></p>
+						        </div>
+						        <div class="col-md-4">
+						            <center>
+						            	<h4 class="current-info">
+						            		<img src="/images/team/<%= user.currentLeague[0].teamId %>/image.jpg" alt="64x64">
+						            	</h4>
+										<p><%= user.currentLeague[0].teamName %></p>
+									</center>
+									<p></p>
+						        </div>
+						        <div class="col-md-4">
+						            <center>
+						            	<h4 class="current-info"><%= user.currentLeague[0].squadNumber %></h4>
+										<p><%= user.currentLeague[0].position %></p>
+									</center>
+									<p></p>
+						        </div>
+						<% }else { %>
+
+								<% include ../table/playerTransferTable %>
 						<% } %>
 						<% include ../table/playerCareerTable %>
 		            </div>
