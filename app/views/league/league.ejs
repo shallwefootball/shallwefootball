@@ -13,21 +13,22 @@
 
 			<div class="row">
 				<div class="col-md-12">
-					<a href="/league/5/match">
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<h3 class="panel-title">여주 2015</h3>
-							</div>
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">여주 2015</h3>
+						</div>
+						<a href="/league/5/match">
 							<div class="panel-body">
 								<h4>명단 수정기간입니다.</h4>
 								<p class="text-center"><strong>2015년 3월 14일 19:00</strong> 까지.</p>
 							</div>
-						</div>
-					</a>
+						</a>
+					</div>
 				</div>
 			</div>
 
-			<div class="row">
+			<!-- <div class="row"> -->
+			<div class="row vertical-align">
 
 		        <div class="col-md-12">
 		            <div class="box">
@@ -48,23 +49,27 @@
 		                <% if (user.currentLeague.length > 0) { %>
 						        <div class="col-md-4">
 									<center>
-										<h4 class="current-info"><%= user.currentLeague[0].season %></h4>
-										<p><%= user.currentLeague[0].community %></p>
+											<div class="info-item"><%= user.currentLeague[0].season %></div>
+										<a href="/league/<%= user.currentLeague[0].leagueId %>/match">
+											<p><%= user.currentLeague[0].community %></p>
+										</a>
 									</center>
 									<p></p>
 						        </div>
 						        <div class="col-md-4">
 						            <center>
-						            	<h4 class="current-info">
-						            		<img src="/images/team/<%= user.currentLeague[0].teamId %>/image.jpg" alt="64x64">
-						            	</h4>
-										<p><%= user.currentLeague[0].teamName %></p>
+						            	<a href="/league/<%= user.currentLeague[0].leagueId %>/club/<%= user.currentLeague[0].clubId %>">
+							            	<div class="info-item" style="padding-bottom:8px;">
+							            		<img class="vertical-image" src="/images/team/<%= user.currentLeague[0].teamId %>/image.jpg" alt="64x64">
+							            	</div>
+											<p><%= user.currentLeague[0].teamName %></p>
+						            	</a>
 									</center>
 									<p></p>
 						        </div>
 						        <div class="col-md-4">
 						            <center>
-						            	<h4 class="current-info"><%= user.currentLeague[0].squadNumber %></h4>
+						            	<div class="info-item"><%= user.currentLeague[0].squadNumber %></div>
 										<p><%= user.currentLeague[0].position %></p>
 									</center>
 									<p></p>
@@ -85,7 +90,6 @@
 			<% include ../layout/playerLim %>
 
 		</div> <!-- /container -->
-
 
 		<% include ../layout/defaultPlugins %>
 
