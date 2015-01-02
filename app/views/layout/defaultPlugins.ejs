@@ -62,21 +62,42 @@
 				cache: false,
 				success: function(players){
 
+
 					var html = '';
 
 				    for (var i = 0; i < players.length; i++) {
+						// <li class="list-group-item">
+						// 	Vet Appointment!
+
+						// 	<ul class="list-group-submenu">
+						// 		<li class="list-group-submenu-item success"><span class="glyphicon glyphicon-remove"></span></li>
+						// 		<li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-ok"></span></li>
+						// 	</ul>
+						// </li>
+						html += '<li class="list-group-item">';
+						if (players[i].playerName != 'Sorry :(') {
+							html += '<a data-toggle="modal" data-target="#playerLim" class="text-primary">' + players[i].playerName + '</a> <small class="text-muted">' + players[i].teamName + '</small>'
+							html += '<a href=""><span class="pull-right glyphicon glyphicon-plus text-success"></span></a>';
+						}else{
+							html += players[i].playerName + ' <small class="text-muted">' + players[i].teamName + '</small>'
+						}
+						html += '</li>';
 						// html += '<li class="players">';
-						html += '<a href="#" class="list-group-item">';
-						html += '<h4 class="list-group-item-heading">' + players[i].playerName + '</h4>';
-						html += '<p class="list-group-item-text">' + players[i].teamName + '</p>';
-						html += '</a>';
+						// html += '<a href="#" class="list-group-item">';
+						// html += '<h4 class="list-group-item-heading">' + players[i].playerName + '</h4>';
+						// html += '<p class="list-group-item-text">' + players[i].teamName + '</p>';
+						// html += '</a>';
 				    };
 
-					$("div#results").html(html);
+					// $("#results").html(html);
+					$("#results").html(html);
 				}
 			});
 		}return false;
 	}
+
+
+
 
 	$("input#search").on("keyup", function(e) {
 		// Set Timeout
@@ -87,17 +108,17 @@
 
 		// Do Search
 		if (search_string == '') {
-			$("div#results").fadeOut();
-			$('p#results-text').fadeOut();
+			$("#results").fadeOut();
 		}else{
-			$("div#results").fadeIn();
-			$('p#results-text').fadeIn();
+			$("#results").fadeIn();
 			$(this).data('timer', setTimeout(search, 100));
 		};
-	}).on("focusout", function (e){
-		console.log('focusout~~~!!!');
-		$("div#results").fadeOut();
-		$('p#results-text').fadeOut();
-	});
+	})
+	// .on("focusout", function (e){
+	// 	console.log('out  : ', e);
+	// 	$("#results").fadeOut();
+	// });
+
+
 
 </script>
