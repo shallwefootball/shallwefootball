@@ -21,12 +21,36 @@ h5 strong {
 .modal-header h4 strong {
 	color: #fff;
 }
-a {
-	color: #3c3c3e;
+.info-item {
+	font: ;
+	height: 86px;
+	font-family: 'AvantGardeExtLitITCTT';
+	font-size: 55px;
+	line-height: 90px;
 }
-a:hover,
-a:focus {
-	text-decoration: none;
+.vertical-align {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical-align > [class^="col-"],
+.vertical-align > [class*=" col-"] {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Optional, to align inner items
+                              horizontally inside the column */
+}
+
+/**
+ *  Do NOT include this part into your stylesheet.
+ *  "flex: 1" or "flex-grow: 1" is added to make the inner div
+ *  - Which is also a flex-item - take up all the horizontal space
+ *  available space inside the flex container (.col-* elements)
+ */
+.vertical-align > [class^="col-"] > div,
+.vertical-align > [class*=" col-"] > div {
+  /* flex: 1; */
+  flex-grow: 1;
 }
 
 /*--------------------------------------------
@@ -136,15 +160,6 @@ home my info  */
     color: #fff;
     transition: all 0.5s ease 0s;
 }
-.current-info {
-	font-family: 'AvantGardeExtLitITCTT';
-	font-size: 4em;
-}
-.current-info img{
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
 
 /*--------------------------------------------
 match Timeline */
@@ -187,6 +202,13 @@ panel */
 .panel-body h5,
 .panel-body h6 {
 	text-align: center;
+}
+.panel a {
+	color: #3c3c3e;
+}
+.panel a:hover,
+.panel a:focus {
+	text-decoration: none;
 }
 
 /*--------------------------------------------
