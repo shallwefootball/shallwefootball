@@ -22,8 +22,8 @@ Route
 
 	.get    ('/', league.renderLeagueView)
 
-	.get 	('/search/:query', search.player)
-
+	.get 	('/search/:query',		   search.player)
+	.get 	('/search/player/:userId', search.playerInfo)
 
 	//auth
 	.get    ('/login',   authenticate.loginView)

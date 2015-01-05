@@ -59,6 +59,19 @@ exports.selectJoinedLeagues = function (userId, callback){
     });
 };
 
+exports.selectPlayerUserId = function (userId, callback){
+    db.pool.acquire(function (err, conn){
+        if(err) return console.error('err : ', err);
+        conn.query("select u.userId, concat(u.lastName, u.firstName)playerName, DATE_FORMAT(u.birthday, '%Y/%m/%d') birthday, email, if(p.userId = c.leaderId, 1, 0) leader, c.leagueId, l.community, l.season, if (l.end < now(), 'end', if(l.start < now() and now() < l.end, 'playing', if (now() < l.start, 'before', null))) leagueStatus, c.teamId, p.clubId, t.teamName, c.leaderId, p.playerId, p.squadNumber, p.position, p.matchPosition, p.status playerStatus, p.transferStatus, p.transfer, count(distinct m.matchId)`played`, sum(if(r.recordName = 'out', 1, 0))`out`, sum(if(r.recordName = 'in', 1, 0))`in`, sum(if(r.recordName = 'goalScored', 1, 0))`goalScored`, sum(if(r.recordName = 'penaltyScored', 1, 0))`penaltyScored`, sum(if(r.recordName = 'ownGoal', 1, 0))`ownGoal`, sum(if(r.recordName = 'penaltyMissed', 1, 0))`penaltyMissed`, sum(if(r.recordName = 'yellowCard', 1, 0))`yellowCard`, sum(if(r.recordName = 'redCard', 1, 0))`redCard`, sum(if(r.recordName = 'secondYellowCard', 1, 0))`secondYellowCard` from user u left outer join player p on p.userId = u.userId left outer join club c on c.clubId = p.clubId left outer join league l on l.leagueId = c.leagueId left outer join team t on t.teamId = c.teamId left outer join lineup li on li.playerId = p.playerId left outer join record r on r.lineupId = li.lineupId left outer join `match` m on m.matchId = li.matchId where u.userId = ? group by c.clubId order by l.start desc", userId, function(err, joinedLeagues) {
+            if (err) return console.error('err : ', err);
+
+            callback(err, joinedLeagues);
+
+        });
+        db.pool.release(conn);
+    });
+};
+
 exports.insertPlayer = function (data, callback){
     db.pool.acquire(function (err, conn){
         if(err) return console.error('err : ', err);
