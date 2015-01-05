@@ -33,8 +33,7 @@
 		        <div class="col-md-12">
 		            <div class="box">
 		                <div class="box-icon">
-		                	<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" border="0" class="img-circle">
-		                    <!-- <span class="fa fa-4x fa-html5"></span> -->
+		                	<img id="teamLogo" class="img-circle" src="/images/default/defaultUser140.jpg" width="140" height="140" border="0">
 		                </div>
 		                <div class="info text-center">
 		                    <h4><%= user.playerName %></h4>
@@ -106,5 +105,7 @@
 			});
 
 		</script>
+
+		<% include ../js/searchJs %>
 	</body>
 </html>
