@@ -1,3 +1,14 @@
+<!--
+보내는 사람
+ 1. 소속팀이 리그에 참여하고 있나요??
+
+ 받는 사람
+ 1. 현재 참가하고 있는 리그가 없어야 함.
+ -->
+
+
+
+
 <script>
 	// Live Search
 	// On Search Submit and Get Results
@@ -12,8 +23,12 @@
 				cache: false,
 				success: function(players){
 
-
+					var rows;
 					var html = '';
+
+					if (players[5]) {
+						rows = players.pop();
+					}
 
 				    for (var i = 0; i < players.length; i++) {
 
@@ -25,7 +40,13 @@
 							html += players[i].playerName + ' <small class="text-muted">' + players[i].teamName + '</small>'
 						}
 						html += '</li>';
-				    };
+				    }
+
+					if (rows) {
+						html += '<li class="list-group-item">';
+						html += '<a href="">' + rows + '명의 결과가 더 보기</a>';
+						html += '</li>';
+					}
 
 					$("#results").html(html);
 
@@ -40,12 +61,22 @@
 								NProgress.inc();
 								// $('#ajax_load_indicator').show().fadeIn('fast');
 							},
-							success     : function(data) {
+							success     : function(player) {
 								NProgress.inc();
+
 								$(".playerModal").modal('show');
-								$(".playerModal").find("center h3").text(data.playerName);
-								$(".playerModal").find(".fa-birthday-cake").next('small').text(' ' + data.birthday);
-								$(".playerModal").find(".fa-envelope-o").next('small').text(' ' + data.email);
+								$(".playerModal").find("center h3").text(player.playerName);
+								$(".playerModal").find(".fa-birthday-cake").next('small').text(' ' + player.birthday);
+								$(".playerModal").find(".fa-envelope-o").next('small').text(' ' + player.email);
+
+
+								if (player.currentLeague[0]) {
+									<% if (user.currentLeague[0]) { %>
+										console.log("둘다 가능함~~~");
+										$(".playerModal .modal-footer").append('<button type="button" class="btn btn-success" player-dismiss="modal"><i class="fa fa-phone"></i> 러브 콜</button>');
+									<% } %>
+								}
+
 							},
 							error       : function(data, status, err) {
 								console.log("error forward : "+data);

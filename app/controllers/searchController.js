@@ -2,12 +2,17 @@ var searchModel = require('../models/searchModel');
 
 exports.player = function (req, res) {
 
-	searchModel.selectLikePlayer(req.params.query, function (err, results) {
-		console.log('lengtH    : ', results);
-		if (results.length > 0) {
-			res.send(results);
+	searchModel.selectLikePlayer(req.params.query, function (err, players, rows) {
+		console.log('search players    : ', players);
+		if (players.length > 0) {
+
+			if (rows > 5) {
+				players.push(rows - 5);
+			}
+
+			res.send(players);
 		}else {
-			console.log('true????    : ', results.length);
+
 			res.send([{
 				playerName : "Sorry :(",
 				teamName : "검색결과가 없습니다."
@@ -53,6 +58,8 @@ exports.playerInfo = function (req, res) {
 			player.transfer      = transfer;
 			player.currentLeague = currentLeague;
 			player.joinedLeagues = joinedLeagues;
+
+			console.log('search player    : ', player);
 
 			res.json(player);
 
