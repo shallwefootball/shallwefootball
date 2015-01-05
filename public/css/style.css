@@ -131,6 +131,7 @@ home my info  */
     margin-top: 60px;
 }
 .box-icon {
+	background-color: white;
     border-radius: 50%;
     display: table;
     height: 100px;
