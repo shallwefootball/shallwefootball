@@ -94,7 +94,4 @@ exports.playerListJson = function (req, res){
 
 		res.json({playerList : playerList});
 	});
-
-
-
 }
