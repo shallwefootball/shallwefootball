@@ -18,6 +18,9 @@ h4 strong,
 h5 strong {
 	color: #f04124;
 }
+a:hover {
+	cursor: pointer;
+}
 .modal-header h4 strong {
 	color: #fff;
 }
