@@ -1,6 +1,8 @@
 var db      = require('../config/database'),
     config  = require('../config/config');
 
+var eachAsync   = require('each-async');
+
 
 
 exports.selectPlayer = function (email, callback) {
@@ -62,10 +64,51 @@ exports.selectJoinedLeagues = function (userId, callback){
 exports.selectPlayerUserId = function (userId, callback){
     db.pool.acquire(function (err, conn){
         if(err) return console.error('err : ', err);
-        conn.query("select u.userId, concat(u.lastName, u.firstName)playerName, DATE_FORMAT(u.birthday, '%Y/%m/%d') birthday, email, if(p.userId = c.leaderId, 1, 0) leader, c.leagueId, l.community, l.season, if (l.end < now(), 'end', if(l.start < now() and now() < l.end, 'playing', if (now() < l.start, 'before', null))) leagueStatus, c.teamId, p.clubId, t.teamName, c.leaderId, p.playerId, p.squadNumber, p.position, p.matchPosition, p.status playerStatus, p.transferStatus, p.transfer, count(distinct m.matchId)`played`, sum(if(r.recordName = 'out', 1, 0))`out`, sum(if(r.recordName = 'in', 1, 0))`in`, sum(if(r.recordName = 'goalScored', 1, 0))`goalScored`, sum(if(r.recordName = 'penaltyScored', 1, 0))`penaltyScored`, sum(if(r.recordName = 'ownGoal', 1, 0))`ownGoal`, sum(if(r.recordName = 'penaltyMissed', 1, 0))`penaltyMissed`, sum(if(r.recordName = 'yellowCard', 1, 0))`yellowCard`, sum(if(r.recordName = 'redCard', 1, 0))`redCard`, sum(if(r.recordName = 'secondYellowCard', 1, 0))`secondYellowCard` from user u left outer join player p on p.userId = u.userId left outer join club c on c.clubId = p.clubId left outer join league l on l.leagueId = c.leagueId left outer join team t on t.teamId = c.teamId left outer join lineup li on li.playerId = p.playerId left outer join record r on r.lineupId = li.lineupId left outer join `match` m on m.matchId = li.matchId where u.userId = ? group by c.clubId order by l.start desc", userId, function(err, joinedLeagues) {
+        conn.query("select u.userId, concat(u.lastName, u.firstName)playerName, DATE_FORMAT(u.birthday, '%Y/%m/%d') birthday, email, if(p.userId = c.leaderId, 1, 0) leader, c.leagueId, l.community, l.season, if (l.end < now(), 'end', if(l.start < now() and now() < l.end, 'playing', if (now() < l.start, 'before', null))) leagueStatus, c.teamId, p.clubId, t.teamName, c.leaderId, p.playerId, p.squadNumber, p.position, p.matchPosition, p.status playerStatus, p.transferStatus, p.transfer, count(distinct m.matchId)`played`, sum(if(r.recordName = 'out', 1, 0))`out`, sum(if(r.recordName = 'in', 1, 0))`in`, sum(if(r.recordName = 'goalScored', 1, 0))`goalScored`, sum(if(r.recordName = 'penaltyScored', 1, 0))`penaltyScored`, sum(if(r.recordName = 'ownGoal', 1, 0))`ownGoal`, sum(if(r.recordName = 'penaltyMissed', 1, 0))`penaltyMissed`, sum(if(r.recordName = 'yellowCard', 1, 0))`yellowCard`, sum(if(r.recordName = 'redCard', 1, 0))`redCard`, sum(if(r.recordName = 'secondYellowCard', 1, 0))`secondYellowCard` from user u left outer join player p on p.userId = u.userId left outer join club c on c.clubId = p.clubId left outer join league l on l.leagueId = c.leagueId left outer join team t on t.teamId = c.teamId left outer join lineup li on li.playerId = p.playerId left outer join record r on r.lineupId = li.lineupId left outer join `match` m on m.matchId = li.matchId where u.userId = ? group by c.clubId order by l.start desc", userId, function(err, result) {
             if (err) return console.error('err : ', err);
 
-            callback(err, joinedLeagues);
+            var player        = {};
+
+            var transfer      = [],
+                currentLeague = [],
+                joinedLeagues = [];
+
+            eachAsync(result, function (item, index, eachDone) {
+
+                if (item.leagueStatus == 'end') {
+                    joinedLeagues.push(item);
+
+                //  playerStatus null이면 현재 이적협상중이거나, 거절된겁니다.
+                //  end가 아니면 현재 리그시작전이거나 진행중입니다.
+                } else if (item.leagueStatus != 'end' && item.playerStatus != null) {
+                    currentLeague.push(item);
+                } else if (item.leagueStatus != null &&  item.playerStatus == null) {
+                    transfer.push(item);
+                } else if (item.leagueStatus != null) {
+                    //null
+                }
+
+                eachDone();
+            }, function (error) {
+                if (err) return console.error('err : ', err);
+
+                if (currentLeague.length > 0){
+                    player.teamName = currentLeague[0].season + currentLeague[0].community + " " + currentLeague[0].teamName;
+                }else if ((!currentLeague.length > 0) && joinedLeagues.length > 0) {
+                    player.teamName = joinedLeagues[0].season + joinedLeagues[0].community + " " + joinedLeagues[0].teamName;
+                }
+
+                player.userId     = result[0].userId;
+                player.playerName = result[0].playerName;
+                player.birthday   = result[0].birthday;
+                player.email      = result[0].email;
+
+                player.transfer      = transfer;
+                player.currentLeague = currentLeague;
+                player.joinedLeagues = joinedLeagues;
+
+                callback(err, player);
+            });
 
         });
         db.pool.release(conn);
@@ -87,7 +130,6 @@ exports.insertPlayer = function (data, callback){
         db.pool.release(conn);
     });
 };
-
 
 exports.deletePlayer = function (playerId, callback){
     db.pool.acquire(function (err, conn){

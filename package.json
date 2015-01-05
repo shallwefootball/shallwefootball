@@ -26,6 +26,8 @@
     "mysql": "^2.5.3",
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
+    "q": "^1.1.2",
+    "q-foreach": "0.0.3",
     "rimraf": "^2.2.8",
     "serve-favicon": "^2.2.0"
   }
