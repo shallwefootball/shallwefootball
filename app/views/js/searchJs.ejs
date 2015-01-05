@@ -50,7 +50,7 @@
 
 					if (rows) {
 						html += '<li class="list-group-item">';
-						html += '<a href="">' + rows + '명의 결과가 더 보기</a>';
+						html += '<a href="">' + rows + '명의 결과 더 보기</a>';
 						html += '</li>';
 					}
 
@@ -76,12 +76,16 @@
 								$(".playerModal").find(".fa-envelope-o").next('small').text(' ' + player.email);
 
 
-								if (player.currentLeague[0]) {
+								if (!player.currentLeague[0]) {
 									<% if (user.currentLeague[0]) { %>
 										console.log("둘다 가능함~~~");
 										$(".playerModal .modal-footer").append('<button type="button" class="btn btn-success" player-dismiss="modal"><i class="fa fa-phone"></i> 러브 콜</button>');
 									<% } %>
 								}
+
+								$(".playerModal").on('hidden.bs.modal', function (e) {
+									$(this).find('.btn-success').remove();
+								})
 
 							},
 							error       : function(data, status, err) {
