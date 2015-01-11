@@ -23,7 +23,7 @@
 			// 끝
 			// 이적시장.
 
-			if (user.transfer) {
+			if (user.transfer.length > 0) {
 				user.transfer.forEach(function (item, index) {
 
 					// user의 이적할 클럽들중 보고있는 클럽과 같을경우.
@@ -46,9 +46,6 @@
 								}
 								break;
 						}
-					// 다를경우는 가입을해야겠지
-					// 근데 waitLeague가 있으면 안되겠지?
-					// waitLeague는 오지않음 그러니까 new만 하면됨.
 					}else {
 						if(!club.userAuth) {
 							club.userAuth = 'new';
@@ -59,6 +56,17 @@
 						club.userAuth = 'new';
 					}
 				});
+			// 다를경우는 가입을해야겠지
+			// 근데 waitLeague가 있으면 안되겠지?
+			// waitLeague는 오지않음 그러니까 new만 하면됨.
+			}else {
+				if(!club.userAuth) {
+					club.userAuth = 'new';
+				}
+				if (club.userAuth != "new") {
+					return;
+				}
+				club.userAuth = 'new';
 			}
 
 			var currentLeague = user.currentLeague[0];
@@ -159,7 +167,7 @@
 				}
 			%>
 
-			<% include ../modal/playerModal %>
+			<% /* include ../modal/playerModal */ %>
 
 			<% include ../modal/requestCallModal %>
 
