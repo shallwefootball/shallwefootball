@@ -48,7 +48,7 @@
 		                <% if (user.currentLeague.length > 0) { %>
 						        <div class="col-md-4">
 									<center>
-											<div class="info-item"><%= user.currentLeague[0].season %></div>
+										<div class="info-item"><%= user.currentLeague[0].season %></div>
 										<a href="/league/<%= user.currentLeague[0].leagueId %>/match">
 											<p><%= user.currentLeague[0].community %></p>
 										</a>
@@ -73,10 +73,19 @@
 									</center>
 									<p></p>
 						        </div>
-						<% }else { %>
+						<% }else if (user.transfer.length > 0) { %>
 
 								<% include ../table/playerTransferTable %>
+						<% }else if (!(user.joinedLeagues.length > 0 )) { %>
+							<center>
+								<p>
+									현재 소속된 클럽이 없습니다.
+									<br>
+									<small>클럽에 가입하세요.</small>
+								</p>
+							</center>
 						<% } %>
+
 						<% include ../table/playerCareerTable %>
 		            </div>
 	        	</div>
@@ -86,7 +95,23 @@
 
 			<% include ../layout/footer %>
 
-			<% include ../modal/playerModal %>
+			<% /* include ../modal/playerModal */ %>
+
+			<div class="modal fade testModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+			</div>
+
+			<script type="text/template" id="item-template">
+				<a>{{= playerName }}</a>
+				<small class="text-muted"> {{= teamName }} </small>
+			</script>
+
+<!--
+				<div class="view">
+					<input class="toggle" type="checkbox" {{= completed ? 'checked' : '' }}>
+					<label>{{- title }}</label>
+					<button class="destroy"></button>
+				</div>
+				<input class="edit" value="{{- title }}"> -->
 
 		</div> <!-- /container -->
 
@@ -94,10 +119,10 @@
 
 		<script>
 			// table sum
-			$("#playerCareer tfoot tr:first td:not(:first)").text(function(i){
+			$(".playerCareer tfoot tr:first td:not(:first)").text(function(i){
 			    var total = 0;
 
-			    $("#playerCareer tbody").find("td:nth-child("+(i+2)+")").each(function(){
+			    $(".playerCareer tbody").find("td:nth-child("+(i+2)+")").each(function(){
 
 			        total += parseInt( $(this).text(), 10 ) || 0;
 			    });
@@ -106,5 +131,98 @@
 
 		</script>
 
+		<script>
+			var searchApp = {};
+			!function ($) {
+				searchApp.item = Backbone.Model.extend({
+					// idAttribute : 'userId'
+				});
+				searchApp.ItemList = Backbone.Collection.extend({
+					model : searchApp.item,
+
+					url : function (){
+						var query = $("#search").val();
+						console.log('query         ', query);
+						return '/search/' + query;
+					}
+
+				});
+
+				searchApp.ItemView = Backbone.View.extend({
+
+					tagName : 'li',
+
+					className : "list-group-item",
+
+					template : _.template($('#item-template').html()),
+
+					initialize : function () {
+
+						// console.log("itemView initialized");
+					},
+					render : function () {
+						var item = this.model.toJSON();
+						if(!item.more) {
+							// console.log('json    : ', this.model.toJSON());
+							this.$el.html(this.template(this.model.toJSON()));
+							return this;
+						}
+					}
+				});
+				searchApp.AppView = Backbone.View.extend({
+
+					el: $(".navbar-nav"),
+
+					events : {
+						'keyup #search': 'getItem',
+					},
+
+					initialize : function () {
+						this.$list = $('ul#results');
+
+						console.log("initialize is called");
+
+						searchApp.itemList = new searchApp.ItemList();
+						this.listenTo(searchApp.itemList, 'reset', this.addAll);
+
+					},
+
+					getItem : function () {
+						var query = $("#search").val();
+						if (query !== ''){
+							searchApp.itemList.fetch({reset : true});
+						}else {
+							this.clear();
+						}
+					},
+
+					addOne: function (player) {
+						if (!player.attributes.more) {
+							var view = new searchApp.ItemView({ model: player });
+							this.$list.append(view.render().el);
+						}else {
+							this.$list.append(
+								'<li class="list-group-item">' +
+								'<a href="">' + player.attributes.more + '명의 결과 더 보기</a>' +
+								'</li>'
+							);
+						}
+					},
+
+					addAll : function () {
+						this.clear();
+						searchApp.itemList.each(this.addOne, this);
+					},
+
+					clear : function () {
+						this.$list.html('');
+					}
+
+				});
+
+				new searchApp.AppView();
+
+			} ($);
+		</script>
 	</body>
 </html>
