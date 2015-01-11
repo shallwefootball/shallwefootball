@@ -10,14 +10,39 @@
 				<center>
 					<img id="teamLogo" class="img-circle" src="/images/default/defaultUser140.jpg" width="140" height="140" border="0">
 					<h3>페데르</h3>
-				</center>
-
-					<p class="text-muted">
-						<i class="fa fa-birthday-cake"></i> <small>error</small>
-						<br>
-						<i class="fa fa-envelope-o"></i> <small>error</small>
-					</p>
-                <hr>
+                </center>
+				<p class="text-muted">
+					<i class="fa fa-birthday-cake"></i> <small>error</small>
+					<br>
+					<i class="fa fa-envelope-o"></i> <small>error</small>
+				</p>
+                <div class="col-md-4">
+                    <center>
+                        <div class="info-item"><%= user.currentLeague[0].season %></div>
+                        <a href="/league/<%= user.currentLeague[0].leagueId %>/match">
+                            <p><%= user.currentLeague[0].community %></p>
+                        </a>
+                    </center>
+                    <p></p>
+                </div>
+                <div class="col-md-4">
+                    <center>
+                        <a href="/league/<%= user.currentLeague[0].leagueId %>/club/<%= user.currentLeague[0].clubId %>">
+                            <div class="info-item" style="padding-bottom:8px;">
+                                <img class="vertical-image" src="/images/team/<%= user.currentLeague[0].teamId %>/image.jpg" alt="64x64">
+                            </div>
+                            <p><%= user.currentLeague[0].teamName %></p>
+                        </a>
+                    </center>
+                    <p></p>
+                </div>
+                <div class="col-md-4">
+                    <center>
+                        <div class="info-item"><%= user.currentLeague[0].squadNumber %></div>
+                        <p><%= user.currentLeague[0].position %></p>
+                    </center>
+                    <p></p>
+                </div>
                 <center>
                     <p class="text-left"><strong>출전경기 : </strong></p>
                     <table class="table">
