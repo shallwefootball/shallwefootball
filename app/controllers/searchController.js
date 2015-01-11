@@ -7,6 +7,8 @@ require('q-foreach')(Q);
 
 exports.player = function (req, res) {
 
+	console.log("searchQuery    :   ", req.params.query);
+
 	searchModel.selectLikePlayer(req.params.query, function (err, likePlayers, rows) {
 
 		if (likePlayers.length > 0) {
@@ -21,7 +23,7 @@ exports.player = function (req, res) {
 				return defer.promise;
 			}).then(function (players){
 
-				if (rows > 5) players.push(rows - 5);
+				if (rows > 5) players.push({ more : rows - 5 });
 
 				console.log('search players      ', players);
 				res.send(players);
