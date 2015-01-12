@@ -105,12 +105,6 @@
 			<script type="text/template" id="item-template">
 				<a href="/search/player/{{= userId }}" data-toggle="modal" data-target=".playerModal">{{= playerName }}</a>
 				<small class="text-muted">{{= typeof(teamName) != 'undefined' ? teamName : '' }}</small>
-
-				{{ if (!currentLeague.length > 0) { }}
-					<% if (user.currentLeague.length > 0) { %>
-						<a href="javascript:void(0)"><span class="pull-right glyphicon glyphicon-plus"></span></a>
-					<% } %>
-				{{ } }}
 			</script>
 
 			<% include ../modal/playerModal %>
@@ -136,6 +130,7 @@
 				$(".playerCareerModal tfoot tr:first td:not(:first)").text(function(i){
 				    var total = 0;
 
+				    if(i == 0) return;
 				    $(".playerCareerModal tbody").find("td:nth-child("+(i+2)+")").each(function(){
 
 				        total += parseInt( $(this).text(), 10 ) || 0;
@@ -143,8 +138,6 @@
 				    return total;
 				});
 				NProgress.done();
-				$(".playerCareerModal").removeClass('hidden');
-
 			})
 
 		</script>
