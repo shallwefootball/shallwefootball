@@ -1,61 +1,236 @@
-
-<div class="modal fade playerModal" tabindex="-1" role="dialog" aria-labelledby="playerTitle" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+<script type="text/template" id="player-modal-template">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="playerTitle">페데르</h4>
-            </div>
-            <div class="modal-body">
+				<h4 class="modal-title" id="playerTitle">선수정보</h4>
+			</div>
+			<div class="modal-body">
 				<center>
 					<img id="teamLogo" class="img-circle" src="/images/default/defaultUser140.jpg" width="140" height="140" border="0">
-					<h3>페데르</h3>
-                </center>
+					<h3>{{= playerName }}</h3>
+				</center>
 				<p class="text-muted">
-					<i class="fa fa-birthday-cake"></i> <small>error</small>
+					<i class="fa fa-birthday-cake"></i> <small>{{= birthday }}</small>
 					<br>
-					<i class="fa fa-envelope-o"></i> <small>error</small>
+					<i class="fa fa-envelope-o"></i> <small>{{= email }}</small>
 				</p>
-                <div class="col-md-4">
-                    <center>
-                        <div class="info-item"><%= user.currentLeague[0].season %></div>
-                        <a href="/league/<%= user.currentLeague[0].leagueId %>/match">
-                            <p><%= user.currentLeague[0].community %></p>
-                        </a>
-                    </center>
-                    <p></p>
-                </div>
-                <div class="col-md-4">
-                    <center>
-                        <a href="/league/<%= user.currentLeague[0].leagueId %>/club/<%= user.currentLeague[0].clubId %>">
-                            <div class="info-item" style="padding-bottom:8px;">
-                                <img class="vertical-image" src="/images/team/<%= user.currentLeague[0].teamId %>/image.jpg" alt="64x64">
-                            </div>
-                            <p><%= user.currentLeague[0].teamName %></p>
-                        </a>
-                    </center>
-                    <p></p>
-                </div>
-                <div class="col-md-4">
-                    <center>
-                        <div class="info-item"><%= user.currentLeague[0].squadNumber %></div>
-                        <p><%= user.currentLeague[0].position %></p>
-                    </center>
-                    <p></p>
-                </div>
-                <center>
-                    <p class="text-left"><strong>출전경기 : </strong></p>
-                    <table class="table">
-                        <tr>
-                            <td>121</td>
-                        </tr>
-                    </table>
-                    <br>
-                </center>
-            </div>
-            <div class="modal-footer">
+				{{ if (currentLeague.length > 0) { }}
+					<div class="row">
+						<div class="col-md-4">
+							<center>
+								<div class="info-item"> {{= currentLeague[0].season}} </div>
+								<a href="/league/{{ currentLeague[0].leagueId }}/match">
+									<p> {{= currentLeague[0].community }} </p>
+								</a>
+							</center>
+						</div>
+						<div class="col-md-4">
+							<center>
+								<a href="/league/{{= currentLeague[0].leagueId }}/club/{{= currentLeague[0].clubId }}">
+									<div class="info-item" style="padding-bottom:8px;">
+										<img class="vertical-image" src="/images/team/{{= currentLeague[0].teamId }}/image.jpg" alt="64x64">
+									</div>
+									<p> {{= currentLeague[0].teamName }} </p>
+								</a>
+							</center>
+							<p></p>
+						</div>
+						<div class="col-md-4">
+							<center>
+								<div class="info-item"> {{= currentLeague[0].squadNumber }} </div>
+								<p> {{= currentLeague[0].position }} </p>
+							</center>
+							<p></p>
+						</div>
+					</div>
+				{{ }else if (!joinedLeagues.length > 0 && !transfer.length > 0){ }}
+					<div class="row">
+						<center>
+							<p>
+								현재 소속된 클럽이 없습니다.
+								<br>
+								<small>클럽에 가입하세요.</small>
+							</p>
+						</center>
+					</div>
+				{{ }else if (transfer.length > 0) { }}
+					<table class="table">
+						<caption>
+							<h4 class="text-left">My Transfer - </h4>
+						</caption>
+						<thead>
+							<tr>
+								<th></th>
+								<th>확인</th>
+								<th>시즌</th>
+								<th>클럽</th>
+							</tr>
+						</thead>
+						<tbody>
+							{{ transfer.forEach(function (item, index) { }}
+								{{ switch(item.transferStatus) { case 'transfered' : }}
+									<tr>
+										{{ switch(item.transfer) { case "loveCall" : }}
+											<td>러브콜</td>
+											<td>
+												<span class="glyphicon glyphicon-ok text-success"></span>
+											</td>
+											<td>
+												 {{= item.season }} {{= item.community }}
+											</td>
+											<td>
+												<a href="/league/{{= item.leagueId }}/club/{{= item.clubId }}"> {{= item.teamName }} + </a>
+											</td>
+										{{ break; case "requestCall" : }}
+											<td>가입요청</td>
+											<td>
+												<span class="glyphicon glyphicon-ok text-success"></span>
+											</td>
+											<td>
+												 {{= item.season }} {{= item.community }}
+											</td>
+											<td>
+												<a href="/league/{{= item.leagueId }}/club/{{= item.clubId }}"> {{= item.teamName }}</a>
+											</td>
+										{{ break; } }}
+									</tr>
+								{{ break; case "wait" : }}
+									<tr>
+										{{ switch(item.transfer) { case "loveCall" : }}
+											<td>러브콜</td>
+											<td>
+												<span class="glyphicon glyphicon-pencil text-primary" data-toggle="modal" data-target=""></span>
+											</td>
+											<td>
+												 {{= item.season }} {{= item.community }}
+											</td>
+											<td>
+												<a href="/league/{{= item.leagueId }}/club/{{= item.clubId }}"> {{= item.teamName }}</a>
+											</td>
+										{{ break; case "requestCall" : }}
+											<td>가입요청</td>
+											<td>
+												대기중..;
+											</td>
+											<td>
+												 {{= item.season }} {{= item.community }}
+											</td>
+											<td>
+												<a href="/league/{{= item.leagueId }}/club/{{= item.clubId }}"> {{= item.teamName }}</a>
+											</td>
+										{{ break; } }}
+									</tr>
+								{{ break; case "reject" : case "rejected" : }}
+									<tr>
+										{{ switch(item.transfer) { case "loveCall" : }}
+											<td>러브콜</td>
+											<td>
+												거절
+											</td>
+											<td>
+												 {{= item.season }} {{= item.community }}
+											</td>
+											<td>
+												<a href="/league/{{= item.leagueId }}/club/{{= item.clubId }}"> {{= item.teamName }}</a>
+											</td>
+										{{ break; case "requestCall" : }}
+											<td>가입요청</td>
+											<td>
+												거절
+											</td>
+											<td>
+												 {{= item.season }} {{= item.community }}
+											</td>
+											<td>
+												<a href="/league/{{= item.leagueId }}/club/{{= item.clubId }}"> {{= item.teamName }}</a>
+											</td>
+										{{ break; } }}
+									</tr>
 
-            </div>
-        </div>
-    </div>
-</div>
+								{{ break; } }}
+							{{ }); }}
+						</tbody>
+					</table>
+				{{ } }}
+
+
+				{{ if (joinedLeagues.length > 0) { }}
+					<table class="table playerCareerModal hidden">
+						<caption>
+							<h4 class="text-left">My Career - </h4>
+						</caption>
+						<thead>
+							<tr>
+								<th>시즌</th>
+								<th>경기</th>
+								<th>out</th>
+								<th>in</th>
+								<th>득점</th>
+								<th>pk득점</th>
+								<th class="hidden-xs hidden-sm hidden-md">자책골</th>
+								<th class="hidden-xs hidden-sm hidden-md">pk실축</th>
+								<th class="hidden-xs hidden-sm hidden-md">y카드</th>
+								<th class="hidden-xs hidden-sm hidden-md">r카드</th>
+								<th class="hidden-xs hidden-sm hidden-md">y2카드</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr class="info">
+								<td>합계</td>
+								<td>played</td>
+								<td>out</td>
+								<td>in</td>
+								<td>goalScored</td>
+								<td>penaltyScored</td>
+								<td class="hidden-xs hidden-sm hidden-md">ownGoal</td>
+								<td class="hidden-xs hidden-sm hidden-md">penaltyMissed</td>
+								<td class="hidden-xs hidden-sm hidden-md">yellowCard</td>
+								<td class="hidden-xs hidden-sm hidden-md">redCard</td>
+								<td class="hidden-xs hidden-sm hidden-md">secondYellowCard</td>
+							</tr>
+							<tr>
+								<td colspan="11">
+									<p class="text-right"><small><span class="text-danger">(c)</span> - captain</small></p>
+								</td>
+							</tr>
+						</tfoot>
+						<tbody>
+
+							{{ joinedLeagues.forEach(function (item, index) { }}
+								<tr class="text-muted">
+									<td>
+										<a href="/league/{{= item.leagueId }}/match">
+											{{= item.season }} {{= item.community}}
+											{{ if (item.leader) { }}
+												<span class="text-danger"> (c)</span>
+											{{ } }}
+										</a>
+										종료
+									</td>
+									<td>{{= item.played }}</td>
+									<td>{{= item.out }}</td>
+									<td>{{= item.in }}</td>
+									<td>{{= item.goalScored }}</td>
+									<td>{{= item.penaltyScored }}</td>
+									<td class="hidden-xs hidden-sm hidden-md">{{= item.ownGoal }}</td>
+									<td class="hidden-xs hidden-sm hidden-md">{{= item.penaltyMissed }}</td>
+									<td class="hidden-xs hidden-sm hidden-md">{{= item.yellowCard }}</td>
+									<td class="hidden-xs hidden-sm hidden-md">{{= item.redCard }}</td>
+									<td class="hidden-xs hidden-sm hidden-md">{{= item.secondYellowCard }}</td>
+								</tr>
+							{{ }); }}
+						</tbody>
+					</table>
+				{{ } }}
+
+			</div>
+
+
+
+			<div class="modal-footer">
+
+			</div>
+		</div>
+	</div>
+</script>
