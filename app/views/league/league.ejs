@@ -228,11 +228,12 @@
 
 					getItem : function (e) {
 
+						if(e.key == "Esc") return this.clear();
+
 						var query = $("#search").val();
 						if (query !== ''){
 							searchApp.itemList.fetch({reset : true});
-
-						}else if (query == '' || e.key == "Esc"){
+						}else {
 							return this.clear();
 						}
 					},
