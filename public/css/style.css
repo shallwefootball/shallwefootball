@@ -250,6 +250,12 @@ login signup */
 
 /*--------------------------------------------
 table, table image  */
+table {
+	table-layout: fixed;
+}
+table td {
+	word-wrap: break-word;
+}
 .table tbody>tr>td {
 	vertical-align: middle;
 }
@@ -266,6 +272,7 @@ td > a {
 td > a:hover {
 	text-decoration: underline;
 }
+
 
 /*--------------------------------------------
 custom glyphicon  */
