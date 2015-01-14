@@ -63,11 +63,22 @@
 	- (러브콜)거절가능
 	- 입단하고 싶은 팀에 입단요청을 보낼 수 있음
 
+- 이슈
+	- EJS 부분과 undersocre template 부분통합.
+	- playerCareer Table 합계 깜빡임.
+	- 입단요청 실패한 팀에 가입 다시 못하게 해아함.
+	- 입단요청 거절 삭제 시 다시 입단요청할수 있음(리더가 삭제할 수 있음).
+	- 팀의 입단상황테이블 봐야함.
+	- passport 로그인부분과 playerModel.selectUserId부분과 중복.
+	- 검색 backspace때 요청(backspace일때 요청가지못하게)
+	- 선수검색 bootstrap e.preventDefault is not a function 에러남.
+
 - 개발계획
 	- 이메일 변경
 	- 생일설정
 	- 비번재설정
 	- 프로필사진업로드
+	- 나이(in day)
 
 
 ![db-erd](docs_images/db_erd.png "디비 구조")
