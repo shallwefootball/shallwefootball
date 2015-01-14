@@ -8,43 +8,43 @@
 			<div class="modal-body">
 				<center>
 					<img id="teamLogo" class="img-circle" src="/images/default/defaultUser140.jpg" width="140" height="140" border="0">
-					<h3>{{= playerName }}</h3>
+					<h3>{{= player.playerName }}</h3>
 				</center>
 				<p class="text-muted">
-					<i class="fa fa-birthday-cake"></i> <small>{{= birthday }}</small>
+					<i class="fa fa-birthday-cake"></i> <small>{{= player.birthday }}</small>
 					<br>
-					<i class="fa fa-envelope-o"></i> <small>{{= email }}</small>
+					<i class="fa fa-envelope-o"></i> <small>{{= player.email }}</small>
 				</p>
-				{{ if (currentLeague.length > 0) { }}
+				{{ if (player.currentLeague.length > 0) { }}
 					<div class="row">
 						<div class="col-md-4">
 							<center>
-								<div class="info-item"> {{= currentLeague[0].season}} </div>
-								<a href="/league/{{ currentLeague[0].leagueId }}/match">
-									<p> {{= currentLeague[0].community }} </p>
+								<div class="info-item"> {{= player.currentLeague[0].season}} </div>
+								<a href="/league/{{= player.currentLeague[0].leagueId }}/match">
+									<p> {{= player.currentLeague[0].community }} </p>
 								</a>
 							</center>
 						</div>
 						<div class="col-md-4">
 							<center>
-								<a href="/league/{{= currentLeague[0].leagueId }}/club/{{= currentLeague[0].clubId }}">
+								<a href="/league/{{= player.currentLeague[0].leagueId }}/club/{{= player.currentLeague[0].clubId }}">
 									<div class="info-item" style="padding-bottom:8px;">
-										<img class="vertical-image" src="/images/team/{{= currentLeague[0].teamId }}/image.jpg" alt="64x64">
+										<img class="vertical-image" src="/images/team/{{= player.currentLeague[0].teamId }}/image.jpg" alt="64x64">
 									</div>
-									<p> {{= currentLeague[0].teamName }} </p>
+									<p> {{= player.currentLeague[0].teamName }} </p>
 								</a>
 							</center>
 							<p></p>
 						</div>
 						<div class="col-md-4">
 							<center>
-								<div class="info-item"> {{= currentLeague[0].squadNumber }} </div>
-								<p> {{= currentLeague[0].position }} </p>
+								<div class="info-item"> {{= player.currentLeague[0].squadNumber }} </div>
+								<p> {{= player.currentLeague[0].position }} </p>
 							</center>
 							<p></p>
 						</div>
 					</div>
-				{{ }else if (!joinedLeagues.length > 0 && !transfer.length > 0){ }}
+				{{ }else if (!player.joinedLeagues.length > 0 && !player.transfer.length > 0){ }}
 					<div class="row">
 						<center>
 							<p>
@@ -54,7 +54,7 @@
 							</p>
 						</center>
 					</div>
-				{{ }else if (transfer.length > 0) { }}
+				{{ }else if (player.transfer.length > 0) { }}
 					<table class="table">
 						<caption>
 							<h4 class="text-left">My Transfer - </h4>
@@ -68,7 +68,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{{ transfer.forEach(function (item, index) { }}
+							{{ player.transfer.forEach(function (item, index) { }}
 								{{ switch(item.transferStatus) { case 'transfered' : }}
 									<tr>
 										{{ switch(item.transfer) { case "loveCall" : }}
@@ -155,7 +155,7 @@
 				{{ } }}
 
 
-				{{ if (joinedLeagues.length > 0) { }}
+				{{ if (player.joinedLeagues.length > 0) { }}
 					<table class="table playerCareerModal">
 						<caption>
 							<h4 class="text-left">My Career - </h4>
@@ -209,7 +209,7 @@
 						</tfoot>
 						<tbody>
 
-							{{ joinedLeagues.forEach(function (item, index) { }}
+							{{ player.joinedLeagues.forEach(function (item, index) { }}
 								<tr class="text-muted">
 									<td>{{= item.teamName }}</td>
 									<td>
@@ -239,12 +239,22 @@
 			</div>
 
 			<div class="modal-footer">
-				<% if (user.currentLeague.length > 0) { %>
- 					{{ if (!currentLeague.length > 0) { }}
-	 					<button type="button" class="btn btn-default loveCall">러브콜&nbsp;<i class="fa fa-plus"></i></button>
-					{{ } }}
 
-				<% } %>
+				{{ if (!player.currentLeague.length > 0 && user.currentLeague.length > 0) { }}
+
+					{{ player.transfer.forEach(function (item, index) { }}
+
+						{{ if (item.clubId == user.currentLeague[0].clubId) { }}
+							<button type="button" class="btn btn-default loveCalled">러브콜을 보냈습니다.<i class="fa fa-plus"></i></button>
+							{{ return; }}
+						{{ } }}
+
+						{{ if (player.transfer.length == (index + 1) )  { }}
+			 				<button type="button" class="btn btn-default loveCall">러브콜 보내기<i class="fa fa-plus"></i></button>
+						{{ } }}
+
+					{{ }); }}
+				{{ } }}
 
 			</div>
 		</div>
