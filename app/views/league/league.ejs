@@ -9,17 +9,19 @@
 
 		<div class="container">
 
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">League -  여주 2015</h3>
-			</div>
-			<a href="/league/5/match">
-				<div class="panel-body">
-					<h4 class="text-center">명단 수정기간입니다.</h4>
-					<p class="text-center"><strong>2015년 3월 14일 19:00</strong> 까지.</p>
+			<div class="testDiv"></div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">League -  여주 2015</h3>
 				</div>
-			</a>
-		</div>
+				<a href="/league/5/match">
+					<div class="panel-body">
+						<h4 class="text-center">명단 수정기간입니다.</h4>
+						<p class="text-center"><strong>2015년 3월 14일 19:00</strong> 까지.</p>
+					</div>
+				</a>
+			</div>
 
 
 			<div class="panel panel-default">
@@ -93,9 +95,17 @@
 			<div class="modal fade playerModal" tabindex="-1" role="dialog" aria-labelledby="playerTitle" aria-hidden="true">
 			</div>
 
+
+
+
+
 			<script type="text/template" id="item-template">
 				<a href="/search/player/{{= userId }}" data-toggle="modal" data-target=".playerModal">{{= playerName }}</a>
 				<small class="text-muted">{{= typeof(teamName) != 'undefined' ? teamName : '' }}</small>
+			</script>
+
+			<script type="text/template" id='testTemplate'>
+				<h2>{{= playerName }}</h2>
 			</script>
 
 			<% include ../modal/playerModal %>
@@ -104,6 +114,18 @@
 		</div> <!-- /container -->
 
 		<% include ../layout/defaultPlugins %>
+			<script>
+				$(".playerModal")
+				.on('show.bs.modal', function (e) {
+					console.log(e.type);
+				})
+				.on('shown.bs.modal', function (e) {
+					console.log(e.type);
+				})
+				.on('loaded.bs.modal', function (e) {
+					console.log(e.type);
+				});
+			</script>
 
 		<script>
 			// table sum
@@ -134,8 +156,17 @@
 		</script>
 
 		<script>
-			var searchApp = {};
+			var App = {};
+
+			App.searchApp = {};
+			App.playerModal = {};
+			App.user = {};
+
 			!function ($) {
+
+				var searchApp = App.searchApp;
+				var playerModal = App.playerModal;
+				var user = App.user;
 
 				searchApp.ItemList = Backbone.Collection.extend({
 
@@ -144,6 +175,29 @@
 						return '/search/' + query;
 					}
 				});
+
+				playerModal.View = Backbone.View.extend({
+
+					template : _.template($('#player-modal-template').html()),
+
+					events : {
+						'click button.loveCall' : 'loveCall',
+					},
+
+					initialize : function () {
+
+					},
+
+					render : function () {
+						this.$el.html(this.template(this.model.toJSON()));
+						return this;
+					},
+
+					loveCall : function () {
+						console.log('click loveCall');
+					}
+
+				})
 
 				searchApp.ItemView = Backbone.View.extend({
 
@@ -154,9 +208,7 @@
 					template : _.template($('#item-template').html()),
 
 					events : {
-						'click a[data-toggle="modal"]' : 'getInfo',
-						'click span.glyphicon-plus' : 'loveCall'
-						 // text-success
+						'click a[data-toggle="modal"]' : 'getInfo'
 					},
 
 					initialize : function () {
@@ -172,26 +224,15 @@
 						}
 					},
 
-					getInfo : function () {
-						var PlayerModel = Backbone.Model.extend({
-							url : '/search/player/' + this.model.toJSON().userId
-						})
-						var player = new PlayerModel;
-						player.fetch();
-						NProgress.inc();
-						player.on('sync', function (){
-							var infoTemplate = _.template($('#player-modal-template').html());
-							$(".playerModal").html(infoTemplate(arguments[1]));
-						});
-
-
-
-						// _.template($("#player-modal-template").html());
-					},
-
-					loveCall : function () {
-						// this.model.toJSON().userId
-						console.log('click loveCall');
+					getInfo : function (e) {
+						playerModalView = new playerModal.View({ model : this.model });
+						$(".playerModal").html(playerModalView.render().el);
+						$(".playerModal").modal('show');
+						// e.preventDefault();
+						// var json = this.model.toJSON();
+						// var infoTemplate = _.template($('#player-modal-template').html());
+						// $(".playerModal").html(infoTemplate(json));
+						// $(".playerModal").modal('show');
 					}
 				});
 
