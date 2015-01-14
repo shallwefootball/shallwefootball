@@ -34,10 +34,12 @@ Route
 	.delete ('/signout', authenticate.signout)
 
 	//user
-	.get    ('/myInfo',     		user.myInfoView)
-	.put    ('/password',			user.password)
-	.put    ('/profileImg', 		user.profileImg)
+	.get    ('/myInfo',     		 user.myInfoView)
+	.put    ('/password',			 user.password)
+	.put    ('/profileImg', 		 user.profileImg)
 	.post   ('/requestCall/:clubId', user.insertPlayer)
+	.post   ('/loveCall/:userId', 	 user.insertPlayer)
+	.delete ('/loveCall/:playerId',  player.signoutClub)
 
 	//team
 	.post   ('/league/:leagueId/team', 		 	   team.team)

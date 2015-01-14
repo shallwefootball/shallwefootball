@@ -96,9 +96,6 @@
 			</div>
 
 
-
-
-
 			<script type="text/template" id="item-template">
 				<a href="/search/player/{{= userId }}" data-toggle="modal" data-target=".playerModal">{{= playerName }}</a>
 				<small class="text-muted">{{= typeof(teamName) != 'undefined' ? teamName : '' }}</small>
@@ -114,18 +111,6 @@
 		</div> <!-- /container -->
 
 		<% include ../layout/defaultPlugins %>
-			<script>
-				$(".playerModal")
-				.on('show.bs.modal', function (e) {
-					console.log(e.type);
-				})
-				.on('shown.bs.modal', function (e) {
-					console.log(e.type);
-				})
-				.on('loaded.bs.modal', function (e) {
-					console.log(e.type);
-				});
-			</script>
 
 		<script>
 			// table sum
@@ -160,16 +145,43 @@
 
 			App.searchApp = {};
 			App.playerModal = {};
-			App.user = {};
 
 			!function ($) {
-
+				var user = <%- JSON.stringify(user) %>;
 				var searchApp = App.searchApp;
 				var playerModal = App.playerModal;
-				var user = App.user;
+
+
+				searchApp.Item = Backbone.Model.extend({
+
+					idAttribute : 'playerId',
+					// urlRoot: '/Account/Update',
+
+					sync : function (method, model, options) {
+						console.log('sync.model    :  ' , model);
+						console.log('sync.method    :  ' , method);
+						console.log('sync.options    :  ' , options);
+						switch (method) {
+							case 'read' :
+								options.url = '/search/' + $("#search").val();
+								break;
+							case 'create' :
+								options.url = '/loveCall/' + this.userId;
+								break;
+							case 'delete' :
+								options.url = '/loveCall/' + this.id;
+								break;
+						}
+						return Backbone.sync(method, model, options);
+					}
+
+				})
 
 				searchApp.ItemList = Backbone.Collection.extend({
 
+					model : searchApp.Item,
+
+					// url : '/loveCall',
 					url : function (){
 						var query = $("#search").val();
 						return '/search/' + query;
@@ -182,19 +194,36 @@
 
 					events : {
 						'click button.loveCall' : 'loveCall',
+						'click button.loveCalled' : 'removeLoveCall',
 					},
 
 					initialize : function () {
-
+						// this.listenTo(this.model, 'change', function(){
+						// 	console.log('initialize  saved!!!');
+						// });
 					},
 
 					render : function () {
-						this.$el.html(this.template(this.model.toJSON()));
+
+
+						this.$el.html(this.template({
+								player : this.model.toJSON(),
+								user : user
+							}
+						));
 						return this;
 					},
 
 					loveCall : function () {
 						console.log('click loveCall');
+						this.model.save();
+					},
+
+					removeLoveCall : function () {
+
+						this.model.set({playerId : '12341234'});
+						this.model.destroy();
+						console.log('destroy!', this.model);
 					}
 
 				})
@@ -228,11 +257,6 @@
 						playerModalView = new playerModal.View({ model : this.model });
 						$(".playerModal").html(playerModalView.render().el);
 						$(".playerModal").modal('show');
-						// e.preventDefault();
-						// var json = this.model.toJSON();
-						// var infoTemplate = _.template($('#player-modal-template').html());
-						// $(".playerModal").html(infoTemplate(json));
-						// $(".playerModal").modal('show');
 					}
 				});
 
@@ -241,13 +265,13 @@
 					el: $(".navbar-nav"),
 
 					events : {
-						'keyup #search': 'getItem',
+						'keyup #search': 'getItem'
 					},
 
 					initialize : function () {
 						this.$list = $('ul#results');
 
-						searchApp.itemList = new searchApp.ItemList();
+						searchApp.itemList = new searchApp.ItemList;
 						this.listenTo(searchApp.itemList, 'reset', this.addAll);
 					},
 
