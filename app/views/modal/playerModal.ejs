@@ -192,7 +192,17 @@
 								<td class="hidden-xs hidden-sm hidden-md">secondYellowCard</td>
 							</tr>
 							<tr>
-								<td colspan="12">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td class="hidden-xs"></td>
+								<td class="hidden-xs"></td>
+								<td class="hidden-xs"></td>
+								<td class="hidden-xs"></td>
+								<td class="hidden-xs"></td>
+								<td colspan="2">
 									<p class="text-right"><small><span class="text-danger">(c)</span> - captain</small></p>
 								</td>
 							</tr>
@@ -229,11 +239,12 @@
 			</div>
 
 			<div class="modal-footer">
-				{{ if (!currentLeague.length > 0) { }}
-					<% if (user.currentLeague.length > 0) { %>
-						<a href="#" class="btn btn-default">러브콜 <i class="fa fa-plus"></i></a>
-					<% } %>
-				{{ } }}
+				<% if (user.currentLeague.length > 0) { %>
+ 					{{ if (!currentLeague.length > 0) { }}
+	 					<button type="button" class="btn btn-default loveCall">러브콜&nbsp;<i class="fa fa-plus"></i></button>
+					{{ } }}
+
+				<% } %>
 
 			</div>
 		</div>
