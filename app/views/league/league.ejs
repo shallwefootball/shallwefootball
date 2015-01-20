@@ -9,7 +9,7 @@
 
 		<div class="container">
 
-			<div class="testDiv"></div>
+			<div class="modal-view"></div>
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -88,25 +88,12 @@
 
 			<% include ../layout/footer %>
 
-			<div class="modal fade testModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-			</div>
-			<div class="modal fade playerModal" tabindex="-1" role="dialog" aria-labelledby="playerTitle" aria-hidden="true">
-			</div>
-
-
-			<script type="text/template" id="item-template">
-				<a href="/search/player/{{= userId }}" data-toggle="modal" data-target=".playerModal">{{= playerName }}</a>
-				<small class="text-muted">{{= typeof(teamName) != 'undefined' ? teamName : '' }}</small>
-			</script>
-
-			<% include ../modal/playerModal %>
-
-
 		</div> <!-- /container -->
 
 		<% include ../layout/defaultPlugins %>
 
 		<script>
+
 			// table sum
 			$(".playerCareer tfoot tr:first td:not(:first)").text(function(i){
 			    var total = 0;
@@ -118,6 +105,7 @@
 			    return total;
 			});
 
+			//검색 선수 통계의 합.
 			$('.modal').on('shown.bs.modal', function (e) {
 				$(".playerCareerModal tfoot tr:first td:not(:first)").text(function(i){
 				    var total = 0;
