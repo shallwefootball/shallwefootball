@@ -10,18 +10,33 @@ module.exports = function (grunt) {
 		watch: {
 			frontend: {
 				options: {
-					livereload: {
-						port: 9000
-					}
+					livereload: true
+					// livereload: {
+					// 	port: 3026
+					// }
 				},
 				files: [
+					'app/views/club/*',
+					'app/views/formation/*',
+					'app/views/js/*',
+					'app/views/jumbotron/*',
+					'app/views/layout/*',
+					'app/views/league/*',
+					'app/views/match/*',
+					'app/views/modal/*',
+					'app/views/player/*',
+					'app/views/record/*',
+					'app/views/table/*',
+					'app/views/team/*',
+					'gruntFile.js',
 					'public/js/libs/*',
 					'public/js/backbone/*',
 					'public/js/app/*',
 					'public/js/models/*',
 					'public/js/collections/*',
 					'public/js/views/*',
-					'public/js/templates/*'
+					'public/js/templates/*',
+					'public/js/*'
 				]
 			}
 		},
