@@ -12,12 +12,10 @@ define([
 
 		className : "list-group-item",
 
-		// template : _.template($('#item-template').html()),
 		template : _.template(SearchTemplate),
 
 		events : {
 			'click a' : 'getInfo'
-			// 'click a[data-toggle="modal"]' : 'getInfo'
 		},
 
 		initialize : function () {
