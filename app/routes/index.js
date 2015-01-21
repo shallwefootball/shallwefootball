@@ -38,8 +38,8 @@ Route
 	.put    ('/password',			 user.password)
 	.put    ('/profileImg', 		 user.profileImg)
 	.post   ('/requestCall/:clubId', user.insertPlayer)
-	.post   ('/loveCall/:userId', 	 user.insertPlayer)
-	.delete ('/loveCall/:playerId',  player.signoutClub)
+	.post   ('/loveCall/:userId', 	 user.loveCall)
+	.delete ('/loveCall/:playerId',  user.removeLoveCall)
 
 	//team
 	.post   ('/league/:leagueId/team', 		 	   team.team)
@@ -53,8 +53,6 @@ Route
 	.put    ('/player/:playerId', 			   club.rejectPlayer)
 
 	//player
-	.post   ('/signupClub',  		   player.signupClub)
-	.delete ('/signoutClub/:playerId', player.signoutClub)
 	.put    ('/squadNumber', 		   player.updateSquadNumber)
 	.put    ('/position',    		   player.updatePosition)
 
