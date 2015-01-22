@@ -8,12 +8,15 @@
 		<%
 			// --- 클럽 --- club.userAuth
 			//1. 리더
-			//2. 신규선수(다른팀에 요청받거나, 해도 됨) new
-			//3. 기존 등록이된 플레이어 registered (starting, sub, excepted)는 currentLeague
+			//2. 기존 등록이된 플레이어 registered (starting, sub, excepted)는 currentLeague
 
-			//4. 가입요청온 플레이어 (requestCall)
-			//5. 러브콜이 간 플레이어 (loveCall)
-			//6. 이적이완료된 플레이어 (transfered)
+			//3. 신규선수 (new)
+			//4. 이적이완료된 플레이어 (transfered)
+
+			// --- 현재 이적기능을 활성화 하지 않음 ---
+			//5. 가입요청온 플레이어 (requestCall)
+			//6. 러브콜이 간 플레이어 (loveCall)
+			//7. 거부된 플레이어 (rejected)
 
 			// --- 리그 --- league.userJoined
 			// 시작전.
@@ -44,6 +47,10 @@
 										club.userAuth = 'loveCall';
 										break;
 								}
+								break;
+							// 거절
+							case 'rejected' :
+								club.userAuth = 'rejected';
 								break;
 						}
 					}else {
@@ -84,6 +91,7 @@
 				}
 
 			}
+			console.log('userAuth   : ', club.userAuth);
 		%>
 		<div class="container">
 
