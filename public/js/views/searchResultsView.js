@@ -11,6 +11,7 @@ define([
 
 		events : {
 			'keyup #search': 'getItem'
+			// 'focusout #search' : 'clear'
 		},
 
 		initialize : function () {
@@ -21,7 +22,7 @@ define([
 
 		getItem : function (e) {
 
-			if(e.key == "Esc") return this.clear();
+			if(e.key == "Escape") return this.clear();
 
 			var query = $("#search").val();
 			if (query !== ''){
