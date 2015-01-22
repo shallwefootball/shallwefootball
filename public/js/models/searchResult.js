@@ -9,7 +9,7 @@ define(
 
 			switch (method) {
 				case 'create' :
-					options.url = '/loveCall/' + this.userId;
+					options.url = '/loveCall/' + this.attributes.userId;
 					break;
 				case 'delete' :
 					options.url = '/loveCall/' + this.id;
