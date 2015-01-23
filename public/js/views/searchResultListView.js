@@ -2,10 +2,10 @@ define([
 	'jquery',
 	'backbone',
 	'views/searchResultView',
-	'collections/searchResults'
-	], function ($, Backbone, SearchResultView, SearchResults) {
+	'collections/searchResultList'
+	], function ($, Backbone, SearchResultView, SearchResultList) {
 
-	var searchResultsView = Backbone.View.extend({
+	var SearchResultListView = Backbone.View.extend({
 
 		el: $(".navbar-nav"),
 
@@ -15,9 +15,10 @@ define([
 		},
 
 		initialize : function () {
+
 			this.$list = $('ul#results');
 
-			this.listenTo(SearchResults, 'reset', this.addAll);
+			this.listenTo(SearchResultList, 'reset', this.addAll);
 		},
 
 		getItem : function (e) {
@@ -26,7 +27,7 @@ define([
 
 			var query = $("#search").val();
 			if (query !== ''){
-				SearchResults.fetch({reset : true});
+				SearchResultList.fetch({reset : true});
 			}else {
 				return this.clear();
 			}
@@ -56,7 +57,7 @@ define([
 		addAll : function () {
 
 			this.clear();
-			SearchResults.each(this.addOne, this);
+			SearchResultList.each(this.addOne, this);
 		},
 
 		clear : function () {
@@ -64,6 +65,6 @@ define([
 		}
 	});
 
-	return searchResultsView;
+	return SearchResultListView;
 
 });
