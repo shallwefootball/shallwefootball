@@ -159,3 +159,27 @@ exports.insertPlayer = function (req, res) {
 
 }
 
+exports.loveCall = function (req, res) {
+    console.log('userId    : ', req.params.userId);
+    console.log('req.clubId    : ', req.user.currentLeague[0].clubId);
+    var playerData = [
+        req.params.userId
+        // req.params.clubId,
+        // null, //sqaudNumber
+        // req.body.position,
+        // req.body.position,
+        // null, //orderNumber
+        // null, //status
+        // 'wait', //transferStatus,
+        // 'requestCall' //transfer
+    ];
+
+    res.json({status: 'ok', message: 'what?', playerId: 1324});
+
+}
+
+exports.removeLoveCall = function (req, res) {
+    res.json({remove: 'ok'});
+}
+
+
