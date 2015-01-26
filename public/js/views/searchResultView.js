@@ -15,7 +15,8 @@ define([
 		template : _.template(SearchTemplate),
 
 		events : {
-			'click a' : 'getInfo'
+			'click a' : 'getInfo',
+			'click .transferView' : 'transferView'
 		},
 
 		initialize : function () {
@@ -26,7 +27,10 @@ define([
 		render : function () {
 			var item = this.model.toJSON();
 			if(!item.more) {
-				this.$el.html(this.template(this.model.toJSON()));
+				this.$el.html(this.template({
+					player : item,
+					user : USER
+				}));
 				return this;
 			}
 		},
@@ -34,7 +38,13 @@ define([
 		getInfo : function (e) {
 			var playerModalView = new PlayerModalView({ model : this.model });
 			playerModalView.render();
+		},
+
+		transferView : function () {
+			var transeferModalView = new transferModalView({ model : this.model });
+			console.log('transfer~~', this.model.attributes.userId);
 		}
+
 	});
 
 	return SearchResultView;
