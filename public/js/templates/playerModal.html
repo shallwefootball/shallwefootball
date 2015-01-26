@@ -1,5 +1,4 @@
 
-<!-- <div class="modal playerModal" tabindex="-1" role="dialog" aria-labelledby="playerTitle" aria-hidden="true"> -->
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -240,7 +239,7 @@
 			</div>
 
 			<div class="modal-footer">
-
+<!--
 				<% if (!player.currentLeague.length > 0 && user.currentLeague.length > 0) { %>
 
 					<% player.transfer.forEach(function (item, index) { %>
@@ -250,14 +249,18 @@
 							<% return; %>
 						<% } %>
 
-						<% if (player.transfer.length == (index + 1) )  { %>
-			 				<button type="button" class="btn btn-default loveCall">러브콜 보내기<i class="fa fa-plus"></i></button>
+						<% if (player.transfer.length == (index + 1))  { %>
+								<button type="button" class="btn btn-default loveCall">러브콜 보내기<i class="fa fa-plus"></i></button>
 						<% } %>
 
 					<% }); %>
 				<% } %>
 
+				<% if (!player.currentLeague.length > 0 && !player.transfer.length > 0 && user.currentLeague.length > 0) { %>
+					<button type="button" class="btn btn-default transfer"><i class="fa fa-plus"></i></button>
+				<% } %>
+ -->
+
 			</div>
 		</div>
 	</div>
-<!-- </div> -->

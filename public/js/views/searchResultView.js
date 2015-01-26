@@ -16,7 +16,7 @@ define([
 
 		events : {
 			'click a' : 'getInfo',
-			'click .transferView' : 'transferView'
+			'click .transfer' : 'transfer'
 		},
 
 		initialize : function () {
@@ -40,9 +40,38 @@ define([
 			playerModalView.render();
 		},
 
-		transferView : function () {
-			var transeferModalView = new transferModalView({ model : this.model });
-			console.log('transfer~~', this.model.attributes.userId);
+		transfer : function () {
+
+			var clubId 	   = USER.currentLeague[0].clubId,
+				teamName   = USER.currentLeague[0].teamName,
+				userId     = this.model.attributes.userId;
+				playerName = this.model.attributes.playerName;
+
+			var Player = Backbone.Model.extend({
+				sync : function (method, model, options) {
+
+					switch (method) {
+						case 'create' :
+							options.url = '/club/' + clubId + '/user/' + userId;
+							break;
+					}
+					return Backbone.sync(method, model, options);
+				}
+			});
+
+			var newPlayer = new Player();
+			// newPlayer.save();
+			newPlayer.save();
+			newPlayer.on('sync', function (event, callback, context){
+				if(callback.message == 'success'){
+					alert('"' + teamName + '" 팀에 "' + playerName + '"님이 추가되었습니다.');
+					location.reload();
+				}else{
+					alert('추가 실패');
+				}
+			});
+
+			console.log('transfer~~', clubId, userId);
 		}
 
 	});

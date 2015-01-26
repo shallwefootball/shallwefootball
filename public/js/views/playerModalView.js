@@ -11,8 +11,6 @@ define([
 		template : _.template(PlayerModal),
 
 		events : {
-			'click button.loveCall' : 'loveCall',
-			'click button.loveCalled' : 'removeLoveCall',
 			'hidden.bs.modal' : 'removeModal'
 		},
 
@@ -33,23 +31,6 @@ define([
 				}
 			)).modal();
 			return this;
-		},
-
-		loveCall : function () {
-			console.log('click loveCall');
-			this.model.save();
-		},
-
-		removeLoveCall : function () {
-
-			this.model.set({playerId : '12341234'});
-			console.log('destroy!', this.model);
-			this.model.destroy();
-			// this.model.destroy({success: function (model, res){
-			// 	console.log('destroy.model  : ', model);
-			// 	console.log('destroy.res  : ', res);
-			// 	this.$('.loveCalled').removeClass('loveCalled').addClass('loveCall').html('러브콜 보내기<i class="fa fa-plus"></i>');
-			// }});
 		},
 
 		removeModal: function() {

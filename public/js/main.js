@@ -1,26 +1,17 @@
 
 require([
 	'backbone',
-	'views/searchResultsView'
-	], function (Backbone, SearchResultsView){
+	'views/searchResultListView'
+	], function (Backbone, SearchResultsView) {
 		var Router = Backbone.Router.extend({
 			routes: {
-				'backbone/club' : 'clubView'
+				'league/:leagueId/club/:clubId' : 'clubView'
 			},
 
 			initialize : function () {
 
 				new SearchResultsView();
 				console.log('initialize and new SearchResultsView()');
-			},
-
-			call: function () {
-				console.log('call');
-			},
-
-			clubView: function () {
-
-				console.log('clubView~~');
 			}
 
 		});
