@@ -22,7 +22,9 @@
 				NProgress.inc();
 			},
 			success     : function(data) {
-				console.log('통신성공');
+				if (data.message == 'success') {
+					alert('제외되었습니다.');
+				}
 			},
 			error       : function(data, status, err) {
 				console.log("error forward : "+ data);
@@ -30,7 +32,6 @@
 			},
 			complete    : function (xhr, status) {
 				NProgress.done();
-				alert('제외되었습니다.');
 				location.reload();
 			}
 		});

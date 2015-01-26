@@ -44,8 +44,7 @@ exports.clubDetailView = function (req, res) {
 				var myInfo		 = [],
 					squadNumbers = [],
 					readyPlayers = [],
-					transfered   = [],
-					transfering  = [];
+					transfered   = [];
 
 
 				for (var i = 0; i < players.length; i++) {
@@ -56,16 +55,13 @@ exports.clubDetailView = function (req, res) {
 
 					squadNumbers.push(players[i].squadNumber);
 
-					if (players[i].status == 'starting' || players[i].status == 'sub' || players[i].status == 'excepted') {
-
-						readyPlayers.push(players[i]);
-
-					}else if (players[i].status == 'transfered') {
+					if (players[i].transferStatus == 'transfered') {
 
 						transfered.push(players[i]);
+
 					}else {
 
-						transfering.push(players[i]);
+						readyPlayers.push(players[i]);
 					}
 				}
 
@@ -73,7 +69,6 @@ exports.clubDetailView = function (req, res) {
 				club.squadNumbers = squadNumbers;
 				club.readyPlayers = readyPlayers;
 				club.transfered   = transfered;
-				club.transfering  = transfering;
 
 				clubModel.selectClubStatDetail(clubId, function (err, clubStat) {
 
@@ -148,8 +143,8 @@ exports.insertNewPlayer = function (req, res) {
 						matchPosition,
 						orderNumber,
 						status,
-						null, 	// transferStatus
-						null 	// transfer
+						null, 		// transferStatus
+						null 		// transfer
 					];
 
 					playerModel.insertPlayer(playerData, function (err, result) {
@@ -163,11 +158,55 @@ exports.insertNewPlayer = function (req, res) {
 					});
 				});
 			});
-
-
-
 		}     //end if existedUser
 	});     //end selectPlayerEmail
+}
+
+exports.insertPlayer = function (req, res) {
+
+	playerModel.selectOrderNumber (req.params.clubId, function (err, countResult) {
+
+		var orderNumber = countResult.orderNumber + 1;
+
+		var userId 	 = req.params.userId
+			clubId        		 = req.params.clubId,
+			squadNumber   		 = null,
+			position      		 = null,
+			matchPosition 		 = null,
+			status 				 = null;
+
+		if (orderNumber < 11) {
+			status = "starting";
+		}else if (orderNumber < 16 && orderNumber > 10) {
+			status = "sub";
+		}else if (orderNumber >= 16) {
+			status = "excepted";
+		}
+
+		var playerData = [
+			userId,
+			clubId,
+			squadNumber,
+			position,
+			matchPosition,
+			orderNumber,
+			status,
+			'transfered', 		// transferStatus
+			'loveCall', 		// transfer
+			req.user.userId 	// invitedUserId
+
+		];
+
+		playerModel.insertPlayer(playerData, function (err, result) {
+
+			if(result.affectedRows > 0) {
+				res.json({message : "success"});
+			}else {
+				res.json({message : "클럽가입 실패입니다."});
+			}
+		});
+
+	});
 }
 
 exports.transferedPlayer = function (req, res) {
@@ -222,6 +261,20 @@ exports.rejectPlayer = function (req, res) {
 		}
 	});
 }
+
+exports.deletePlayer = function (req, res){
+
+	playerModel.deletePlayer(req.params.playerId, function(err, result){
+		if(result.affectedRows > 0) {
+			res.json({message : 'success'});
+		}else {
+			console.log('delete fail.....        ', result);
+			res.json({message : "fail"});
+		}
+	});
+};
+
+
 
 
 

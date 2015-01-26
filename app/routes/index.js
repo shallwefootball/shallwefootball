@@ -16,8 +16,6 @@ var Auth 		 = require('../middleware/authorization'),
 	league       = require('../controllers/leagueController'),
 	search       = require('../controllers/searchController');
 
-var clubAPI 	 = require('../controllers/API/clubAPI');
-
 //front-end route
 Route
 	.get    ('/*', Auth.requiresLogin)
@@ -51,8 +49,10 @@ Route
 	//club
 	.get    ('/league/:leagueId/club/:clubId', club.clubDetailView)
 	.post   ('/club/:clubId/player',  		   club.insertNewPlayer)	//유저생성한뒤 클럽에가입.
+	.post   ('/club/:clubId/user/:userId',	   club.insertPlayer)		//이적
 	.put    ('/club/:clubId/player/:playerId', club.transferedPlayer)
 	.put    ('/player/:playerId', 			   club.rejectPlayer)
+	.delete ('/signoutClub/:playerId', 		   club.deletePlayer)
 
 	//player
 	.put    ('/squadNumber', 		   player.updateSquadNumber)
