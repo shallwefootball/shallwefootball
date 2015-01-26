@@ -10,12 +10,10 @@ var fs            = require('fs'),
 	setForeignKey = require('../models/setForeignKey'),
 	folderAPI     = require('../controllers/API/folderAPI');
 
-exports.myClubView = function (req, res) {
-	console.log('myClubControllerView       : ', req.params.clubId);
+exports.clubView = function (req, res) {
 
-	res.render('../views/club/myClub');
-
-};
+	res.render('../views/club/club');
+}
 
 exports.joinedClubsView = function (req, res) {
 
@@ -83,7 +81,10 @@ exports.clubDetailView = function (req, res) {
 
 					leagueModel.selectLeague(leagueId, req.user.userId, function (err, league) {
 
+						console.log('call')
 						res.render('../views/club/detailedClub', {
+						// res.render('../views/club/club', {
+						// res.json({
 							club   : club,
 							league : league
 						});
@@ -97,7 +98,7 @@ exports.clubDetailView = function (req, res) {
 	});
 };
 
-exports.insertUserPlayer = function (req, res) {
+exports.insertNewPlayer = function (req, res) {
 
 	// 중복되는 이메일..
 	// new user..
