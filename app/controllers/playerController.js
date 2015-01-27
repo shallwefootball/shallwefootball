@@ -16,7 +16,9 @@ exports.updateSquadNumber = function (req, res) {
 
 exports.updatePosition = function (req, res) {
 
-	playerModel.updatePosition(req.body.playerId, req.body.position, function (err, result) {
+	var data = [req.body.position, req.body.position, req.body.playerId]
+
+	playerModel.updatePosition(data, function (err, result) {
 		if(err) return console.error('err : ', err);
 
 		if(result.affectedRows > 0){

@@ -118,7 +118,7 @@ exports.selectPlayerUserId = function (userId, callback){
 exports.insertPlayer = function (data, callback){
     db.pool.acquire(function (err, conn){
         if(err) return console.error('err : ', err);
-        conn.query('insert into player (userId, clubId, squadNumber, position, matchPosition, orderNumber, status, transferStatus, transfer) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', data, function(err, result) {
+        conn.query('insert into player (userId, clubId, squadNumber, position, matchPosition, orderNumber, status, transferStatus, transfer, invitedUserId) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data, function(err, result) {
             if (err) return console.error('err : ', err);
 
             if (result.affectedRows == 1) {
@@ -160,11 +160,11 @@ exports.selectOrderNumber = function (clubId, callback){
     });
 };
 
-exports.updatePosition = function (playerId, position, callback){
+exports.updatePosition = function (data, callback) {
 
     db.pool.acquire(function(err, conn) {
         if(err) console.error('db - err : ', err);
-        conn.query('update player set position = ? where playerId = ?', [position, playerId], function(err, result) {
+        conn.query('update player set position = ?, matchPosition = ? where playerId = ?', data, function(err, result) {
             if(err) console.error('err : ', err);
 
             callback(err, result);

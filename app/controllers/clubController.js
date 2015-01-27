@@ -125,7 +125,8 @@ exports.insertNewPlayer = function (req, res) {
 						squadNumber   		 = req.body.squadNumber,
 						position      		 = req.body.position,
 						matchPosition 		 = req.body.position,
-						status 				 = '';
+						status 				 = '',
+						invitedUserId		 = req.user.userId;
 
 					if (orderNumber < 11) {
 						status = "starting";
@@ -143,8 +144,9 @@ exports.insertNewPlayer = function (req, res) {
 						matchPosition,
 						orderNumber,
 						status,
-						null, 		// transferStatus
-						null 		// transfer
+						'transfered', 		// transferStatus
+						'new', 				// transfer
+						invitedUserId	// invitedUserId
 					];
 
 					playerModel.insertPlayer(playerData, function (err, result) {
@@ -168,12 +170,13 @@ exports.insertPlayer = function (req, res) {
 
 		var orderNumber = countResult.orderNumber + 1;
 
-		var userId 	 = req.params.userId
+		var userId 	 			 = req.params.userId
 			clubId        		 = req.params.clubId,
 			squadNumber   		 = null,
 			position      		 = null,
 			matchPosition 		 = null,
-			status 				 = null;
+			status 				 = null,
+			invitedUserId		 = req.user.userId;
 
 		if (orderNumber < 11) {
 			status = "starting";
@@ -193,8 +196,7 @@ exports.insertPlayer = function (req, res) {
 			status,
 			'transfered', 		// transferStatus
 			'loveCall', 		// transfer
-			req.user.userId 	// invitedUserId
-
+			invitedUserId 				// invitedUserId
 		];
 
 		playerModel.insertPlayer(playerData, function (err, result) {
