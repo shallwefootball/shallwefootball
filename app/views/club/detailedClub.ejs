@@ -115,7 +115,7 @@
 
 								<% /* include transfering */ %>
 
-								<% include transfered %>
+								<% include transferedEdit %>
 
 								<% include editPlayer %>
 				</div>
@@ -137,7 +137,10 @@
 						<%	// no leader
 							}else {
 						%>
+							<% include transfered %>
+
 							<% include playerStat %>
+
 							<%
 								switch (club.userAuth) {
 									case 'new' : %>
@@ -177,7 +180,9 @@
 					<%	//not before.
 						}else {
 					%>
+
 						<% include playerStat %>
+
 						</div></div>
 					<%
 						}
