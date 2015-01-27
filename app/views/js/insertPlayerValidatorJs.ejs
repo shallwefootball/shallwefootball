@@ -85,7 +85,7 @@
 					}
 				},
                 position: {
-                	feedbackIcons: 'false',
+                    feedbackIcons: 'false',
                     validators: {
                         notEmpty: {
                             message: '포지션을 선택해야합니다.'
@@ -93,7 +93,7 @@
                     }
                 },
                 squadNumber: {
-                	feedbackIcons: 'false',
+                    feedbackIcons: 'false',
                     validators: {
                         notEmpty: {
                             message: '등번호를 선택해야합니다.'
@@ -102,23 +102,23 @@
                 }
 			}
 		})
-        .on('success.form.bv', function(e) {
-            // Prevent form submission
-            e.preventDefault();
+	    .on('success.form.bv', function(e) {
+	        // Prevent form submission
+	        e.preventDefault();
 
-            // Get the form instance
-            var $form = $(e.target);
+	        // Get the form instance
+	        var $form = $(e.target);
 
-            // Get the BootstrapValidator instance
-            var bv = $form.data('bootstrapValidator');
+	        // Get the BootstrapValidator instance
+	        var bv = $form.data('bootstrapValidator');
 
-            // Use Ajax to submit form data
-            $.post($form.attr('action'), $form.serialize(), function(result) {
-            	if (result.message == 'existed') {
-            		html = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">×</button><strong>오 이런!</strong> 중복된 이메일이군요.</div>'
+	        // Use Ajax to submit form data
+	        $.post($form.attr('action'), $form.serialize(), function(result) {
+	        	if (result.message == 'existed') {
+	        		html = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">×</button><strong>오 이런!</strong> 중복된 이메일이군요.</div>'
 
-        			$('#playerForm').find('.form-group').last().after(html);
-        			$('#playerForm').find('[name="email"]').parent().addClass('has-error');
+	    			$('#playerForm').find('.form-group').last().after(html);
+	    			$('#playerForm').find('[name="email"]').parent().addClass('has-error');
 
 					setTimeout(function() {
 						$(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
@@ -127,11 +127,11 @@
 					}, 5000)
 
 
-            	}else {
-            		location.reload();
-            	}
+	        	}else {
+	        		location.reload();
+	        	}
 
-            }, 'json');
-        });
+	        }, 'json');
+	    });
 
 </script>
