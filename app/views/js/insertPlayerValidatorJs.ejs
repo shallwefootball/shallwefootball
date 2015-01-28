@@ -1,20 +1,20 @@
 <script>
 
 	$('#playerForm')
-        .find('[name="position"]')
-            .selectpicker()
-            .change(function(e) {
-                // revalidate the language when it is changed
-                $('#bootstrapSelectForm').bootstrapValidator('revalidateField', 'position');
-            })
-            .end()
-        .find('[name="squadNumber"]')
-            .selectpicker()
-            .change(function(e) {
-                // revalidate the language when it is changed
-                $('#bootstrapSelectForm').bootstrapValidator('revalidateField', 'squadNumber');
-            })
-            .end()
+        // .find('[name="position"]')
+        //     .selectpicker()
+        //     .change(function(e) {
+        //         // revalidate the language when it is changed
+        //         $('#bootstrapSelectForm').bootstrapValidator('revalidateField', 'position');
+        //     })
+        //     .end()
+        // .find('[name="squadNumber"]')
+        //     .selectpicker()
+        //     .change(function(e) {
+        //         // revalidate the language when it is changed
+        //         $('#bootstrapSelectForm').bootstrapValidator('revalidateField', 'squadNumber');
+        //     })
+        //     .end()
 		.bootstrapValidator({
 			// To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
 			live : 'submitted',
