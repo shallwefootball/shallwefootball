@@ -29,7 +29,18 @@ define([
 					player : this.model.toJSON(),
 					user : USER
 				}
-			)).modal();
+			)).modal().on('shown.bs.modal', function (e) {
+				$(".playerCareerModal tfoot tr:first td:not(:first)").text(function(i){
+				    var total = 0;
+
+				    if(i == 0) return;
+				    $(".playerCareerModal tbody").find("td:nth-child("+(i+2)+")").each(function(){
+
+				        total += parseInt( $(this).text(), 10 ) || 0;
+				    });
+				    return total;
+				});
+			})
 			return this;
 		},
 
