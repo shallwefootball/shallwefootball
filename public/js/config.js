@@ -22,6 +22,10 @@ require.config({
 		bootstrap: {
 			deps: ['jquery'],
 			exports: 'Bootstrap'
+		},
+		nprogress: {
+			deps: ['jquery'],
+			exports: 'NProgress'
 		}
 	},
 	paths: {
@@ -29,8 +33,13 @@ require.config({
 		bootstrap: '../../bower_components/bootstrap/dist/js/bootstrap',
 		underscore: '../../bower_components/underscore/underscore',
 		backbone: '../../bower_components/backbone/backbone',
-		text: '../../bower_components/requirejs-text/text'
+		text: '../../bower_components/requirejs-text/text',
+		nprogress: '/js/libs/nprogress'
+
 	},
 
-	deps: ["main"]
+	deps: [
+		"main",
+		"app/page-nprogress"
+	]
 });

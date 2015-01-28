@@ -1,4 +1,7 @@
 
+require([
+	'jquery', 'nprogress'
+	], function ($, NProgress) {
 	NProgress.configure({ ease: 'ease', speed: 500});
 	NProgress.inc();
 
@@ -39,3 +42,6 @@
 			}
 	    });
 	}
+});
+
+
