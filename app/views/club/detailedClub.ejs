@@ -202,127 +202,17 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<% include ../layout/defaultPlugins %>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
-		<script src="/js/libs/bootstrap-select.js"></script>
+		<!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
+		// <script src="/js/libs/bootstrap-select.js"></script>
 
-		<script src="/js/app/modal-validate.js"></script>
+		// <script src="/js/app/modal-validate.js"></script> -->
 
-		<% include ../js/updatePositionSqaudNumberJs %>
+		<% /* include ../js/updatePositionSqaudNumberJs */ %>
 
-		<% include ../js/removePlayerInClubJs %>
+		<% /* include ../js/removePlayerInClubJs */ %>
 
-		<% include ../js/insertPlayerValidatorJs %>
+		<% /* include ../js/insertPlayerValidatorJs */ %>
 
-		<script>
-			//포메이션으로 이동
-			$("#getFormation").click( function (e) {
-				location.href = location.origin +
-								"/league/" +
-								location.pathname.split("/")[2] +
-								"/formation/" +
-								location.pathname.split("/")[4];
-			})
-
-			$("#deleteClub").click(function(e) {
-
-				$.ajax({
-					type        : 'delete',
-					async       : true,
-					url         : '/club',
-					data        : {clubId: $("#clubNumber").val()},
-					beforeSend  : function() {
-							 $('#ajax_load_indicator').show().fadeIn('fast');
-					},
-					success     : function(data) {
-						console.log('success data : ' + data);
-						console.log(data.redirect);
-						alert( "success" );
-						window.location.href = data.redirect;
-					},
-					error       : function(data, status, err) {
-						console.log("error forward : "+data);
-							alert('서버와의 통신이 실패했습니다.');
-					},
-					complete    : function() {
-						$('#ajax_load_indicator').fadeOut();
-					}
-				});
-
-			});
-
-			//<button type="button" class="btn btn-danger btn-lg btn-block" id="signoutClub">이 클럽 탈퇴 </button>
-			$("#signoutClub").click(function(e) {
-				$.ajax({
-					type        : 'delete',
-					async       : true,
-					crossDomain : true,
-					url         : '/signoutClub',
-					data        : {playerId: $("#playerId").val()},
-					beforeSend  : function() {
-							 $('#ajax_load_indicator').show().fadeIn('fast');
-					},
-					success     : function(data) {
-						console.log('success data : ' + data);
-						console.log(data);
-						console.log(data.redirect);
-						alert( "success" );
-						window.location.href = data.redirect;
-					},
-					error       : function(data, status, err) {
-						console.log("error forward : "+data);
-							alert('서버와의 통신이 실패했습니다.');
-					},
-					complete    : function() {
-						$('#ajax_load_indicator').fadeOut();
-					}
-				});
-
-			});
-
-			$("#outLeague").click(function (e) {
-
-				console.log('out click???');
-
-				var url = "/league/" + location.pathname.split("/")[2] + "/outLeague";
-
-				$.ajax({
-					type        : 'delete',
-					async       : true,
-					url         : url,
-					data 		: {clubId : location.pathname.split("/")[4]},
-					beforeSend  : function() {
-						NProgress.inc();
-					},
-					success     : function(data) {
-						console.log('통신성공');
-					},
-					error       : function(data, status, err) {
-						console.log("error forward : "+data);
-						alert('서버와의 통신이 실패했습니다.');
-					},
-					complete    : function (xhr, status) {
-						NProgress.done();
-						location.href = location.origin + "/league/" + location.pathname.split("/")[2] + "/match";
-					}
-				});
-			});
-
-			// insert default image
-			$(".img-circle").each(function () {
-				if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-					// image was broken, replace with your new image
-					this.src = '/images/default/defaultUser40.png';
-				}
-			});
-
-			$("#teamLogo").is(function () {
-				if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-					// image was broken, replace with your new image
-					this.src = '/images/default/defaultClub.png';
-				}
-			});
-
-		</script>
 
 	</body>
 </html>

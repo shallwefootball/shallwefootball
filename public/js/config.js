@@ -9,6 +9,17 @@ require.config({
 		jquery: {
 			exports: '$'
 		},
+		jqueryUi: {
+			deps: [
+				'jquery'
+			]
+		},
+		jqueryUiTouchPunch: {
+			deps: [
+				'jquery',
+				'jqueryUi'
+			]
+		},
 		underscore: {
 			exports: '_'
 		},
@@ -26,20 +37,37 @@ require.config({
 		nprogress: {
 			deps: ['jquery'],
 			exports: 'NProgress'
+		},
+		bootstrapValidator: {
+			deps: ['jquery'],
+			exports: 'BootstrapValidator'
+		},
+		bootstrapSelect: {
+			deps: [
+				'bootstrap',
+				'bootstrapValidator'
+			],
+			exports: 'BootstrapSelect'
 		}
 	},
 	paths: {
 		jquery: '../../bower_components/jquery/dist/jquery',
+		jqueryUi: '/js/libs/jquery-ui-1.10.4.min.js',
+		jqueryUiTouchPunch: '/js/libs/jquery.ui.touch-punch.js',
 		bootstrap: '../../bower_components/bootstrap/dist/js/bootstrap',
 		underscore: '../../bower_components/underscore/underscore',
 		backbone: '../../bower_components/backbone/backbone',
 		text: '../../bower_components/requirejs-text/text',
-		nprogress: '/js/libs/nprogress'
+		nprogress: '/js/libs/nprogress',
+		bootstrapValidator: '../../bower_components/bootstrapValidator/dist/js/bootstrapValidator',
+		bootstrapSelect: '/js/libs/bootstrap-select'
+
 
 	},
 
 	deps: [
 		"main",
-		"app/page-nprogress"
+		"app/app",
+		"app/validate"
 	]
 });
