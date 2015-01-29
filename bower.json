@@ -21,6 +21,7 @@
     "requirejs-text": "~2.0.13",
     "backbone.bootstrap-modal": "https://github.com/powmedia/backbone.bootstrap-modal.git#~0.9.0",
     "bootswatch-dist": "yeti",
-    "bootstrap-select": "~1.6.3"
+    "bootstrap-select": "~1.6.3",
+    "bootstrapValidator": "~0.5.3"
   }
 }
