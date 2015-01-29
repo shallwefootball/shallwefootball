@@ -127,7 +127,7 @@ require([
 			        // Use Ajax to submit form data
 			        $.post($form.attr('action'), $form.serialize(), function(result) {
 			        	if (result.message == 'existed') {
-			        		html = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">×</button><strong>오 이런!</strong> 중복된 이메일이군요.</div>'
+			        		var html = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">×</button><strong>Oh!!</strong> 중복된 이메일이군요.</div>'
 
 			    			$('#playerForm').find('.form-group').last().after(html);
 			    			$('#playerForm').find('[name="email"]').parent().addClass('has-error');
