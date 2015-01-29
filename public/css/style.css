@@ -95,6 +95,12 @@ Serach */
 	/*z-index: 300;*/
 }
 
+@media (max-width: 768px) {
+	#results {
+		margin-top: 47px;
+	}
+}
+
 /*--------------------------------------------
 modal */
 .modal-body .container {
