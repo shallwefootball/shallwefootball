@@ -31,6 +31,8 @@ exports.login = function (req, res, next) {
 
 exports.logout = function (req, res) {
 
+	// passport에서 저장되는 유저를 지워야함.
+	delete global.cacheUser;
 	req.logout();
 	res.redirect('/');
 };

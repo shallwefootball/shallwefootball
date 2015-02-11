@@ -1,3 +1,5 @@
+"use strict";
+
 var path            = require('path'),
 	async           = require('async'),
 	LocalStrategy   = require('passport-local').Strategy,
@@ -9,7 +11,11 @@ var path            = require('path'),
 var eachAsync 	= require('each-async');
 
 
-module.exports = function(passport) {
+global.cacheUser = null;
+
+
+module.exports = function (passport) {
+
 
 	passport.serializeUser(function (player, done) {
 		done(null, player.email);
@@ -19,10 +25,13 @@ module.exports = function(passport) {
 
 		console.log('deserializeUser called...........');
 
-		userModel.selectUser(email, function(err, user){
+		if (global.cacheUser) return done(null, global.cacheUser);
+
+		userModel.selectUser(email, function (err, user) {
+
+			console.log('passport 가 db에 데이터를 요청합니다.');
 
 			delete user.password;
-
 
 			//set user config
 			teamModel.selectCreateTeam(user.userId, function (err, createTeam) {
@@ -54,7 +63,9 @@ module.exports = function(passport) {
 						user.currentLeague = currentLeague;
 						user.joinedLeagues = joinedLeagues;
 
-						done(err, user);
+						global.cacheUser   = user;
+
+						done(err, global.cacheUser);
 
 					});
 				});
