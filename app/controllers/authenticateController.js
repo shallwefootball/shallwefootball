@@ -40,7 +40,7 @@ exports.logout = function (req, res) {
 exports.signup = function (req, res, next) {
 
 	passport.authenticate('local-signup', function (err, user, info) {
-		if (err) { return next(err); }
+		if (err) return next(err);
 
 		// 가입성공시 user에 user 정보가 들어오고, 가입실패시 user에 false가 온다.
 		if (user === false) {
@@ -50,7 +50,7 @@ exports.signup = function (req, res, next) {
 		}
 
 		req.login(user, function (err) {
-			if (err) { return next(err); }
+			if (err) return next(err);
 
 			return res.redirect('/');
 		});
@@ -61,7 +61,7 @@ exports.signup = function (req, res, next) {
 exports.signout = function (req, res, next) {
 
 	userModel.deletePlayer(req.user.email, function (err, result, transactions) {
-		if (err) { return next(err); }
+		if (err) return next(err);
 
 		console.log('result   : ', result);
 		if (result.affectedRows) {
