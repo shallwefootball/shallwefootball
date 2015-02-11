@@ -80,7 +80,11 @@ navbar */
 .navbar .text-primary {
 	cursor: pointer;
 }
-
+@media (max-width: 767px) {
+	.navbar-collapse.in {
+	    overflow-y: visible;
+	}
+}
 /*--------------------------------------------
 Serach */
 #search {
@@ -277,9 +281,9 @@ Customize container  */
 /*--------------------------------------------
 player name  */
 @media (max-width: 767px) {
-  .player-name {
-    width: 50px;
-  }
+	.player-name {
+		width: 50px;
+	}
 }
 
 /* Responsive: Portrait tablets and up
