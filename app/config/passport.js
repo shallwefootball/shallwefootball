@@ -11,8 +11,6 @@ var path            = require('path'),
 var eachAsync 	= require('each-async');
 
 
-global.cacheUser = null;
-
 
 module.exports = function (passport) {
 
@@ -24,8 +22,6 @@ module.exports = function (passport) {
 	passport.deserializeUser(function (email, done) {
 
 		console.log('deserializeUser called...........');
-
-		if (global.cacheUser) return done(null, global.cacheUser);
 
 		userModel.selectUser(email, function (err, user) {
 
@@ -63,9 +59,7 @@ module.exports = function (passport) {
 						user.currentLeague = currentLeague;
 						user.joinedLeagues = joinedLeagues;
 
-						global.cacheUser   = user;
-
-						done(err, global.cacheUser);
+						done(err, user);
 
 					});
 				});
