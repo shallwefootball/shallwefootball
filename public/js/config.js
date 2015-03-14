@@ -52,8 +52,8 @@ require.config({
 	},
 	paths: {
 		jquery: '../../bower_components/jquery/dist/jquery',
-		jqueryUi: '/js/libs/jquery-ui-1.10.4.min.js',
-		jqueryUiTouchPunch: '/js/libs/jquery.ui.touch-punch.js',
+		jqueryUi: '/js/libs/jquery-ui-1.10.4.min',
+		jqueryUiTouchPunch: '/js/libs/jquery.ui.touch-punch',
 		bootstrap: '../../bower_components/bootstrap/dist/js/bootstrap',
 		underscore: '../../bower_components/underscore/underscore',
 		backbone: '../../bower_components/backbone/backbone',
