@@ -2,8 +2,10 @@
 require([
 	'jquery',
 	'nprogress',
-	'bootstrap'
-	], function ($, NProgress, Bootstrap) {
+	'bootstrap',
+	'jqueryUi',
+	'jqueryUiTouchPunch'
+	], function ($, NProgress, Bootstrap, JqueryUi, JqueryUiTouchPunch) {
 
 		/* ---------------------------------------------------------
 		 *	global
@@ -508,6 +510,253 @@ require([
 			});
 
 		}();
+
+
+		/* ---------------------------------------------------------
+		 * Formation
+		 */
+		+function () {
+			'use strict';
+
+			//온로드하자마자 포메이션 바꾼다.
+			$(function(){
+				changeStartingFormation();
+			})
+
+			/*********************************** 대기선수 포지션 변경 ***********************************/
+			// popover start 2014 6.5
+			var table =
+					'<table style="margin-top: 8px; margin-bottom: 8px;">' +
+						'<tr>' +
+							'<td class="subPositionTd"><span class="label subPositionLabel label-warning">GK</span></td>' +
+							'<td class="subPositionTd"><span class="label subPositionLabel label-success">DF</span></td>' +
+							'<td class="subPositionTd"><span class="label subPositionLabel label-primary">MF</span></td>' +
+							'<td class="subPositionTd"><span class="label subPositionLabel label-danger">FW</span></td>' +
+						'</tr>' +
+					'</table>';
+
+
+			// $(document).on('click', '[data-toggle="popover"]', function(e){
+				// console.log('test');
+				// console.log($('[data-toggle="popover"]'));
+				// console.log($(this));
+				// $('[data-toggle="popover"]').popover();
+				$('[data-toggle="popover"]').popover({
+					html: true,
+					placement : 'top',
+					content : table
+				});
+				// $(this).popover({
+				// });
+			// })
+
+
+
+			//바디부분찍으면 팝오버가 사라집니다.
+			$('body').on('click', function (e) {
+					$('[data-toggle="popover"]').each(function () {
+							if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+
+								//기존에 있던 팝오버 디스플레이 블럭을 none으로 바꿔준 부분
+								$(this).next(".popover").css('display', 'none');
+								$(this).popover('hide');
+							}
+					});
+			});
+
+
+			//포지션 선택하고 나서 팝오버 사라지게 해주는 부분
+			//아래처럼 해줘야하는데,,,,,  $(".subPo").on('click', function()) --> 안된다,, 왜냐면,음,,,문서로드관련???
+			$(document).on('click', '.subPositionLabel', function(e){
+				var originPosition = $(this).parents('.popover').prev();
+				var selectedPosition = e.target
+				originPosition.text(selectedPosition.textContent);
+				// console.log('ori : ', originPosition);
+
+				originPosition.removeClass().addClass("label " + selectedPosition.classList[2]);
+				// console.log('target  : ', selectedPosition.classList[2]);
+				// console.log('origin : ', originPosition.context.classList[2]);
+
+				//포지션 선택하면 남아있는 display:block을 바꿔주는 부분
+				$('.popover').css('display', 'none')
+				$('[data-toggle="popover"]').popover('hide');
+			});
+
+			//end 2014 6.5
+
+			/*********************************** 포메이션 변경 ***********************************/
+			$("#selectedFormation").change(function () {
+				changeStartingFormation();
+			});
+
+
+
+			//선발 대기 제외 Sortable
+			$("#bStarting").sortable({
+				receive: function( event, ui ) {
+					if($("#bStarting li").length == 12){
+						if($("#bSub li").length == 5){
+							$("#bStarting li:last-child").appendTo("#bExcepted");
+						} else {
+							$("#bStarting li:last-child").appendTo("#bSub");
+						}
+					}
+					changeStartingFormation();
+				},
+				stop : function(event, ui){
+					changeStartingFormation();
+				},
+				connectWith : ".bConnectedSortable"
+			}).disableSelection();
+			$("#bSub").sortable({
+				receive : function(event, ui){
+					if(($("#bSub li").length == 6) && ($("#bStarting li").length == 10)){
+						$("#bSub li:first-child").appendTo("#bStarting");
+					}else if(($("#bSub li").length == 6) || ($("#bStarting li").length == 11)){
+						if($("#bSub li").length == 6){
+							$("#bSub li:last-child").appendTo("#bExcepted");
+						}
+					}else if($("#bStarting li").length == 10){
+						$("#bSub li:first-child").appendTo("#bStarting");
+					}
+				},
+				connectWith : ".bConnectedSortable"
+			}).disableSelection();
+			$("#bExcepted").sortable({
+				receive : function(event, ui){
+					if($("#bStarting li").length == 10 && $("#bSub li").length == 0){
+						$("#bExcepted li:first-child").appendTo("#bStarting");
+					}else if($("#bStarting li").length == 10 && $("#bSub li").length >= 1 ){
+						$("#bSub li:first-child").appendTo("#bStarting");
+					}
+				},
+				connectWith : ".bConnectedSortable"
+			}).disableSelection();
+
+			function changeStartingFormation(){
+				var val = $("#selectedFormation option:selected").val();
+				var df = val.charAt(0);
+				var mf = val.charAt(2);
+				var fw = val.charAt(4);
+
+				$("#bStarting li").each(function(i){
+					if(i == 0){
+						$("#bStarting li:eq(0) > span:eq(0)").text('GK');
+						$("#bStarting li:eq(0) > span:eq(0)").removeClass().addClass('label label-warning gk');
+					}else if(i > (parseInt(df) + parseInt(mf)) && i < 11){
+						$("#bStarting li:eq("+i+") > span:eq(0)").text('FW');
+						$("#bStarting li:eq("+i+") > span:eq(0)").removeClass().addClass('label label-danger fw');
+					}else if(i > (df) && i <= (parseInt(df) + parseInt(mf))){
+						$("#bStarting li:eq("+i+") > span:eq(0)").text('MF');
+						$("#bStarting li:eq("+i+") > span:eq(0)").removeClass().addClass('label label-primary mf');
+					}else if(i >= 1 && i <= df){
+						$("#bStarting li:eq("+i+") > span:eq(0)").text('DF');
+						$("#bStarting li:eq("+i+") > span:eq(0)").removeClass().addClass('label label-success df');
+					}
+				});
+			}
+
+
+
+			$("#save").click(function(){
+				var savePlayers = [];
+				var selectedFormation = $('#selectedFormation').val();
+				$("#bStarting li").each(function(i){
+					var squadNumber   = $("#bStarting li:eq(" + i + ") strong").text().slice(1);
+					var status        = $("#bStarting li:eq(" + i + ") span").text().trim();
+					var matchPosition = $("#bStarting li:eq(" + i + ") span:eq(0)").text();
+					var player = []
+					player.push(squadNumber);
+					// player.push(status);
+					player.push(matchPosition);
+					player.push("starting");
+					savePlayers.push(player);
+				});
+				$("#bSub li").each(function(i){
+					var squadNumber   = $("#bSub li:eq(" + i + ") strong").text().slice(1);
+					var status        = $("#bSub li:eq(" + i + ") span").text().trim();
+					var matchPosition = $("#bSub li:eq(" + i + ") span:eq(0)").text();
+					var player = []
+
+					player.push(squadNumber);
+					// player.push(status);
+					player.push(matchPosition);
+					player.push("sub");
+					savePlayers.push(player);
+
+				});
+				$("#bExcepted li").each(function(i){
+					var squadNumber   = $("#bExcepted li:eq(" + i + ") strong").text().slice(1);
+					var status        = $("#bExcepted li:eq(" + i + ") span").text().trim();
+					var matchPosition = $("#bExcepted li:eq(" + i + ") span:eq(0)").text();
+					var player = []
+					player.push(squadNumber);
+					// player.push(status);
+					player.push(matchPosition);
+					player.push("excepted");
+					savePlayers.push(player);
+				});
+				console.log('savePlayers   : ', savePlayers);
+				$.ajax({
+					type        : 'PUT',
+					async       : true,
+					url         : window.location.pathname,
+					data        : {
+							savePlayers: savePlayers,
+							selectedFormation: selectedFormation
+					},
+					beforeSend  : function() {
+							$('#ajax_load_indicator').show().fadeIn('fast');
+					},
+					success     : function(data) {
+							console.log(data);
+							console.log('통신은 일단성공');
+							alert('성공~');
+							location.reload();
+					},
+					error       : function(data, status, err) {
+						console.log("error forward : "+data);
+							alert('서버와의 통신이 실패했습니다.');
+					}
+					// ,complete    : function() {
+
+					// }
+				});
+			})
+
+			//명단 제출
+			$("#sendLineups").click(function(){
+				$.ajax({
+					type        : 'POST',
+					async       : true,
+					url         : '/sendLineups',
+					data        : {
+							clubId    : location.pathname.split("/")[4],
+							leagueId  : location.pathname.split("/")[2],
+							matchId   : $('#selectMatch').val()
+					},
+					beforeSend  : function() {
+							$('#ajax_load_indicator').show().fadeIn('fast');
+					},
+					success     : function(data) {
+							console.log(data);
+							console.log('통신은 일단성공');
+							alert('제출성공~');
+							location.reload();
+					},
+					error       : function(data, status, err) {
+						console.log("error forward : "+data);
+							alert('서버와의 통신이 실패했습니다.');
+					}
+				});
+			});
+
+			String.prototype.trim = function(){
+				 this.replace(/(^\s*)|(\s*$)/gi, "");
+			}
+
+		}();
+
 
 
 		/* ---------------------------------------------------------
