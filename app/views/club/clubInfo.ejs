@@ -8,9 +8,12 @@
 				<!-- <p class="text-muted text-center">승률 : 30%(총 20경기 4승 3무 3패) !!더미</p> -->
 
 				<%	if (league.status == 'playing') { %>
-					<p class="text-center">
-						<button id="getFormation" class="btn btn-info btn-lg">Formation</button>
-					</p>
+
+					<% if (locals.user.userId == 18) { %>
+						<p class="text-center">
+							<button id="getFormation" class="btn btn-info btn-lg">Formation</button>
+						</p>
+					<% } %>
 				<% } %>
 			</div>
 
