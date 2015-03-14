@@ -1,10 +1,12 @@
 <div class="row schedule">
 
-	<ul class="nav nav-pills" role="tablist">
-		<li class="active"><a href="#firstMatches" role="tab" data-toggle="tab">1차전</a></li>
-		<li><a href="#secondMatches" role="tab" data-toggle="tab">2차전</a></li>
-		<li><a href="#tournament" role="tab" data-toggle="tab">토너먼트</a></li>
-	</ul>
+	<% if (locals.league.leagueId != 5) { %>
+		<ul class="nav nav-pills" role="tablist">
+			<li class="active"><a href="#firstMatches" role="tab" data-toggle="tab">1차전</a></li>
+			<li><a href="#secondMatches" role="tab" data-toggle="tab">2차전</a></li>
+			<li><a href="#tournament" role="tab" data-toggle="tab">토너먼트</a></li>
+		</ul>
+	<% } %>
 
 	<div class="tab-content">
 
