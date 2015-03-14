@@ -1,40 +1,4 @@
-			<div class="row">
-				<div class="col-md-12">
 
-					<table class="table">
-						<thead>
-							<tr>
-								<th class="hidden-xs">시즌</th>
-								<th>경기</th>
-								<th>승</th>
-								<th>무</th>
-								<th>패</th>
-								<th class="hidden-xs">득</th>
-								<th class="hidden-xs">실</th>
-								<th>차</th>
-							</tr>
-						</thead>
-						<tbody>
-
-							<% club.stats.forEach(function (stat) { %>
-
-								<tr>
-									<td class="hidden-xs"><%= stat.season %></td>
-									<td><%= stat.played %></td>
-									<td><%= stat.won %></td>
-									<td><%= stat.drawn %></td>
-									<td><%= stat.lost %></td>
-									<td class="hidden-xs"><%= stat.for %></td>
-									<td class="hidden-xs"><%= stat.against %></td>
-									<td><%= stat.different %></td>
-								</tr>
-
-							<% }); %>
-
-						</tbody>
-					</table>
-				</div>
-			</div>
 
 			<div class="row">
 
