@@ -5,9 +5,6 @@ exports.selectPlayersForFormation = function(clubId, callback) {
         if (err) return console.error('db - err : ', err);
         conn.query('select p.playerId, (select concat(u.lastName, u.firstName)playerName from user u where u.userId = p.userId)playerName, p.position, p.squadNumber, p.matchPosition, p.orderNumber, p.status from player p where p.clubId = ? order by p.orderNumber', [clubId], function (err, result) {
             if (err) return console.error('err : ', err);
-            console.log('reqsult     : ', result);
-
-
 
             callback(err, result);
         });
