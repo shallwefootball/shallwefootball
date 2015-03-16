@@ -13,8 +13,9 @@ require('./app/config/express')(app, express, passport);
 app.set('port', app.config.server.port);
 app.listen(app.get('port'), function() {
 	console.log(
-			"✔ Express server listening on port %d in %s mode",
+			"✔ Express server listening on port %d in %s mode and running db on %s",
 			app.get('port'),
-			app.config.app.name
+			app.config.app.name,
+			app.config.mysql.database
 		);
 });
