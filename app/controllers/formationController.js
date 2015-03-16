@@ -1,6 +1,10 @@
 var formationModel = require('../models/formationModel'),
 	async		   = require('async');
 
+var Q = require('q');
+require('q-foreach')(Q);
+
+
 exports.formationView = function (req, res) {
 
 	var clubId 	 = req.params.clubId,
@@ -130,21 +134,28 @@ exports.sendLineups = function (req, res) {
 
 	formationModel.selectLineups (req.body.clubId, function (err, players) {
 
-		for (var i = 0; i < players.length; i++){
+		//q
+		Q.forEach(players, function (player, index) {
 
-			var playerId      = players[i].playerId,
+			var playerId      = player['playerId'],
 				matchId       = req.body.matchId,
-				matchPosition = players[i].matchPosition,
-				status 		  = players[i].status,
-				orderNumber   = players[i].orderNumber,
+				matchPosition = player['matchPosition'],
+				status 		  = player['status'],
+				orderNumber   = player['orderNumber'],
 				data 		  = [ playerId, matchId, matchPosition, status, orderNumber ];
 
+			var defer = Q.defer();
 			formationModel.insertLineup (data, function (err, result){
-				if(players.length == i){
-					res.json({ isSuccess : "success" });
-				}
+				if (err) return console.error('err  : ', err);
 			});
-		}
+
+		    defer.resolve(player);
+
+			return defer.promise;
+		}).then(function (result){
+
+			res.json({ isSuccess : "success" });
+		});
 	});
 }
 
