@@ -819,7 +819,9 @@
         var selectedRecordElement = $(this);
 
         var recordIds = [];
-        recordIds.push(selectedRecordElement.attr("data-recordId"));
+        if(selectedRecordElement.attr("data-recordId")){
+	        recordIds.push(selectedRecordElement.attr("data-recordId"));
+        }
         recordIds.push(selectedRecordElement.attr("data-selectedRecordId"));
         recordIds.push(selectedRecordElement.attr("data-subRecordId"));
 
