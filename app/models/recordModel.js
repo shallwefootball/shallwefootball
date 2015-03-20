@@ -17,7 +17,7 @@ exports.selectMatchForRecord = function(matchId, callback) {
 
     db.pool.acquire(function(err, conn){
         if (err) return console.error('db - err : ', err);
-        conn.query('select m.matchName, month(m.kickoffTime) month, DAY(m.kickoffTime) day, hour(m.kickoffTime) hour, m.homeClubId, (select (select teamName from team t where t.teamId = c.teamId)teamName from club c where m.homeClubId = c.clubId)homeClubName, m.awayClubId, (select (select teamName from team t where t.teamId = c.teamId)teamName from club c where m.awayClubId = c.clubId)awayClubName, if ( m.kickoffTime < now() and isnull(m.homeScore), 0, m.homeScore) homeScore, if ( m.kickoffTime < now() and isnull(m.awayScore), 0, m.awayScore) awayScore from `match` m where matchId = ?', [ matchId ], function (err, result) {
+        conn.query('select m.matchName, year(m.kickoffTime) year, month(m.kickoffTime) month, DAY(m.kickoffTime) day, hour(m.kickoffTime) hour, m.stadium, hour(m.firstHalfTime) firstHalfHour, date_format(m.firstHalfTime, "%i") firstHalfMinute, m.firstHalfAdditional, hour(m.secondHalfTime) secondHalfHour, date_format(m.secondHalfTime, "%i") secondHalfMinute, m.secondHalfAdditional, m.sky, m.temperature, m.humidity, m.wind, m.refereeHead, m.refereeAssistant1, m.refereeAssistant2, refereeFourth, m.homeCoach, m.awayCoach, m.homeClubId, (select (select teamName from team t where t.teamId = c.teamId)teamName from club c where m.homeClubId = c.clubId)homeClubName, (select (select teamId from team t where t.teamId = c.teamId)teamName from club c where m.homeClubId = c.clubId)homeTeamId, m.awayClubId, (select (select teamName from team t where t.teamId = c.teamId)teamName from club c where m.awayClubId = c.clubId)awayClubName, (select (select teamId from team t where t.teamId = c.teamId)teamName from club c where m.awayClubId = c.clubId)awayTeamId, if ( m.kickoffTime < now() and isnull(m.homeScore), 0, m.homeScore) homeScore, if ( m.kickoffTime < now() and isnull(m.awayScore), 0, m.awayScore) awayScore from `match` m where matchId = ?', [ matchId ], function (err, result) {
             if (err) return console.log('err : ', err);
 
             callback(err, result[0]);
@@ -38,6 +38,20 @@ exports.selectPlayersRecorded = function (matchId, callback) {
         db.pool.release(conn);
     });
 };
+
+exports.selectPlayerRecorded = function (matchId, lineupId, callback) {
+
+    db.pool.acquire(function(err, conn){
+        if (err) return console.error('db - err : ', err);
+        conn.query('select r.recordId, r.recordName, r.minutes, r.time, r.lineupId, concat(u.lastName, u.firstName) playerName, p.squadNumber, p.clubId, r.recordId, r.recordName, r.minutes, r.lineupId from record r, lineup l, user u, player p where r.lineupId = l.lineupId and u.userId = p.userId and l.playerId = p.playerId and l.matchId = ? and l.lineupId = ? order by minutes asc', [matchId, lineupId], function (err, results) {
+            if (err) return console.log('err : ', err);
+
+            callback(err, results);
+        });
+        db.pool.release(conn);
+    });
+};
+
 
 exports.selectScorers = function (matchId, callback) {
 

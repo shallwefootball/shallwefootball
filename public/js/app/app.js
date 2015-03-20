@@ -94,6 +94,19 @@ require([
 								$(this).attr("data-awayClubId");
 			});
 
+	    	// Record
+			$(".getFacebookViewBtn").click( function (e) {
+				location.href = location.origin +
+								"/league/" +
+								location.pathname.split("/")[2] +
+								"/facebookRecords/" +
+								$(this).attr("value") +
+								"/home/" +
+								$(this).attr("data-homeClubId") +
+								"/away/" +
+								$(this).attr("data-awayClubId");
+			});
+
 			// Club Info
 			$(".panel [data-clubId]").click( function (e) {
 				console.log('teamId click~~~!!!');

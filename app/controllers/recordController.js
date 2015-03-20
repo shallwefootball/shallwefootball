@@ -1,7 +1,10 @@
 var recordModel = require('../models/recordModel'),
 	async 		= require('async');
 
-exports.recordView = function(req, res) {
+var Q = require('q');
+require('q-foreach')(Q);
+
+exports.recordView = function (req, res) {
 	var matchId    = req.params.matchId,
 		homeClubId = req.params.homeClubId,
 		awayClubId = req.params.awayClubId;
@@ -135,7 +138,107 @@ exports.recordView = function(req, res) {
 	});
 };
 
+exports.facebookRecordView = function (req, res) {
 
+	var matchId    = req.params.matchId,
+		homeClubId = req.params.homeClubId,
+		awayClubId = req.params.awayClubId;
+
+	var match = {};
+
+	async.parallel([
+	    function(callback){
+	    	//home
+			recordModel.selectPlayersAClubForRecord(matchId, homeClubId, function (err, players) {
+
+	            var playersObj 		= {};
+
+				playersObj.starting = [];
+				playersObj.sub      = [];
+
+				Q.forEach(players, function (player, index) {
+
+					switch (player.status) {
+						case "starting" : playersObj.starting.push(player); break;
+						case "sub" 		: playersObj.sub.push(player); break;
+						default 		: break;
+					}
+
+					var defer = Q.defer();
+					recordModel.selectPlayerRecorded (matchId, player.lineupId, function (err, result){
+						if (err) return console.error('err  : ', err);
+
+						player.records = result;
+					    defer.resolve(player);
+					});
+
+
+					return defer.promise;
+				}).then(function (result){
+
+		            callback(null, playersObj);
+				});
+			})
+	    },
+	    function(callback){
+	    	//away
+			recordModel.selectPlayersAClubForRecord (matchId, awayClubId, function (err, players) {
+
+	            var playersObj 		= {};
+
+				playersObj.starting = [];
+				playersObj.sub      = [];
+
+				Q.forEach(players, function (player, index) {
+
+					switch (player.status) {
+						case "starting" : playersObj.starting.push(player); break;
+						case "sub" 		: playersObj.sub.push(player); break;
+						default 		: break;
+					}
+
+					var defer = Q.defer();
+					recordModel.selectPlayerRecorded (matchId, player.lineupId, function (err, result){
+						if (err) return console.error('err  : ', err);
+
+						player.records = result;
+					    defer.resolve(player);
+					});
+
+
+					return defer.promise;
+				}).then(function (result){
+
+		            callback(null, playersObj);
+				});
+			})
+	    },
+	    function(callback){
+	    	//match info
+			recordModel.selectMatchForRecord (matchId, function (err, info){
+
+	            callback(null, info);
+			})
+	    },
+	],
+	function(err, results){
+		if(err){
+			console.error(err);
+			res.json(400, {error : "message"});
+		}
+
+		match.homePlayers 	  = results[0];
+		match.awayPlayers 	  = results[1];
+		match.info 		  	  = results[2];
+		match.playersRecorded = results[3];
+
+		console.log('facebook view home   : ', match.homePlayers);
+		console.log('facebook view away   : ', match.awayPlayers);
+		console.log('facebook view info   : ', match.info);
+		res.render('../views/record/facebook', { match : match })
+
+	});
+}
 
 exports.postRecord = function (req, res) {
 

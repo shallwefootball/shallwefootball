@@ -72,6 +72,7 @@ Route
 
 	//record
 	.get    ('/league/:leagueId/records/:matchId/home/:homeClubId/away/:awayClubId', Auth.requiresAdmin, record.recordView)
+	.get    ('/league/:leagueId/facebookRecords/:matchId/home/:homeClubId/away/:awayClubId', Auth.requiresAdmin, record.facebookRecordView)
 	.post   ('/records/:matchId', 	 record.postRecord)
 	.post   ('/recordSubs/:matchId', record.recordSubs)
 	.delete ('/records/:matchId', 	 record.deleteRecord)
