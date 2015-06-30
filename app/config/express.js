@@ -39,5 +39,4 @@ module.exports = function(app, express, passport) {
     // routes 폴더의 index.js 로 이동
     app.use(routes);
 
-
 };
