@@ -30,7 +30,7 @@ Route
 	.get    ('/login',   authenticate.loginView)
 	.post   ('/login',   authenticate.login)
 	.get    ('/logout',  authenticate.logout) 			// logout은 post로 써야함. because pre-fetch
-	// .get    ('/signup',  authenticate.signupView)
+	.get    ('/signup',  authenticate.signupView)
 	// .post   ('/signup',  authenticate.signup)
 	.delete ('/signout', authenticate.signout)
 
@@ -99,8 +99,6 @@ Route
 				db.pool.release(conn);
 			});
 		});
-	})
-
-
+	});
 
 module.exports = Route;
