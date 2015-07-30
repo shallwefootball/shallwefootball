@@ -69,6 +69,5 @@
 	- 나이(in day)
 
 
-![db-erd](docs_images/db_erd.png "디비 구조")
 
 
