@@ -1,7 +1,8 @@
 // need to modify config.js because of __dirname
 var LiveDb = new LiveMysql(require('../config.js').mysql);
 var Future = Npm.require( 'fibers/future' );
-
+var logger = require('../logger');
+// var logger = null;
 
 var closeAndExit = function() {
   LiveDb.end();
@@ -54,7 +55,7 @@ Meteor.methods({
         ], function(err, result) {
           if (err) return LiveDb.db.rollback(function() { future.throw(err); });
 
-          console.log('update User result : ', result)
+          console.log('info', 'update User result : ', result)
 
           LiveDb.db.query('select u.userId, concat(u.lastName, u.firstName)playerName, u.email, c.clubId, t.teamName, l.community, l.season, c.createdAt from player p left join user u on p.userId = u.userId left join club c on p.clubId = c.clubId left join team t on t.teamId = c.teamId left join league l on c.leagueId = l.leagueId where l.leagueId = ? and p.userId = ?', [
               options.leagueId,
@@ -67,7 +68,7 @@ Meteor.methods({
                 });
               }
 
-              console.log('select player result : ', result)
+              console.log('info', 'select player result : ', result)
 
               LiveDb.db.query('insert into player (userId, clubId, squadNumber, position, matchposition, createdAt) values (?, ?, ?, ?, ?, ?)', [
                 options.userId,
