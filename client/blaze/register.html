@@ -1,0 +1,92 @@
+<template name="register">
+
+  <div class="row">
+    <h1>2016 공찰래 선수등록</h1>
+  </div>
+
+  {{> loginButtons}}
+
+  <div class="row">
+    <input type="text" class="form-control" name="search" placeholder="이름 검색...">
+  </div>
+  <br>
+  <div class="row">
+    <select class="form-control" name="teamFilter">
+      <option value="">전체</option>
+      {{#each registeredTeam this}}
+        <option value="{{teamId}}">{{teamName}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <h3>{{currentCount}} : 명</h3>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ready?</th>
+        <th>이름</th>
+        <th>소속</th>
+        <th>email</th>
+        <th>최근 시즌</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each registerUsers this}}
+        <tr>
+          <td>
+            <button class="btn btn-default" type="button" name="player-modal">등록</button>
+            {{> playerModal}}
+          </td>
+          <td>{{playerName}}</td>
+          <td>{{teamName}}</td>
+          <td>{{email}}</td>
+          <td>{{season}}</td>
+        </tr>
+      {{/each}}
+
+    </tbody>
+  </table>
+</template>
+
+<template name="playerModal">
+
+  <div class="modal fade" id="playerModal{{userId}}" tabindex="-1" role="dialog" aria-labelledby="playerModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="playerModalLabel">{{playerName}}</h4>
+          </div>
+          <div class="modal-body">
+            <br>
+            <input type="email" class="form-control" value="{{email}}" name="email" placeholder="이메일을 입력하세요">
+            <br>
+            <input type="password" class="form-control" name="password" placeholder="비밀번호을 입력하세요" />
+            <br>
+            <input type="password" class="form-control" name="confirm" placeholder="한번 더!" />
+            <br>
+            <select class="form-control" name="teamRegister">
+              <option value="">등록할 팀을 선택하세요</option>
+              {{#each registerTeam this}}
+                <option value="{{clubId}}">{{community}}{{season}} {{teamName}}</option>
+              {{/each}}
+            </select>
+            <br>
+            <div class="alert alert-warning alert-dismissible fade in" role="alert">
+              <strong>이런!</strong> {{errorMessage}}
+            </div>
+            <br>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            <button type="button" class="btn btn-default" name="fadeOut">fadeOut</button>
+            <button type="submit" class="btn btn-primary">인증메일 받기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</template>
