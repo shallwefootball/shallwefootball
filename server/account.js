@@ -8,6 +8,8 @@ Accounts.onCreateUser(function(options, user) {
 
   Meteor.call('addPlayer', options, function(err, result) {
     if (err) future.throw(err);
+
+    // console.log('info', 'success player')
     future.return(user)
   });
   return future.wait();

@@ -2,7 +2,6 @@
 var LiveDb = new LiveMysql(require('../config.js').mysql);
 var Future = Npm.require( 'fibers/future' );
 var logger = require('../logger');
-// var logger = null;
 
 var closeAndExit = function() {
   LiveDb.end();
@@ -93,8 +92,3 @@ Meteor.methods({
     return future.wait();
   }
 });
-
-
-
-
-
