@@ -31,8 +31,8 @@ Template.loginModal.events({
         return Session.set(ERRORS_KEY, {'none': error.reason});
       }
 
+      $('#loginModal').modal('hide');
       console.log('login success???');
-
       // Router.go('home');
     });
 

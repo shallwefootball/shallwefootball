@@ -44,49 +44,7 @@
           <td>{{season}}</td>
         </tr>
       {{/each}}
-
     </tbody>
   </table>
-</template>
-
-<template name="playerModal">
-
-  <div class="modal fade" id="playerModal{{userId}}" tabindex="-1" role="dialog" aria-labelledby="playerModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <form>
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="playerModalLabel">{{playerName}}</h4>
-          </div>
-          <div class="modal-body">
-            <br>
-            <input type="email" class="form-control" value="{{email}}" name="email" placeholder="이메일을 입력하세요">
-            <br>
-            <input type="password" class="form-control" name="password" placeholder="비밀번호을 입력하세요" />
-            <br>
-            <input type="password" class="form-control" name="confirm" placeholder="한번 더!" />
-            <br>
-            <select class="form-control" name="teamRegister">
-              <option value="">등록할 팀을 선택하세요</option>
-              {{#each registerTeam this}}
-                <option value="{{clubId}}">{{community}}{{season}} {{teamName}}</option>
-              {{/each}}
-            </select>
-            <br>
-            <div class="alert alert-warning alert-dismissible fade in" role="alert">
-              <strong>이런!</strong> {{errorMessage}}
-            </div>
-            <br>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-            <button type="button" class="btn btn-default" name="fadeOut">fadeOut</button>
-            <button type="submit" class="btn btn-primary">인증메일 받기</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
 </template>
