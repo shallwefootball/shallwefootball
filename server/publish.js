@@ -12,12 +12,12 @@ process.on('SIGTERM', closeAndExit);
 // Close connections on exit (ctrl + c)
 process.on('SIGINT', closeAndExit);
 
-Meteor.publish('registerUsers', function(user, team) {
+Meteor.publish('registerUsers', function(user, teamName) {
   user = user ? user : '';
-  team = team ? team : '';
+  teamName = teamName ? teamName : '';
 
   return LiveDb.select(
-    'select * from (select * from (select u.userId, concat(u.lastName, u.firstName)playerName, u.email, p.playerId, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, l.end from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId WHERE (u.firstName LIKE "%' + user + '%" OR u.lastName LIKE "%' + user + '%" OR concat(u.lastName, u.firstName) LIKE "%' + user + '%") AND t.teamName LIKE "%' + team + '%" order by l.end desc, c.clubId asc) us group by us.userId) pl order by pl.end desc, pl.teamName asc',
+    'select * from (select * from (select u.userId, concat(u.lastName, u.firstName)playerName, u.email, p.playerId, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, l.end from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId WHERE (u.firstName LIKE "%' + user + '%" OR u.lastName LIKE "%' + user + '%" OR concat(u.lastName, u.firstName) LIKE "%' + user + '%") AND t.teamName LIKE "%' + teamName + '%" order by l.end desc, c.clubId asc) us group by us.userId) pl order by pl.end desc, pl.teamName asc',
     [{table: 'user'}]
   );
 })
@@ -40,6 +40,18 @@ Meteor.publish('registeredTeam', function() {
   );
 })
 
+//for 2015
+Meteor.publish('registerdPlayers', function(clubId) {
+  console.log('this arguments  : ', arguments);
+
+  if (!clubId) return [];
+
+  return LiveDb.select(
+    'select u.userId, p.playerId, concat(u.lastName, u.firstName)playerName, u.email, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, p.createdAt from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId WHERE c.clubId = ' + clubId + ' order by p.squadNumber',
+    [{table: 'user'}]
+  );
+})
+
 Meteor.methods({
   addPlayer: function(options) {
 
@@ -47,9 +59,10 @@ Meteor.methods({
 
     LiveDb.db.beginTransaction(function (err) {
       if (err) future.throw(err);
-      LiveDb.db.query('UPDATE user SET email = ?, createdAt = ? WHERE userId = ?', [
+      LiveDb.db.query('UPDATE user SET email = ?, createdAt = ?, birthDay = ? WHERE userId = ?', [
           options.email,
           options.createdAt,
+          options.birthDay,
           options.userId
         ], function(err, result) {
           if (err) return LiveDb.db.rollback(function() { future.throw(err); });
@@ -88,6 +101,47 @@ Meteor.methods({
               }); //end add Player
           }); // end select Player
       }); // end user Update
+    })  //end transaction
+    return future.wait();
+  },
+  addUserPlayer: function(options) {
+
+    console.log('addUserPlayer options : ', options);
+
+    var future = new Future();
+    LiveDb.db.beginTransaction(function (err) {
+      if (err) future.throw(err);
+
+      LiveDb.db.query('insert into `user` (email, lastName, firstName, birthDay, createdAt) values(?, ?, ?, ?, ?)', [
+        options.email,
+        options.lastName,
+        options.firstName,
+        options.birthDay,
+        options.createdAt
+      ], function(err, result) {
+        if (err) return LiveDb.db.rollback(function() { future.throw(err); });
+        console.log('add user result : ', result)
+
+        var userId = result.insertId;
+
+        LiveDb.db.query('insert into player (userId, clubId, squadNumber, position, matchposition, createdAt) values (?, ?, ?, ?, ?, ?)', [
+          userId,
+          options.clubId,
+          options.squadNumber,
+          options.position,
+          options.position,
+          options.createdAt
+        ], function(err, result) {
+          if (err) return LiveDb.db.rollback(function() { future.throw(err); });
+
+          console.log('add player result : ', result)
+
+          LiveDb.db.commit(function(err) {
+            if (err) return LiveDb.db.rollback(function() { future.throw(err); });
+            future.return(result)
+          });
+        }); //end add Player
+      }); //end add Player
     })  //end transaction
     return future.wait();
   }

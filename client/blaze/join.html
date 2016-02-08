@@ -10,25 +10,38 @@
           </div>
           <div class="modal-body">
             <input type="email" class="form-control" name="email" placeholder="이메일을 입력하세요">
+            <p>이메일 인증으로 선수등록이 완료됩니다.</p>
+            <input type="text" class="form-control" name="lastName" placeholder="성">
             <br>
-            <input type="text" class="form-control" name="lastName" placeholder="성을 입력하세요">
+            <input type="text" class="form-control" name="firstName" placeholder="이름">
             <br>
-            <input type="text" class="form-control" name="firstName" placeholder="이름을 입력하세요">
+            <input type="password" class="form-control" name="password" placeholder="비밀번호" />
             <br>
-            <input type="password" class="form-control" name="password" placeholder="비밀번호을 입력하세요" />
+            <input type="password" class="form-control" name="confirm" placeholder="한번 더!" />
             <br>
-            <select class="form-control" name="teamRegister">
+            <select class="form-control" name="clubId">
               <option value="">등록할 팀을 선택하세요</option>
-              {{#each registerTeam this}}
+              {{#each clubs this}}
                 <option value="{{clubId}}">{{community}}{{season}} {{teamName}}</option>
               {{/each}}
             </select>
             <br>
-            <input type="password" class="form-control" name="confirm" placeholder="한번 더!" />
+            <select class="form-control" name="squadNumber">
+              <option value="">등번호를 선택하세요</option>
+              {{#each currentRestNumber this}}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
             <br>
-            <input type="text" class="form-control" name="squadNumber" placeholder="등번호를 입력하세요">
+            <select class="form-control" name="position">
+              <option value="">포지션을 선택하세요</option>
+              <option value="GK">GK</option>
+              <option value="DF">DF</option>
+              <option value="MF">MF</option>
+              <option value="FW">FW</option>
+            </select>
             <br>
-            <input type="text" class="form-control" name="position" placeholder="포지션을 입력하세요">
+            <input type="text" class="form-control" name="datepicker" placeholder="ex)2012/01/21" />
             <br>
             <div class="alert alert-warning alert-dismissible fade in" role="alert">
               <strong>이런!</strong> {{errorMessage}}

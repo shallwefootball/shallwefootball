@@ -11,10 +11,10 @@
   </div>
   <br>
   <div class="row">
-    <select class="form-control" name="teamFilter">
+    <select class="form-control" name="teamName">
       <option value="">전체</option>
       {{#each registeredTeam this}}
-        <option value="{{teamId}}">{{teamName}}</option>
+        <option value="{{teamName}}">{{teamName}}</option>
       {{/each}}
     </select>
   </div>
@@ -35,8 +35,17 @@
       {{#each registerUsers this}}
         <tr>
           <td>
-            <button class="btn btn-default" type="button" name="player-modal">등록</button>
-            {{> playerModal}}
+
+            {{#if existUser}}
+              {{#if verificationEmail}}
+                <p>인증완료</p>
+              {{else}}
+                <p>인증대기중..</p>
+              {{/if}}
+            {{else}}
+              <button class="btn btn-default" type="button" name="player-modal">등록</button>
+            {{/if}}
+
           </td>
           <td>{{playerName}}</td>
           <td>{{teamName}}</td>
@@ -46,5 +55,7 @@
       {{/each}}
     </tbody>
   </table>
+
+  {{> playerModal}}
 
 </template>
