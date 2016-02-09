@@ -1,4 +1,4 @@
-<template name="register">
+<template name="app">
 
   <h2>2016 공찰래리그 선수등록</h2>
 
@@ -13,7 +13,7 @@
   <div class="row">
     <select class="form-control" name="teamName">
       <option value="">전체</option>
-      {{#each registeredTeam this}}
+      {{#each getRegisteredTeams}}
         <option value="{{teamName}}">{{teamName}}</option>
       {{/each}}
     </select>
@@ -32,32 +32,12 @@
       </tr>
     </thead>
     <tbody>
-      {{#each registerUsers}}
-        {{> registerPlayers }}
+      {{#each getRegisteredPlayers}}
+        {{> registeredPlayers }}
       {{/each}}
     </tbody>
   </table>
 
   {{> playerModal}}
-
-</template>
-
-<template name="registerPlayers">
-
-  <tr>
-    <td>
-
-      {{#if existEmail}}
-        메일이 있음
-      {{else}}
-        <button class="btn btn-default" type="button" name="player-modal">등록</button>
-      {{/if}}
-
-    </td>
-    <td>{{this.playerName}}</td>
-    <td>{{this.teamName}}</td>
-    <td>{{this.email}}</td>
-    <td>{{this.season}}</td>
-  </tr>
 
 </template>

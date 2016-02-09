@@ -1,0 +1,24 @@
+<template name="registeredPlayers">
+
+  <tr>
+    <td>
+
+      {{#if existEmail}}
+        {{#if verificationEmail}}
+          등록완료!
+        {{else}}
+          인증 대기중..
+        {{/if}}
+
+      {{else}}
+        <button class="btn btn-default" type="button" name="player-modal">등록</button>
+      {{/if}}
+
+    </td>
+    <td>{{this.playerName}}</td>
+    <td>{{this.teamName}}</td>
+    <td>{{this.email}}</td>
+    <td>{{this.season}}</td>
+  </tr>
+
+</template>
