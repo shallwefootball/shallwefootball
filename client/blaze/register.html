@@ -32,30 +32,32 @@
       </tr>
     </thead>
     <tbody>
-      {{#each registerUsers this}}
-        <tr>
-          <td>
-
-            {{#if existUser}}
-              {{#if verificationEmail}}
-                <p>인증완료</p>
-              {{else}}
-                <p>인증대기중..</p>
-              {{/if}}
-            {{else}}
-              <button class="btn btn-default" type="button" name="player-modal">등록</button>
-            {{/if}}
-
-          </td>
-          <td>{{playerName}}</td>
-          <td>{{teamName}}</td>
-          <td>{{email}}</td>
-          <td>{{season}}</td>
-        </tr>
+      {{#each registerUsers}}
+        {{> registerPlayers }}
       {{/each}}
     </tbody>
   </table>
 
   {{> playerModal}}
+
+</template>
+
+<template name="registerPlayers">
+
+  <tr>
+    <td>
+
+      {{#if existEmail}}
+        메일이 있음
+      {{else}}
+        <button class="btn btn-default" type="button" name="player-modal">등록</button>
+      {{/if}}
+
+    </td>
+    <td>{{this.playerName}}</td>
+    <td>{{this.teamName}}</td>
+    <td>{{this.email}}</td>
+    <td>{{this.season}}</td>
+  </tr>
 
 </template>

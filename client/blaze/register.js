@@ -6,6 +6,11 @@ var ERRORS_KEY = 'joinErrors';
 
 Template.register.onCreated(function() {
   Session.set(ERRORS_KEY, {});
+
+  // Meteor.call('existUser', this.email, function(err, user) {
+    // console.log("this.existEmail   : ', ", this.existEmail);
+    // if(user) this.existEmail.set(true);
+  // }.bind(this));
   console.time('amos');
 })
 
@@ -22,12 +27,6 @@ Template.register.helpers({
   },
   registeredTeam: function() {
     return registeredTeam.reactive();
-  },
-  existUser: function() {
-    return Meteor.call('existUser', this.email);
-  },
-  verificationEmail: function() {
-    return Meteor.call('checkVerification', this.email);
   }
 })
 

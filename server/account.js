@@ -36,9 +36,7 @@ Meteor.methods({
     return false;
   },
   existUser: function(email) {
-    var user = Accounts.findUserByEmail(email);
-    if(!user) return false;
-    return true;
+    return Accounts.findUserByEmail(email);
   }
 })
 
