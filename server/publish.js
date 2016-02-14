@@ -144,5 +144,19 @@ Meteor.methods({
       }); //end add Player
     })  //end transaction
     return future.wait();
+  },
+  getUserName: function(options) {
+
+    var future = new Future();
+
+    LiveDb.db.query('select u.userId, concat(u.lastName, u.firstName)playerName, u.email from user u where u.email = ? ', [
+      options.email
+    ], function(err, result) {
+      if (err) future.throw(err);
+      if (!result) future.throw('null of result');
+
+      future.return(result)
+    }); //end select Name
+    return future.wait();
   }
 });

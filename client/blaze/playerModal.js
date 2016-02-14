@@ -66,7 +66,8 @@ Template.playerModal.events({
     var user_id = Accounts.createUser({
       email: email,
       password: password,
-      userId: this.userId,
+      userId: reactivePlayer.get().userId,
+      playerName: reactivePlayer.get().playerName,
       clubId: clubId,
       position: position,
       squadNumber: squadNumber,
@@ -90,7 +91,6 @@ Template.playerModal.events({
   },
   'change select[name="clubId"]': function(event, template) {
     event.preventDefault();
-    console.log('this : ', this);
     var clubId = template.$('select[name="clubId"]').val();
     registerdPlayers.change(clubId);
   }

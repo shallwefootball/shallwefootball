@@ -10,6 +10,7 @@ blaze-html-templates
 
 mongo                   # The database Meteor supports right now
 session                 # Client-side reactive dictionary for your app
+tracker
 
 # standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.

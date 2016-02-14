@@ -6,6 +6,7 @@ Accounts.onCreateUser(function(options, user) {
   var future = new Future();
 
   options.createdAt = user.createdAt;
+  user.playerName = options.playerName;
 
   if(options.new2016) {
     Meteor.call('addUserPlayer', options, function(err, result) {

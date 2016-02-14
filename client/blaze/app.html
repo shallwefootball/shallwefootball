@@ -2,9 +2,11 @@
 
   <h2>2016 공찰래리그 선수등록</h2>
 
-  {{> navBtnGroup}}
+  <!-- {{> navBtnGroup}} -->
 
-  {{> loginButtons}}
+  <!-- {{> loginButtons}} -->
+
+  <h3>2016시즌 현재 --/23 명 등록</h3>
 
   <div class="row">
     <input type="text" class="form-control" name="search" placeholder="이름 검색...">
@@ -19,7 +21,6 @@
     </select>
   </div>
 
-  <h3>{{currentCount}} : 명</h3>
 
   <table class="table">
     <thead>
@@ -38,6 +39,7 @@
     </tbody>
   </table>
 
-  {{> playerModal}}
+  <h3> 전체 : {{currentCount}} 명</h3>
 
+  {{> playerModal}}
 </template>
