@@ -17,6 +17,9 @@ Template.app.helpers({
   },
   getRegisteredTeams: function() {
     return registeredTeam.reactive();
+  },
+  getCurrentRegisterPlayers: function(clubId) {
+    console.log('clubId   : ', clubId);
   }
 })
 

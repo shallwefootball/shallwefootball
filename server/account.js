@@ -12,7 +12,7 @@ Accounts.onCreateUser(function(options, user) {
     Meteor.call('addUserPlayer', options, function(err, result) {
       if (err) future.throw(err);
 
-      // console.log('info', 'success user')
+      // console.log('info', 'success user   : ', user);
       future.return(user)
     });
   }else {
@@ -24,7 +24,6 @@ Accounts.onCreateUser(function(options, user) {
     });
   }
   return future.wait();
-
 })
 
 Meteor.methods({
@@ -40,5 +39,3 @@ Meteor.methods({
     return Accounts.findUserByEmail(email);
   }
 })
-
-

@@ -17,7 +17,7 @@ Meteor.publish('registerUsers', function(user, teamName) {
   teamName = teamName ? teamName : '';
 
   return LiveDb.select(
-    'select * from (select * from (select u.userId, concat(u.lastName, u.firstName)playerName, u.email, p.playerId, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, l.end from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId WHERE (u.firstName LIKE "%' + user + '%" OR u.lastName LIKE "%' + user + '%" OR concat(u.lastName, u.firstName) LIKE "%' + user + '%") AND t.teamName LIKE "%' + teamName + '%" order by l.end desc, c.clubId asc) us group by us.userId) pl order by pl.end desc, pl.teamName asc',
+    'select * from (select * from (select u.userId, concat(u.lastName, u.firstName)playerName, u.email, u.token, u.verified, p.playerId, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, l.end from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId WHERE (u.firstName LIKE "%' + user + '%" OR u.lastName LIKE "%' + user + '%" OR concat(u.lastName, u.firstName) LIKE "%' + user + '%") AND t.teamName LIKE "%' + teamName + '%" order by l.end desc, c.clubId asc) us group by us.userId) pl order by pl.end desc, pl.teamName asc',
     [{table: 'user'}]
   );
 })
@@ -59,7 +59,7 @@ Meteor.methods({
 
     LiveDb.db.beginTransaction(function (err) {
       if (err) future.throw(err);
-      LiveDb.db.query('UPDATE user SET email = ?, createdAt = ?, birthDay = ? WHERE userId = ?', [
+      LiveDb.db.query('UPDATE user SET email = ?, createdAt = ?, birthDay = ?, verified = 0 WHERE userId = ?', [
           options.email,
           options.createdAt,
           options.birthDay,
@@ -112,12 +112,13 @@ Meteor.methods({
     LiveDb.db.beginTransaction(function (err) {
       if (err) future.throw(err);
 
-      LiveDb.db.query('insert into `user` (email, lastName, firstName, birthDay, createdAt) values(?, ?, ?, ?, ?)', [
+      LiveDb.db.query('insert into `user` (email, lastName, firstName, birthDay, createdAt, verified) values(?, ?, ?, ?, ?, ?)', [
         options.email,
         options.lastName,
         options.firstName,
         options.birthDay,
-        options.createdAt
+        options.createdAt,
+        0
       ], function(err, result) {
         if (err) return LiveDb.db.rollback(function() { future.throw(err); });
         console.log('add user result : ', result)
@@ -158,5 +159,29 @@ Meteor.methods({
       future.return(result)
     }); //end select Name
     return future.wait();
+  },
+  updateToken: function(email, token) {
+
+    LiveDb.db.query('UPDATE user SET token = ? WHERE email = ?', [
+      token,
+      email
+    ], function(err, result) {
+      if (err) return console.error('update err  : ', err);
+
+      console.log('update token result : ', result)
+
+      return result;
+    });
+  },
+  verifiedToken: function(token) {
+    LiveDb.db.query('UPDATE user SET verified = 1 WHERE token = ?', [
+      token
+    ], function(err, result) {
+      if (err) return console.error('verified err  : ', err);
+
+      console.log('update verifiedToken result : ', result)
+
+      return result;
+    });
   }
 });

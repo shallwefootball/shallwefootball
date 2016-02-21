@@ -74,14 +74,19 @@ Template.playerModal.events({
       birthDay: birthDay,
       leagueId: LEAGUE_ID
     }, function(error) {
+
       if (error) {
         console.error("error  : ", error);
         Session.set(ERRORS_KEY, {'none': error.reason});
         return showAlert.call(this, template);
       }
 
-      alert(email + ' 으로 인증메일이 전송되었습니다. 메일을 확인하세요!');
-      template.$('div[role="dialog"]').modal('hide');
+      Meteor.call('existUser', email, function(err, user) {
+        // console.log('arguments  : ', arguments)
+        Meteor.call('updateToken', email, user.services.email.verificationTokens[0].token)
+        alert(email + ' 으로 인증메일이 전송되었습니다. 메일을 확인하세요!');
+        template.$('div[role="dialog"]').modal('hide');
+      })
     })
   },
   'click button[name="fadeOut"]': function(event, template) {
