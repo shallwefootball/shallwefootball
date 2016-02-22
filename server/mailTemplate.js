@@ -1,4 +1,4 @@
-Accounts.emailTemplates.siteName = "register.shallwefootball.com";
+Accounts.emailTemplates.siteName = "shallwefootball.com";
 Accounts.emailTemplates.from = "2016공찰래리그<amos@shallwefootball.com>";
 Accounts.emailTemplates.verifyEmail.subject = function (user) {
   return user.playerName + "님 반갑습니다. 공찰래리그입니다.⚽️";
