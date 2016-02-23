@@ -17,7 +17,7 @@ Meteor.publish('registerUsers', function(user, teamName) {
   teamName = teamName ? teamName : '';
 
   return LiveDb.select(
-    'select * from (select * from (select u.userId, concat(u.lastName, u.firstName)playerName, u.email, u.token, u.verified, p.playerId, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, l.end from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId WHERE (u.firstName LIKE "%' + user + '%" OR u.lastName LIKE "%' + user + '%" OR concat(u.lastName, u.firstName) LIKE "%' + user + '%") AND t.teamName LIKE "%' + teamName + '%" order by l.end desc, c.clubId asc) us group by us.userId) pl order by pl.end desc, pl.teamName asc',
+    'select * from (select * from (select u.userId, concat(u.lastName, u.firstName)playerName, u.email, u.token, u.verified, p.playerId, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, l.end from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId WHERE (u.firstName LIKE "%' + user + '%" OR u.lastName LIKE "%' + user + '%" OR concat(u.lastName, u.firstName) LIKE "%' + user + '%") AND t.teamName LIKE "%' + teamName + '%" order by l.end desc, c.clubId asc) us group by us.userId) pl order by pl.end desc, pl.teamName asc, pl.squadNumber',
     [{table: 'user'}]
   );
 })
@@ -183,5 +183,34 @@ Meteor.methods({
 
       return result;
     });
+  },
+  removeUserAndPlayer: function(playerId, email) {
+
+    var future = new Future();
+    LiveDb.db.beginTransaction(function (err) {
+      if (err) future.throw(err);
+
+      LiveDb.db.query('delete from player where playerId = ?', playerId, function(err, result) {
+        if (err) return LiveDb.db.rollback(function() { future.throw(err); });
+        console.log('delete player result : ', result);
+
+        LiveDb.db.query('update user set verified = null, token = null where email = ?', email, function(err, result) {
+          if (err) return LiveDb.db.rollback(function() { future.throw(err); });
+          console.log('user user result : ', result);
+
+          LiveDb.db.query('delete from user where email = ?', email, function(err, result) {
+
+            if (err) console.error('delete fail  : ', err);
+            // if (err) return LiveDb.db.rollback(function() { future.throw(err); });
+            console.log('delete user result : ', result)
+            LiveDb.db.commit(function(err) {
+              if (err) return LiveDb.db.rollback(function() { future.throw(err); });
+              future.return(result)
+            });
+          }); //end delete Player
+        }); // end update user
+      }); //end delete user
+    })  //end transaction
+    return future.wait();
   }
 });
