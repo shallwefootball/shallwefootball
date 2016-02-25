@@ -25,7 +25,9 @@ Template.joinModal.helpers({
     var totalSquadNumber = [];
     for (var i = 1; i < 101; i++) totalSquadNumber.push(i);
     registerdPlayers.forEach(function(item, index) {
-      totalSquadNumber.splice(item.squadNumber - 1, 1)
+
+      var willRemoveValue = totalSquadNumber.indexOf(item.squadNumber);
+      totalSquadNumber.splice(willRemoveValue, 1);
     })
     return totalSquadNumber;
   }
