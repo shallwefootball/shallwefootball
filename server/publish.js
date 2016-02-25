@@ -22,17 +22,6 @@ Meteor.publish('registerUsers', function(user, teamName) {
   );
 })
 
-//for test
-Meteor.publish('amos', function(user, team) {
-  user = user ? user : '';
-  team = team ? team : '';
-
-  return LiveDb.select(
-    'select * from (select * from (select u.userId, concat(u.lastName, u.firstName)playerName, u.email, p.playerId, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, l.end from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId WHERE u.userId = 18 order by l.end desc, c.clubId asc) us group by us.userId) pl order by pl.end desc, pl.teamName asc',
-    [{table: 'user'}]
-  );
-})
-
 Meteor.publish('registeredTeam', function() {
   return LiveDb.select(
     'select c.clubId, t.teamId, t.teamName, l.community, l.season, c.createdAt from club c left join team t on t.teamId = c.teamId left join league l on l.leagueId = c.leagueId where l.leagueId = 6 order by c.createdAt',
@@ -42,12 +31,20 @@ Meteor.publish('registeredTeam', function() {
 
 //for 2015
 Meteor.publish('registerdPlayers', function(clubId) {
-  console.log('this arguments  : ', arguments);
-
   if (!clubId) return [];
 
   return LiveDb.select(
     'select u.userId, p.playerId, concat(u.lastName, u.firstName)playerName, u.email, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, p.createdAt from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId WHERE c.clubId = ' + clubId + ' order by p.squadNumber',
+    [{table: 'user'}]
+  );
+})
+
+Meteor.publish('registerdPlayersForAll', function() {
+
+  console.log('call? ', arguments);
+
+  return LiveDb.select(
+    'select u.userId, p.playerId, concat(u.lastName, u.firstName)playerName, u.email, p.clubId, p.position, p.squadNumber, t.teamName, l.community, l.season, p.createdAt from user u left outer join player p on p.userId = u.userId  left outer join club c on c.clubId = p.clubId left outer join team t on t.teamId = c.teamId left outer join league l on c.leagueId = l.leagueId  where l.leagueId = 6 order by p.squadNumber',
     [{table: 'user'}]
   );
 })

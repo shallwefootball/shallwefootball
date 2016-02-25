@@ -1,4 +1,5 @@
 var registerUsers = (new MysqlSubscription('registerUsers'));
+var registerdPlayersForAll = (new MysqlSubscription('registerdPlayersForAll'));
 // var registerUsers = (new MysqlSubscription('amos'));
 var registeredTeam = (new MysqlSubscription('registeredTeam'));
 
@@ -14,6 +15,10 @@ Template.app.helpers({
   },
   currentCount: function() {
     return registerUsers.reactive().length;
+  },
+  registerdPlayersForAll: function() {
+    console.log('registerdPlayersForAll.reactive()   : ', registerdPlayersForAll.reactive());
+    return registerdPlayersForAll.reactive().length;
   },
   getRegisteredTeams: function() {
     return registeredTeam.reactive();
