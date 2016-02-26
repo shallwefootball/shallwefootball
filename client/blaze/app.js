@@ -17,7 +17,6 @@ Template.app.helpers({
     return registerUsers.reactive().length;
   },
   registerdPlayersForAll: function() {
-    console.log('registerdPlayersForAll.reactive()   : ', registerdPlayersForAll.reactive());
     return registerdPlayersForAll.reactive().length;
   },
   getRegisteredTeams: function() {

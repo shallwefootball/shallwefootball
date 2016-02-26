@@ -1,28 +1,10 @@
 <template name="progressBar">
   <h4>최소등록인원 23명</h4>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-      구일 90%
+  {{#each getClubs}}
+    <div class="progress">
+      <div class="progress-bar {{getStatusClass}}" role="progressbar" aria-valuenow="{{getRegisteredPlayers}}" aria-valuemin="0" aria-valuemax="23" style="width: {{getPercent}}%;">
+        {{this.teamName}} {{getRegisteredPlayers}}명 등록
+      </div>
     </div>
-  </div>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-      승성 90%
-    </div>
-  </div>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-      무진 90%
-    </div>
-  </div>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-      베르누이 90%
-    </div>
-  </div>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-      esc 90%
-    </div>
-  </div>
+  {{/each}}
 </template>

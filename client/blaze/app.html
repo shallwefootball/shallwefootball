@@ -15,30 +15,27 @@
       <p>**이메일인증으로 등록이 완료됩니다. 꼭 인증가능한 이메일을 적어주세요. </p>
     </div>
     <div class="col-md-6 col-sm-6 col-lg-6">
-      <!-- {{> progressBar }} -->
+      {{> progressBar }}
 
     </div>
   </div>
-
-  {{> navBtnGroup}}
+  <br>
+  <div class="row">
+    <input type="text" class="form-control" name="search" placeholder="본인 이름검색을 먼저하세요!!!">
+  </div>
 
   <!-- {{> loginButtons}} -->
 
   <h3>2016시즌 현재 {{registerdPlayersForAll}} 명 등록</h3>
-
-  <div class="row">
-    <input type="text" class="form-control" name="search" placeholder="이름 검색...">
-  </div>
+  <select class="form-control" name="teamName">
+    <option value="">전체</option>
+    {{#each getRegisteredTeams}}
+      <option value="{{teamName}}">{{teamName}}</option>
+    {{/each}}
+  </select>
   <br>
-  <div class="row">
-    <select class="form-control" name="teamName">
-      <option value="">전체</option>
-      {{#each getRegisteredTeams}}
-        <option value="{{teamName}}">{{teamName}}</option>
-      {{/each}}
-    </select>
-  </div>
-
+  {{> navBtnGroup}}
+  <br>
 
   <table class="table">
     <thead>
