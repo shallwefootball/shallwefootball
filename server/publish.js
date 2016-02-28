@@ -1,7 +1,6 @@
 // need to modify config.js because of __dirname
 var LiveDb = new LiveMysql(require('../config.js').mysql);
 var Future = Npm.require( 'fibers/future' );
-var logger = require('../logger');
 
 var closeAndExit = function() {
   LiveDb.end();
@@ -47,12 +46,21 @@ Meteor.publish('registerdPlayersForAll', function() {
   );
 })
 
+
+//*************** Club ***************//
 Meteor.publish('getClubs', function() {
 
   return LiveDb.select(
     'select t.teamName, t.teamId, clubId from team t left join club c on t.teamId = c.teamId where c.leagueId = 6',
     [{table: 'team'}]
   );
+})
+
+//*************** Match ***************//
+Meteor.publish('getMatch', function(leagueId) {
+  return LiveDb.select(
+  'select m.matchId, m.matchName, m.kickoffTime, month(m.kickoffTime) month, DAY(m.kickoffTime) day, hour(m.kickoffTime) hour, m.homeClubId, (select (select teamName from team t where t.teamId = c.teamId)clubName from club c where m.homeClubId = c.clubId)homeClubName, m.awayClubId, (select (select teamName from team t where t.teamId = c.teamId)clubName from club c where m.awayClubId = c.clubId)awayClubName, if ( m.kickoffTime < now() and isnull(m.homeScore), 0, m.homeScore) homeScore, if ( m.kickoffTime < now() and isnull(m.awayScore), 0, m.awayScore) awayScore, m.leagueId, m.stadium, m.note, m.link from `match` m where m.leagueId = ' + leagueId + ' order by kickoffTime',
+  [{table: 'match'}])
 })
 
 

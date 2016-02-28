@@ -5,6 +5,7 @@
 # but you can also edit it by hand.
 
 meteor-base             # Packages every Meteor app needs to have
+mobile-experience       # Packages for a great mobile UX
 blaze-html-templates
 # static-html
 
@@ -12,14 +13,18 @@ mongo                   # The database Meteor supports right now
 session                 # Client-side reactive dictionary for your app
 tracker
 
-# standard-minifiers      # JS/CSS minifiers run for production mode
+standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
-ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 twbs:bootstrap
 rajit:bootstrap3-datepicker
 
+kadira:flow-router
+kadira:blaze-layout
+
 modules
+
+infinitedg:winston
 
 reactive-var
 
@@ -30,4 +35,3 @@ accounts-ui
 email
 
 numtel:mysql
-# kadira:flow-router

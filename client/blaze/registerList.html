@@ -1,4 +1,4 @@
-<template name="registeredPlayers">
+<template name="registerList">
 
       <tr class="{{#if this.verified}}
                    success
@@ -17,11 +17,15 @@
             {{/if}}
 
           {{else}}
-            <button class="btn btn-default" type="button" name="player-modal">등록</button>
+            <button class="btn btn-default" type="button" name="renewal-modal">등록</button>
           {{/if}}
 
         </td>
-        <td>{{this.playerName}}</td>
+        <td>
+          <!-- <a href="#" id="playerModal"> -->
+            {{this.playerName}}
+          <!-- </a> -->
+        </td>
         <td>{{this.squadNumber}} - {{this.position}}</td>
         <td>{{this.teamName}}</td>
         <td>{{this.email}}</td>

@@ -6,7 +6,7 @@ var LEAGUE_ID = 6;
 
 var reactivePlayer = new ReactiveVar({});
 
-Template.playerModal.onRendered(function() {
+Template.renewalModal.onRendered(function() {
   this.$('div[role="alert"]').hide();
   this.$('input[name="datepicker"]').datepicker({
     format: "yyyy/mm/dd",
@@ -14,7 +14,7 @@ Template.playerModal.onRendered(function() {
   });
 })
 
-Template.playerModal.helpers({
+Template.renewalModal.helpers({
   errorMessage: function() {
     return _.values(Session.get(ERRORS_KEY))
   },
@@ -42,7 +42,7 @@ Template.playerModal.helpers({
   }
 })
 
-Template.playerModal.events({
+Template.renewalModal.events({
   'submit': function(event, template) {
     event.preventDefault();
     var email = template.$('[name=email]').val();
@@ -104,9 +104,9 @@ Template.playerModal.events({
   }
 })
 
-Template.playerModal.show = function(player) {
+Template.renewalModal.show = function(player) {
   reactivePlayer.set(player);
-  $('#playerModal').modal('show');
+  $('#renewalModal').modal('show');
 }
 
 function showAlert(template) {
