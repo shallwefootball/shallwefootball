@@ -2,3 +2,6 @@ app/config/config.js
 node_modules
 bower_components
 docs_images
+.idea
+.meteor
+npm-debug.log
