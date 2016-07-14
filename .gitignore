@@ -5,3 +5,4 @@ docs_images
 .idea
 .meteor
 npm-debug.log
+config.js
