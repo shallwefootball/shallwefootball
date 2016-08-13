@@ -1,0 +1,40 @@
+<template name="registerList">
+
+      <tr class="{{#if this.verified}}
+                   success
+                 {{else}}
+                   {{#if this.token}}
+                     active
+                   {{/if}}
+                 {{/if}}">
+        <td>
+
+          {{#if this.token}}
+            {{#if this.verified}}
+              ️등록완료 ✔
+            {{else}}
+              인증 대기중..
+            {{/if}}
+
+          {{else}}
+            <button class="btn btn-default" type="button" name="renewal-modal">등록</button>
+          {{/if}}
+
+        </td>
+        <td>
+          <!-- <a href="#" id="playerModal"> -->
+            {{this.playerName}}
+          <!-- </a> -->
+        </td>
+        <td>{{this.squadNumber}} - {{this.position}}</td>
+        <td>{{this.teamName}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.season}}</td>
+        <td>
+          {{#if registerd}}
+            <button class="btn btn-default" type="button" name="cancel">취소</button>
+          {{/if}}
+        </td>
+      </tr>
+
+</template>
