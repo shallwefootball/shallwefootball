@@ -1,26 +1,34 @@
+import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import config from 'config';
-
 
 import React from 'react';
 
 import { renderToString } from 'react-dom/server'
 import { RouterContext, match } from 'react-router';
+import routes from '../common/routes';
 
 const app = express();
 app.use(cors());
 
+// view engine setup
+app.set('views', path.join(__dirname, '../client'));
+app.set('view engine', 'ejs');
+
 process.env.PORT = process.env.PORT || config.get('Player.port');
 
-
 app.get('/*', function(req, res) {
-  ReactRouter.match({ route: null, location: req.url}, function(err, redirectLocation, renderProps) {
-    console.log('arg  : ', arguments);
+  match({ routes, location: req.url}, function(err, redirectLocation, renderProps) {
+    console.log('arg  : ', renderProps);
 
-    res.status(200).end(ReactDOMServer.renderToString(
-      React.createElement('div', 'hihi')
-    ));
+    // res.status(200).end(renderToString(
+    //   <RouterContext {...renderProps} />
+    // ));
+
+    res.render('index');
+
+    // res.end(renderFullPage())
   });
 });
 
