@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { Router, browserHistory } from 'react-router';
+
+import routes from '../universe/routes'
 
 const rootEl = document.getElementById('app');
 
-class App extends Component {
-  render() {
-    return (
-      <div>gogogogoog</div>
-    )
-  }
-}
-
-ReactDOM.render(<App />, rootEl);
+ReactDOM.render(
+  <div>
+    <Router children={routes} history={browserHistory} />
+  </div>,
+  rootEl
+);
