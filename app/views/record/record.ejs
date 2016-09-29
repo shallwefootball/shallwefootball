@@ -56,13 +56,13 @@
 
       </div> -->
 
-
+      <% console.log('team.... : ', match.info);%>
       <div class="bs-callout">
         <h4><%= match.info.matchName %> <%= match.info.month %>월 <%= match.info.day %>일 / <%= match.info.hour %>:00</h4>
         <h4><small>오학구장</small></h4>
           <div class="row">
             <div class="col-xs-4">
-              <img class="home center-block" src="/images/club/<%= match.info.homeClubId%>/image.jpg" alt="64x64">
+              <img class="home center-block" src="/images/team/<%= match.info.homeTeamId%>/image.jpg" alt="64x64">
               <h4><%= match.info.homeClubName %></h4>
             </div>
             <div class="col-xs-4">
@@ -94,7 +94,7 @@
 
             </div>
             <div class="col-xs-4">
-              <img class="home center-block" src="/images/club/<%= match.info.awayClubId%>/image.jpg" alt="64x64">
+              <img class="home center-block" src="/images/team/<%= match.info.awayTeamId%>/image.jpg" alt="64x64">
               <h4><%= match.info.awayClubName %></h4>
             </div>
           </div>
